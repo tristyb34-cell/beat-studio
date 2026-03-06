@@ -692,6 +692,13 @@
     menu.style.left = x + 'px';
     menu.style.top  = y + 'px';
     items.forEach(item => {
+      if (item.label === '---') {
+        const sep = document.createElement('div');
+        sep.className = 'ctx-sep';
+        sep.style.cssText = 'height:1px;background:#3a3a5c;margin:4px 0;';
+        menu.appendChild(sep);
+        return;
+      }
       const d = document.createElement('div');
       d.className = 'ctx-item';
       d.textContent = item.label;
@@ -1087,24 +1094,33 @@
         refreshSelectionClasses();
       }
       const sndName = soundLabel(b.soundId);
+      const bar = Math.floor(b.startBeat / BEATS_PER_BAR) + 1;
+      const beatInBar = (b.startBeat % BEATS_PER_BAR) + 1;
       showCtx(e.clientX, e.clientY, [
         { label: 'Delete',     action() { getSelectedBlocks().forEach(x => removeBlock(x.id)); } },
         { label: 'Remove all "' + sndName + '"', action() { removeAllSound(b.soundId); } },
         { label: 'Duplicate',  action() { duplicateSelection(); } },
         { label: 'Copy',       action() { copySelection(); } },
         { label: 'Cut',        action() { cutSelection(); } },
-        { label: 'Edit Sound', action() { dispatch('sequencer:edit', { block: clone(b) }); } }
+        { label: 'Edit Sound', action() { dispatch('sequencer:edit', { block: clone(b) }); } },
+        { label: '---' },
+        { label: 'Create Rule from this...', action() { dispatch('sequencer:create-rule', { soundId: b.soundId, rowId: b.rowId, beat: beatInBar, bar }); } },
+        { label: 'Apply Saved Rule...', action() { dispatch('sequencer:apply-rule', { soundId: b.soundId, rowId: b.rowId }); } }
       ]);
       return;
     }
 
-    // Empty space: paste
+    // Empty space
     const beat = snapBeat(beatFromClientX(e.clientX));
     const row  = rowFromClientY(e.clientY);
-    if (row && clipboard && clipboard.length) {
-      showCtx(e.clientX, e.clientY, [
-        { label: 'Paste', action() { pasteAt(row.id, beat); } }
-      ]);
+    if (row) {
+      const items = [];
+      if (clipboard && clipboard.length) {
+        items.push({ label: 'Paste', action() { pasteAt(row.id, beat); } });
+      }
+      items.push({ label: 'Create Rule...', action() { dispatch('sequencer:create-rule', { rowId: row.id }); } });
+      items.push({ label: 'Apply Saved Rule...', action() { dispatch('sequencer:apply-rule', { rowId: row.id }); } });
+      showCtx(e.clientX, e.clientY, items);
     }
   }
 
