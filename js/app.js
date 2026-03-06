@@ -282,6 +282,10 @@
       data.bpm = engine.bpm;
       data.appVersion = '2.0';
       data.projectName = getProjectName();
+      const badge = document.getElementById('template-badge');
+      if (badge && badge.style.display !== 'none') {
+        data.templateName = badge.textContent.replace('Template: ', '');
+      }
 
       const json = JSON.stringify(data, null, 2);
       const blob = new Blob([json], { type: 'application/json' });
@@ -309,7 +313,7 @@
           }
           seq.load(data);
           if (data.projectName) setProjectName(data.projectName);
-          setTemplateBadge(null);
+          if (data.templateName) setTemplateBadge(data.templateName);
         } catch (err) {
           alert('Failed to load project: ' + err.message);
         }
