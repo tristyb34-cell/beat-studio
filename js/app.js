@@ -47,6 +47,7 @@
     bindKeyboard();
     bindSeek();
     bindBrowserCollapse();
+    bindPatternRule();
   }
 
   // ── Sound Browser (left panel) ──
@@ -247,6 +248,165 @@
     }
 
     engine.play(expandedBlocks, tracks);
+  }
+
+  // ── Pattern Rule Generator ──
+  function bindPatternRule() {
+    const btn = document.getElementById('btn-pattern');
+    if (!btn) return;
+
+    btn.addEventListener('click', () => {
+      let modal = document.getElementById('pattern-modal');
+      if (modal) { modal.remove(); document.getElementById('pattern-backdrop')?.remove(); return; }
+
+      // Build sound options from library
+      const allSounds = lib.sounds || [];
+      const soundOpts = allSounds.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+
+      // Build row options
+      const rows = seq.getRows ? seq.getRows() : [];
+      const rowOpts = rows.map(r => `<option value="${r.id}">Row ${r.number}</option>`).join('');
+
+      modal = document.createElement('div');
+      modal.id = 'pattern-modal';
+      Object.assign(modal.style, {
+        position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
+        background: '#1a1a2e', border: '1px solid #3a3a5c', borderRadius: '12px',
+        padding: '24px', zIndex: '500', width: '520px', maxHeight: '80vh', overflowY: 'auto',
+        boxShadow: '0 20px 60px rgba(0,0,0,0.6)', color: '#e0e0f0', fontSize: '13px'
+      });
+
+      modal.innerHTML = `
+        <h2 style="color:#00d4aa;margin-bottom:16px;font-size:16px;">Pattern Rule</h2>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;gap:10px;align-items:center;">
+            <label style="min-width:80px;color:#8888aa;">Sound</label>
+            <select id="pr-sound" style="flex:1;padding:5px 8px;background:#2a2a4a;border:1px solid #3a3a5c;border-radius:4px;color:#e0e0f0;font-size:12px;">
+              ${soundOpts}
+            </select>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;">
+            <label style="min-width:80px;color:#8888aa;">Row</label>
+            <select id="pr-row" style="flex:1;padding:5px 8px;background:#2a2a4a;border:1px solid #3a3a5c;border-radius:4px;color:#e0e0f0;font-size:12px;">
+              ${rowOpts}
+            </select>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;">
+            <label style="min-width:80px;color:#8888aa;">Beat in bar</label>
+            <input id="pr-beat" type="number" value="1" min="1" max="4" step="1" style="width:60px;padding:5px;background:#2a2a4a;border:1px solid #3a3a5c;border-radius:4px;color:#00d4aa;text-align:center;">
+            <span style="color:#8888aa;font-size:11px;">(1 = .1, 2 = .2, 3 = .3, 4 = .4)</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;">
+            <label style="min-width:80px;color:#8888aa;">Every N bars</label>
+            <input id="pr-every" type="number" value="2" min="1" max="64" step="1" style="width:60px;padding:5px;background:#2a2a4a;border:1px solid #3a3a5c;border-radius:4px;color:#00d4aa;text-align:center;">
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;">
+            <label style="min-width:80px;color:#8888aa;">From bar</label>
+            <input id="pr-from" type="number" value="1" min="1" step="1" style="width:60px;padding:5px;background:#2a2a4a;border:1px solid #3a3a5c;border-radius:4px;color:#00d4aa;text-align:center;">
+            <label style="color:#8888aa;">To bar</label>
+            <input id="pr-to" type="number" value="32" min="1" step="1" style="width:60px;padding:5px;background:#2a2a4a;border:1px solid #3a3a5c;border-radius:4px;color:#00d4aa;text-align:center;">
+          </div>
+          <div style="border-top:1px solid #3a3a5c;padding-top:12px;margin-top:4px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="color:#8888aa;font-weight:600;">Shift Rules</span>
+              <button id="pr-add-shift" class="action-btn" style="font-size:11px;">+ Add Shift</button>
+            </div>
+            <div id="pr-shifts" style="display:flex;flex-direction:column;gap:6px;"></div>
+            <div style="color:#8888aa;font-size:10px;margin-top:4px;">e.g. "After bar 12, move to beat 4" shifts the pattern to .4 from bar 12 onward</div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px;">
+            <button id="pr-preview" class="action-btn" style="flex:1;">Preview (count)</button>
+            <button id="pr-apply" class="action-btn accent" style="flex:1;">Apply</button>
+            <button id="pr-close" class="action-btn" style="flex:1;">Cancel</button>
+          </div>
+        </div>
+      `;
+
+      const backdrop = document.createElement('div');
+      backdrop.id = 'pattern-backdrop';
+      backdrop.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:499;';
+      backdrop.addEventListener('click', () => { modal.remove(); backdrop.remove(); });
+
+      document.body.appendChild(backdrop);
+      document.body.appendChild(modal);
+
+      // Shift rules management
+      const shiftsContainer = modal.querySelector('#pr-shifts');
+      const shifts = [];
+
+      modal.querySelector('#pr-add-shift').addEventListener('click', () => {
+        const idx = shifts.length;
+        const div = document.createElement('div');
+        div.style.cssText = 'display:flex;gap:8px;align-items:center;';
+        div.innerHTML = `
+          <span style="color:#8888aa;">After bar</span>
+          <input type="number" class="shift-bar" value="12" min="1" style="width:50px;padding:4px;background:#2a2a4a;border:1px solid #3a3a5c;border-radius:4px;color:#00d4aa;text-align:center;font-size:12px;">
+          <span style="color:#8888aa;">move to beat</span>
+          <input type="number" class="shift-beat" value="4" min="1" max="4" step="1" style="width:50px;padding:4px;background:#2a2a4a;border:1px solid #3a3a5c;border-radius:4px;color:#00d4aa;text-align:center;font-size:12px;">
+          <button class="shift-del small-btn" style="width:20px;height:20px;font-size:11px;">&times;</button>
+        `;
+        div.querySelector('.shift-del').addEventListener('click', () => {
+          shifts.splice(shifts.indexOf(div), 1);
+          div.remove();
+        });
+        shifts.push(div);
+        shiftsContainer.appendChild(div);
+      });
+
+      function generateBlocks() {
+        const soundId = modal.querySelector('#pr-sound').value;
+        const rowId = modal.querySelector('#pr-row').value;
+        const baseBeat = parseInt(modal.querySelector('#pr-beat').value) || 1;
+        const every = parseInt(modal.querySelector('#pr-every').value) || 1;
+        const fromBar = parseInt(modal.querySelector('#pr-from').value) || 1;
+        const toBar = parseInt(modal.querySelector('#pr-to').value) || 32;
+
+        // Gather shift rules sorted by bar
+        const shiftRules = [];
+        for (const div of shifts) {
+          const bar = parseInt(div.querySelector('.shift-bar').value) || 1;
+          const beat = parseInt(div.querySelector('.shift-beat').value) || 1;
+          shiftRules.push({ bar, beat });
+        }
+        shiftRules.sort((a, b) => a.bar - b.bar);
+
+        const result = [];
+        for (let bar = fromBar; bar <= toBar; bar++) {
+          // Check if this bar matches the "every N" pattern
+          if ((bar - fromBar) % every !== 0) continue;
+
+          // Determine which beat to use based on shift rules
+          let beatInBar = baseBeat;
+          for (const rule of shiftRules) {
+            if (bar >= rule.bar) beatInBar = rule.beat;
+          }
+
+          // Convert to absolute beat: (bar-1)*4 + (beatInBar-1)
+          const absoluteBeat = (bar - 1) * 4 + (beatInBar - 1);
+          result.push({ soundId, rowId, startBeat: absoluteBeat });
+        }
+        return result;
+      }
+
+      modal.querySelector('#pr-preview').addEventListener('click', () => {
+        const blocks = generateBlocks();
+        modal.querySelector('#pr-preview').textContent = `Preview (${blocks.length} blocks)`;
+      });
+
+      modal.querySelector('#pr-apply').addEventListener('click', () => {
+        const newBlocks = generateBlocks();
+        for (const b of newBlocks) {
+          seq.addBlock(b.rowId, b.soundId, b.startBeat, 1);
+        }
+        modal.remove();
+        backdrop.remove();
+      });
+
+      modal.querySelector('#pr-close').addEventListener('click', () => {
+        modal.remove();
+        backdrop.remove();
+      });
+    });
   }
 
   // ── Collapse sound browser ──
