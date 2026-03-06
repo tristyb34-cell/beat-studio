@@ -227,11 +227,27 @@ html, body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: width 0.2s, min-width 0.2s;
+}
+
+#sound-browser.collapsed {
+  width: 36px;
+  min-width: 36px;
+}
+
+#sound-browser.collapsed #browser-search,
+#sound-browser.collapsed #sound-collections {
+  display: none;
+}
+
+#sound-browser.collapsed .browser-header h3 {
+  display: none;
 }
 
 .browser-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 10px 12px;
   border-bottom: 1px solid var(--border);
 }

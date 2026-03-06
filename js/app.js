@@ -46,6 +46,7 @@
     bindTutorial();
     bindKeyboard();
     bindSeek();
+    bindBrowserCollapse();
   }
 
   // ── Sound Browser (left panel) ──
@@ -243,6 +244,18 @@
     }
 
     engine.play(expandedBlocks, tracks);
+  }
+
+  // ── Collapse sound browser ──
+  function bindBrowserCollapse() {
+    const btn = document.getElementById('btn-collapse-browser');
+    const panel = document.getElementById('sound-browser');
+    if (!btn || !panel) return;
+    btn.addEventListener('click', () => {
+      panel.classList.toggle('collapsed');
+      btn.innerHTML = panel.classList.contains('collapsed') ? '&#9654;' : '&#9664;';
+      btn.title = panel.classList.contains('collapsed') ? 'Expand panel' : 'Collapse panel';
+    });
   }
 
   // ── Seek (click ruler to reposition playhead) ──
