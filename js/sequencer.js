@@ -1211,12 +1211,16 @@
       else zoomH(delta);
       return;
     }
-    // Shift+scroll or plain scroll = horizontal scroll
-    if (e.shiftKey || (!e.ctrlKey && Math.abs(e.deltaX) < Math.abs(e.deltaY))) {
+    // Shift+scroll = vertical scroll
+    if (e.shiftKey) {
       e.preventDefault();
-      $gridScroll.scrollLeft += e.deltaY * 3;
-      syncScroll();
+      $gridScroll.scrollTop += e.deltaY * 3;
+      return;
     }
+    // Plain scroll = horizontal scroll
+    e.preventDefault();
+    $gridScroll.scrollLeft += e.deltaY * 3;
+    syncScroll();
   }
 
   // ── Event: loop handle dragging ───────────────────────
