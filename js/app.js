@@ -152,7 +152,8 @@
         btnPlay.classList.remove('active');
         btnPlay.innerHTML = '&#9654;';
       } else {
-        seq.centerOnBeat(engine.pauseOffset / engine.secondsPerBeat);
+        const startBeat = engine.pauseOffset / engine.secondsPerBeat;
+        if (startBeat > 0) seq.centerOnBeat(startBeat);
         playArrangement();
         btnPlay.classList.add('active');
         btnPlay.innerHTML = '&#10074;&#10074;';
