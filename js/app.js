@@ -134,6 +134,63 @@
         render(searchInput.value);
       });
     }
+
+    // Keyboard navigation for collections
+    let focusedIdx = -1;
+
+    function getHeaders() {
+      return Array.from(container.querySelectorAll('.collection-header'));
+    }
+
+    function setFocus(idx) {
+      const headers = getHeaders();
+      // Clear previous
+      headers.forEach(h => h.classList.remove('focused'));
+      focusedIdx = Math.max(0, Math.min(idx, headers.length - 1));
+      if (headers[focusedIdx]) {
+        headers[focusedIdx].classList.add('focused');
+        headers[focusedIdx].scrollIntoView({ block: 'nearest' });
+      }
+    }
+
+    container.setAttribute('tabindex', '0');
+    container.style.outline = 'none';
+
+    container.addEventListener('keydown', (e) => {
+      const headers = getHeaders();
+      if (!headers.length) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        e.stopPropagation();
+        setFocus(focusedIdx + 1);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        e.stopPropagation();
+        // If a collection is open, close it and stay on that header
+        if (focusedIdx >= 0 && headers[focusedIdx] && headers[focusedIdx].classList.contains('open')) {
+          headers[focusedIdx].click();
+          return;
+        }
+        setFocus(focusedIdx - 1);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        e.stopPropagation();
+        if (focusedIdx >= 0 && headers[focusedIdx]) {
+          headers[focusedIdx].click();
+        }
+      }
+    });
+
+    // Click on a header also sets focus index
+    container.addEventListener('click', (e) => {
+      const header = e.target.closest('.collection-header');
+      if (!header) return;
+      const headers = getHeaders();
+      const idx = headers.indexOf(header);
+      if (idx >= 0) setFocus(idx);
+      container.focus();
+    });
   }
 
   // ── Transport ──

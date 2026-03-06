@@ -220,8 +220,8 @@ html, body {
 
 /* ── Sound Browser ── */
 #sound-browser {
-  width: 210px;
-  min-width: 210px;
+  width: 260px;
+  min-width: 260px;
   background: var(--bg-dark);
   border-right: 1px solid var(--border);
   display: flex;
@@ -287,21 +287,23 @@ html, body {
 .collection-header {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
+  gap: 8px;
+  padding: 8px 12px;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--text-dim);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  transition: color 0.15s;
+  transition: color 0.15s, background 0.1s;
+  outline: none;
 }
 
-.collection-header:hover { color: var(--text); }
-.collection-header .arrow { font-size: 9px; transition: transform 0.2s; }
+.collection-header:hover { color: var(--text); background: var(--surface); }
+.collection-header.focused { color: var(--accent); background: var(--accent-glow); }
+.collection-header .arrow { font-size: 12px; transition: transform 0.2s; }
 .collection-header.open .arrow { transform: rotate(90deg); }
-.collection-header .count { font-weight: 400; color: var(--text-dim); font-size: 9px; }
+.collection-header .count { font-weight: 400; color: var(--text-dim); font-size: 11px; }
 
 .collection-items { display: none; padding: 1px 0; }
 .collection-items.open { display: block; }
@@ -309,10 +311,10 @@ html, body {
 .sound-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 3px 12px 3px 24px;
+  gap: 8px;
+  padding: 6px 12px 6px 24px;
   cursor: grab;
-  font-size: 11px;
+  font-size: 14px;
   color: var(--text);
   transition: background 0.1s;
   user-select: none;
@@ -322,21 +324,21 @@ html, body {
 .sound-item.dragging { opacity: 0.5; }
 
 .sound-item .preview-btn {
-  width: 16px;
-  height: 16px;
-  border: none;
-  background: transparent;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border);
+  background: var(--surface);
   color: var(--text-dim);
   cursor: pointer;
-  font-size: 9px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 3px;
+  border-radius: 5px;
   flex-shrink: 0;
 }
 
-.sound-item .preview-btn:hover { color: var(--accent); background: var(--accent-glow); }
+.sound-item .preview-btn:hover { color: var(--accent); background: var(--accent-glow); border-color: var(--accent); }
 
 .sound-item .name {
   flex: 1;
