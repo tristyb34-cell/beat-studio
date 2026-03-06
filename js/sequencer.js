@@ -64,6 +64,7 @@
   let selectRect      = null;
   let panState        = null;   // grid panning via empty-space drag
   let momentumId      = null;   // requestAnimationFrame id for momentum
+  let rightClickState = null;   // right-click: drag-select vs context menu
   let ctxMenuEl       = null;
 
   // DOM refs (resolved in init)
@@ -737,12 +738,15 @@
   function onGridMouseDown(e) {
     closeCtx();
 
-    // Right-click: start selection rectangle
+    // Right-click: prepare for drag-select (only starts after movement)
     if (e.button === 2) {
       e.preventDefault();
-      selectedIds.clear();
-      refreshSelectionClasses();
-      startSelectRect(e);
+      rightClickState = {
+        startX: e.clientX,
+        startY: e.clientY,
+        dragging: false,
+        event: e
+      };
       return;
     }
 
@@ -825,6 +829,20 @@
   function onMouseMove(e) {
     // Selection rectangle
     if (selectRect) { positionSelectRect(e); return; }
+
+    // Right-click: check if drag threshold exceeded to start selection
+    if (rightClickState && !rightClickState.dragging) {
+      const dx = e.clientX - rightClickState.startX;
+      const dy = e.clientY - rightClickState.startY;
+      if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+        rightClickState.dragging = true;
+        selectedIds.clear();
+        refreshSelectionClasses();
+        startSelectRect(rightClickState.event);
+        positionSelectRect(e);
+      }
+      return;
+    }
 
     // Grid panning
     if (panState) {
@@ -910,7 +928,16 @@
 
   // ── Event: mouseup (document-level) ───────────────────
   function onMouseUp(e) {
-    // Selection rectangle (left or right click release)
+    // Right-click release without drag = let contextmenu event handle it
+    if (rightClickState) {
+      const wasDragging = rightClickState.dragging;
+      rightClickState = null;
+      if (wasDragging && selectRect) { endSelectRect(e); return; }
+      // If not dragging, do nothing here; contextmenu event fires naturally
+      return;
+    }
+
+    // Selection rectangle (left click)
     if (selectRect) { endSelectRect(e); return; }
 
     // Grid panning - release and apply momentum
@@ -992,7 +1019,8 @@
   // ── Event: context menu (only if right-click didn't drag) ──
   function onGridContextMenu(e) {
     e.preventDefault();
-    // If a selection rect was active, the user was dragging, skip context menu
+    // If right-click was a drag-select, skip context menu
+    if (rightClickState && rightClickState.dragging) return;
     if (selectRect) return;
     const blockEl = e.target.closest('.seq-block');
 
