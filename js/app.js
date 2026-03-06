@@ -30,6 +30,29 @@
     }
   }
 
+  // ── Warning banner ──
+  function showBanner(msg, duration) {
+    let banner = document.getElementById('info-banner');
+    if (banner) banner.remove();
+    banner = document.createElement('div');
+    banner.id = 'info-banner';
+    banner.style.cssText = 'position:fixed;top:48px;left:50%;transform:translateX(-50%);background:#b45309;color:#fff;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:600;z-index:600;box-shadow:0 4px 20px rgba(0,0,0,0.5);pointer-events:auto;cursor:pointer;';
+    banner.textContent = msg;
+    banner.addEventListener('click', () => banner.remove());
+    document.body.appendChild(banner);
+    if (duration) setTimeout(() => { if (banner.parentNode) banner.remove(); }, duration);
+  }
+
+  function checkRowCount() {
+    const rows = seq.getRows ? seq.getRows() : [];
+    const blocks = seq.getBlocks ? seq.getBlocks() : [];
+    const usedRowIds = new Set(blocks.map(b => b.rowId));
+    const usedCount = rows.filter(r => usedRowIds.has(r.id)).length;
+    if (usedCount > 15) {
+      showBanner('This template uses ' + usedCount + ' rows (more than 15). Scroll down to see all rows.', 8000);
+    }
+  }
+
   // ── Init ──
   function boot() {
     engine.init();
@@ -835,6 +858,7 @@
           projectRules = data.rules || [];
           if (data.projectName) setProjectName(data.projectName);
           if (data.templateName) setTemplateBadge(data.templateName);
+          checkRowCount();
         } catch (err) {
           alert('Failed to load project: ' + err.message);
         }
@@ -980,7 +1004,9 @@
         for (const tmpl of catTemplates) {
           const item = document.createElement('div');
           item.style.cssText = 'padding:8px 12px;cursor:pointer;border-radius:6px;margin:2px 0;font-size:12px;color:#e0e0f0;transition:background 0.1s;';
-          item.textContent = tmpl.name;
+          const usedIds = new Set(tmpl.data.blocks.map(b => b.rowId));
+          const usedRows = usedIds.size;
+          item.textContent = tmpl.name + (usedRows > 15 ? '  (' + usedRows + ' rows)' : '');
           item.addEventListener('mouseenter', () => item.style.background = '#2a2a4a');
           item.addEventListener('mouseleave', () => item.style.background = 'transparent');
           item.addEventListener('click', () => {
@@ -992,6 +1018,7 @@
               }
               setProjectName(tmpl.name);
               setTemplateBadge(tmpl.name);
+              checkRowCount();
               modal.remove();
               backdrop.remove();
             }
