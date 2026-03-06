@@ -303,6 +303,19 @@
     if (el) el.remove();
   }
 
+  function removeAllSound(soundId) {
+    const matching = blocks.filter(b => b.soundId === soundId);
+    if (!matching.length) return;
+    const actions = matching.map(b => {
+      const d = clone(b);
+      selectedIds.delete(b.id);
+      return { type: 'removeBlock', data: d };
+    });
+    blocks = blocks.filter(b => b.soundId !== soundId);
+    pushUndo({ type: 'batch', actions });
+    render();
+  }
+
   function duplicateBlock(blockId) {
     const src = blockById(blockId);
     if (!src) return null;
@@ -1073,8 +1086,10 @@
         selectedIds.add(b.id);
         refreshSelectionClasses();
       }
+      const sndName = soundLabel(b.soundId);
       showCtx(e.clientX, e.clientY, [
         { label: 'Delete',     action() { getSelectedBlocks().forEach(x => removeBlock(x.id)); } },
+        { label: 'Remove all "' + sndName + '"', action() { removeAllSound(b.soundId); } },
         { label: 'Duplicate',  action() { duplicateSelection(); } },
         { label: 'Copy',       action() { copySelection(); } },
         { label: 'Cut',        action() { cutSelection(); } },
