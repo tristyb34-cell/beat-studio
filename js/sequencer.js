@@ -401,14 +401,18 @@
     el.style.width  = (block.durationBeats * bw) + 'px';
     el.title = soundLabel(block.soundId);
 
+    const handleL = document.createElement('div');
+    handleL.className = 'resize-l';
+    el.appendChild(handleL);
+
     const lbl = document.createElement('span');
     lbl.className = 'block-label';
     lbl.textContent = soundLabel(block.soundId);
     el.appendChild(lbl);
 
-    const handle = document.createElement('div');
-    handle.className = 'resize-r';
-    el.appendChild(handle);
+    const handleR = document.createElement('div');
+    handleR.className = 'resize-r';
+    el.appendChild(handleR);
 
     lane.appendChild(el);
   }
@@ -732,13 +736,22 @@
   // ── Event: grid mousedown ─────────────────────────────
   function onGridMouseDown(e) {
     closeCtx();
-    if (e.button === 2) return; // contextmenu handles right click
 
-    const blockEl  = e.target.closest('.seq-block');
-    const isResize = e.target.classList.contains('resize-r');
+    // Right-click: start selection rectangle
+    if (e.button === 2) {
+      e.preventDefault();
+      selectedIds.clear();
+      refreshSelectionClasses();
+      startSelectRect(e);
+      return;
+    }
 
-    // ---- Resize handle ----
-    if (isResize && blockEl) {
+    const blockEl   = e.target.closest('.seq-block');
+    const isResizeR = e.target.classList.contains('resize-r');
+    const isResizeL = e.target.classList.contains('resize-l');
+
+    // ---- Resize handle (left or right) ----
+    if ((isResizeR || isResizeL) && blockEl) {
       e.preventDefault();
       e.stopPropagation();
       const b = blockById(blockEl.dataset.id);
@@ -746,8 +759,10 @@
       resizeState = {
         blockId: b.id,
         origDur: b.durationBeats,
+        origStart: b.startBeat,
         origRep: b.repeatCount,
-        startX:  e.clientX
+        startX:  e.clientX,
+        edge: isResizeL ? 'left' : 'right'
       };
       return;
     }
@@ -841,11 +856,27 @@
       if (!b) return;
       const delta = (e.clientX - resizeState.startX) / beatW();
       const snap  = getSnapValue();
-      const newDur = Math.max(snap, snapBeat(resizeState.origDur + delta));
-      b.durationBeats = newDur;
-      // Live DOM update for responsiveness
+      const bw = beatW();
       const el = $gridRows.querySelector(`.seq-block[data-id="${b.id}"]`);
-      if (el) el.style.width = (newDur * beatW()) + 'px';
+
+      if (resizeState.edge === 'left') {
+        // Left resize: move start forward/back, shrink/grow duration
+        const maxDelta = resizeState.origDur - snap; // can't shrink past 1 snap
+        const clampedDelta = Math.min(maxDelta, delta);
+        const newStart = Math.max(0, snapBeat(resizeState.origStart + clampedDelta));
+        const newDur = Math.max(snap, resizeState.origDur - (newStart - resizeState.origStart));
+        b.startBeat = newStart;
+        b.durationBeats = newDur;
+        if (el) {
+          el.style.left  = (newStart * bw) + 'px';
+          el.style.width = (newDur * bw) + 'px';
+        }
+      } else {
+        // Right resize: grow/shrink from end
+        const newDur = Math.max(snap, snapBeat(resizeState.origDur + delta));
+        b.durationBeats = newDur;
+        if (el) el.style.width = (newDur * bw) + 'px';
+      }
       return;
     }
 
@@ -879,7 +910,7 @@
 
   // ── Event: mouseup (document-level) ───────────────────
   function onMouseUp(e) {
-    // Selection rectangle
+    // Selection rectangle (left or right click release)
     if (selectRect) { endSelectRect(e); return; }
 
     // Grid panning - release and apply momentum
@@ -897,7 +928,8 @@
     // Resize end
     if (resizeState) {
       const b = blockById(resizeState.blockId);
-      if (b && b.durationBeats !== resizeState.origDur) {
+      const changed = b && (b.durationBeats !== resizeState.origDur || b.startBeat !== resizeState.origStart);
+      if (b && changed) {
         // Compute repeat count based on natural duration
         let naturalDur = 1;
         const snd = lookupSound(b.soundId);
@@ -905,14 +937,26 @@
           naturalDur = Math.max(getSnapValue(), snapBeat(snd.duration * (bpm / 60)));
         }
         b.repeatCount = naturalDur > 0 ? Math.max(1, Math.round(b.durationBeats / naturalDur)) : 1;
-        pushUndo({
-          type: 'resizeBlock',
-          data: {
-            id: b.id,
-            fromDur: resizeState.origDur, fromRep: resizeState.origRep,
-            toDur: b.durationBeats, toRep: b.repeatCount
-          }
-        });
+
+        if (resizeState.edge === 'left' && b.startBeat !== resizeState.origStart) {
+          // Left resize changes both position and duration
+          pushUndo({
+            type: 'batch',
+            actions: [
+              { type: 'moveBlock', data: { id: b.id, fromRowId: b.rowId, fromBeat: resizeState.origStart, toRowId: b.rowId, toBeat: b.startBeat } },
+              { type: 'resizeBlock', data: { id: b.id, fromDur: resizeState.origDur, fromRep: resizeState.origRep, toDur: b.durationBeats, toRep: b.repeatCount } }
+            ]
+          });
+        } else {
+          pushUndo({
+            type: 'resizeBlock',
+            data: {
+              id: b.id,
+              fromDur: resizeState.origDur, fromRep: resizeState.origRep,
+              toDur: b.durationBeats, toRep: b.repeatCount
+            }
+          });
+        }
       }
       resizeState = null;
       return;
@@ -945,9 +989,11 @@
     if (b) dispatch('sequencer:edit', { block: clone(b) });
   }
 
-  // ── Event: context menu ───────────────────────────────
+  // ── Event: context menu (only if right-click didn't drag) ──
   function onGridContextMenu(e) {
     e.preventDefault();
+    // If a selection rect was active, the user was dragging, skip context menu
+    if (selectRect) return;
     const blockEl = e.target.closest('.seq-block');
 
     if (blockEl) {

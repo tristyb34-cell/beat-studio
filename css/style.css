@@ -561,15 +561,20 @@ html, body {
   pointer-events: none;
 }
 
+.seq-block .resize-l,
 .seq-block .resize-r {
   position: absolute;
-  right: 0; top: 0;
-  width: 5px; height: 100%;
+  top: 0;
+  width: 6px; height: 100%;
   cursor: ew-resize;
   z-index: 4;
 }
 
-.seq-block .resize-r:hover { background: rgba(0,0,0,0.2); }
+.seq-block .resize-l { left: 0; }
+.seq-block .resize-r { right: 0; }
+
+.seq-block .resize-l:hover,
+.seq-block .resize-r:hover { background: rgba(0,0,0,0.25); }
 
 /* Block colors by category - high contrast, distinct hues, visible borders */
 .seq-block                { border: 1px solid rgba(255,255,255,0.35); box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
