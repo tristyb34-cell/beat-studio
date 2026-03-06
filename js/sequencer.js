@@ -1007,11 +1007,20 @@
 
   // ── Event: zoom via scroll wheel ──────────────────────
   function onWheel(e) {
-    if (!e.ctrlKey && !e.metaKey) return;
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? -4 : 4;
-    if (e.shiftKey) zoomV(delta);
-    else zoomH(delta);
+    // Ctrl+scroll = zoom
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -4 : 4;
+      if (e.shiftKey) zoomV(delta);
+      else zoomH(delta);
+      return;
+    }
+    // Shift+scroll or plain scroll = horizontal scroll
+    if (e.shiftKey || (!e.ctrlKey && Math.abs(e.deltaX) < Math.abs(e.deltaY))) {
+      e.preventDefault();
+      $gridScroll.scrollLeft += e.deltaY * 3;
+      syncScroll();
+    }
   }
 
   // ── Event: loop handle dragging ───────────────────────
