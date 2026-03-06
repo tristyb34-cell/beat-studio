@@ -555,7 +555,7 @@ html, body {
 .seq-block                { border: 1px solid rgba(255,255,255,0.35); box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
 .seq-block.cat-kicks      { background: linear-gradient(135deg, #dc2626, #f87171); }
 .seq-block.cat-snares     { background: linear-gradient(135deg, #f59e0b, #fcd34d); }
-.seq-block.cat-hihats     { background: linear-gradient(135deg, #fbbf24, #fef08a); color: rgba(0,0,0,0.8); }
+.seq-block.cat-hihats     { background: linear-gradient(135deg, #facc15, #fff); color: rgba(0,0,0,0.8); border-color: #facc15; }
 .seq-block.cat-claps      { background: linear-gradient(135deg, #ea580c, #fb923c); }
 .seq-block.cat-percussion { background: linear-gradient(135deg, #7c3aed, #c084fc); }
 .seq-block.cat-bass       { background: linear-gradient(135deg, #16a34a, #4ade80); }

@@ -26,6 +26,25 @@
     'vocals','guitar','piano','violin','strings'
   ];
 
+  // Extra keywords that map to categories (for fallback ID matching)
+  const CATEGORY_ALIASES = {
+    'hihats': ['hat','hihat','hh'],
+    'kicks': ['kick','kck','bd'],
+    'snares': ['snare','snr','sd'],
+    'claps': ['clap','clp'],
+    'percussion': ['perc','tom','rim','shaker','conga','bongo'],
+    'bass': ['bass','sub'],
+    'synths': ['synth'],
+    'pads': ['pad'],
+    'leads': ['lead'],
+    'fx': ['fx','riser','impact','sweep'],
+    'vocals': ['vocal','vox'],
+    'guitar': ['guitar','gtr'],
+    'piano': ['piano','keys'],
+    'violin': ['violin'],
+    'strings': ['string','str']
+  };
+
   // ── State ─────────────────────────────────────────────
   let rows           = [];
   let blocks          = [];
@@ -80,27 +99,31 @@
 
   function clone(obj) { return structuredClone(obj); }
 
+  function lookupSound(soundId) {
+    const lib = window.soundLibrary;
+    if (lib) {
+      if (typeof lib.getSoundById === 'function') {
+        const s = lib.getSoundById(soundId);
+        if (s) return s;
+      }
+      if (typeof lib.getSound === 'function') {
+        const s = lib.getSound(soundId);
+        if (s) return s;
+      }
+    }
+    return null;
+  }
+
   function soundLabel(soundId) {
-    if (window.soundLibrary && typeof window.soundLibrary.getSound === 'function') {
-      const s = window.soundLibrary.getSound(soundId);
-      if (s && s.name) return s.name;
-    }
-    if (window.sounds && typeof window.sounds.getSound === 'function') {
-      const s = window.sounds.getSound(soundId);
-      if (s && s.name) return s.name;
-    }
+    const s = lookupSound(soundId);
+    if (s && s.name) return s.name;
     return soundId || '';
   }
 
   function soundCategory(soundId) {
-    const tryLib = (lib) => {
-      if (lib && typeof lib.getSound === 'function') {
-        const s = lib.getSound(soundId);
-        if (s && s.category) return s.category;
-      }
-      return null;
-    };
-    return tryLib(window.soundLibrary) || tryLib(window.sounds) || '';
+    const s = lookupSound(soundId);
+    if (s && s.category) return s.category;
+    return '';
   }
 
   function catClass(soundId) {
@@ -108,12 +131,14 @@
     for (const k of CATEGORY_KEYS) {
       if (cat.includes(k.replace(/s$/, ''))) return 'cat-' + k;
     }
-    // Fallback: check the soundId itself
+    // Fallback: check the soundId against aliases
     const lower = (soundId || '').toLowerCase();
-    for (const k of CATEGORY_KEYS) {
-      if (lower.includes(k.replace(/s$/, ''))) return 'cat-' + k;
+    for (const [catKey, aliases] of Object.entries(CATEGORY_ALIASES)) {
+      for (const alias of aliases) {
+        if (lower.includes(alias)) return 'cat-' + catKey;
+      }
     }
-    return '';
+    return 'cat-default';
   }
 
   function defaultBlockOptions() {
