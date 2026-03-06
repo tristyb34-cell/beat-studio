@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sqweeky Clean Productions</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00d4aa">
   <link rel="stylesheet" href="css/style.css?v=22">
 </head>
 <body>
@@ -210,5 +212,14 @@
   <script src="js/sound-editor.js?v=22"></script>
   <script src="js/templates.js?v=22"></script>
   <script src="js/app.js?v=22"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').then(() => {
+        console.log('[SW] Registered');
+      }).catch((err) => {
+        console.warn('[SW] Registration failed:', err);
+      });
+    }
+  </script>
 </body>
 </html>

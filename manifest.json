@@ -1,0 +1,17 @@
+{
+  "name": "Sqweeky Clean Productions",
+  "short_name": "Sqweeky Clean",
+  "description": "Browser-based beat studio and sequencer",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a1a",
+  "theme_color": "#00d4aa",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
