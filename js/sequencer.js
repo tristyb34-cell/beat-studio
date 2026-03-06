@@ -498,13 +498,13 @@
     const scrollLeft = $gridScroll.scrollLeft;
     const viewW = $gridScroll.clientWidth;
 
-    // If playhead is about to leave the right 25% of the view, set a target
-    if (playheadX > scrollLeft + viewW * 0.75) {
-      _followTarget = playheadX - viewW * 0.35;
+    // Once playhead passes the middle, keep it centered
+    if (playheadX > scrollLeft + viewW * 0.5) {
+      _followTarget = playheadX - viewW * 0.5;
     }
     // If playhead is behind the left 15%, catch up
-    else if (playheadX < scrollLeft + viewW * 0.15) {
-      _followTarget = playheadX - viewW * 0.35;
+    else if (playheadX < scrollLeft + viewW * 0.4) {
+      _followTarget = playheadX - viewW * 0.5;
     }
 
     // Smoothly ease toward target
