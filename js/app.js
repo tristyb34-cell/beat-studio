@@ -45,6 +45,7 @@
     bindVersionHistory();
     bindTutorial();
     bindKeyboard();
+    bindSeek();
   }
 
   // ── Sound Browser (left panel) ──
@@ -242,6 +243,18 @@
     }
 
     engine.play(expandedBlocks, tracks);
+  }
+
+  // ── Seek (click ruler to reposition playhead) ──
+  function bindSeek() {
+    document.addEventListener('sequencer:seek', (e) => {
+      const beat = e.detail.beat;
+      const wasPlaying = engine.playing;
+      if (wasPlaying) engine.pause();
+      engine.pauseOffset = beat * engine.secondsPerBeat;
+      seq.updatePlayhead(beat);
+      if (wasPlaying) playArrangement();
+    });
   }
 
   // ── Keyboard shortcuts ──

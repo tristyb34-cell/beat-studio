@@ -62,6 +62,8 @@
   let dragState       = null;
   let resizeState     = null;
   let selectRect      = null;
+  let panState        = null;   // grid panning via empty-space drag
+  let momentumId      = null;   // requestAnimationFrame id for momentum
   let ctxMenuEl       = null;
 
   // DOM refs (resolved in init)
@@ -329,16 +331,10 @@
     const fromDur = b.durationBeats;
     const fromRep = b.repeatCount;
     let naturalDur = 1;
-    const tryLib = (lib) => {
-      if (lib && typeof lib.getSound === 'function') {
-        const s = lib.getSound(b.soundId);
-        if (s && s.duration) {
-          naturalDur = Math.max(snap, snapBeat(s.duration * (bpm / 60)));
-        }
-      }
-    };
-    tryLib(window.soundLibrary);
-    tryLib(window.sounds);
+    const snd = lookupSound(b.soundId);
+    if (snd && snd.duration) {
+      naturalDur = Math.max(snap, snapBeat(snd.duration * (bpm / 60)));
+    }
     b.durationBeats = newDur;
     b.repeatCount = naturalDur > 0 ? Math.max(1, Math.round(newDur / naturalDur)) : 1;
     pushUndo({
@@ -785,16 +781,59 @@
       return;
     }
 
-    // ---- Click empty space: deselect + start selection rectangle ----
+    // ---- Click empty space ----
     selectedIds.clear();
     refreshSelectionClasses();
-    startSelectRect(e);
+
+    // Shift+click = selection rectangle; plain click = pan/flick the grid
+    if (e.shiftKey) {
+      startSelectRect(e);
+    } else {
+      e.preventDefault();
+      stopMomentum();
+      panState = {
+        startX: e.clientX,
+        startY: e.clientY,
+        scrollLeft: $gridScroll.scrollLeft,
+        scrollTop: $gridScroll.scrollTop,
+        lastX: e.clientX,
+        lastY: e.clientY,
+        lastTime: performance.now(),
+        velocityX: 0,
+        velocityY: 0
+      };
+      $gridScroll.style.cursor = 'grabbing';
+    }
   }
 
   // ── Event: mousemove (document-level) ─────────────────
   function onMouseMove(e) {
     // Selection rectangle
     if (selectRect) { positionSelectRect(e); return; }
+
+    // Grid panning
+    if (panState) {
+      const dx = e.clientX - panState.startX;
+      const dy = e.clientY - panState.startY;
+      $gridScroll.scrollLeft = panState.scrollLeft - dx;
+      $gridScroll.scrollTop  = panState.scrollTop  - dy;
+      syncScroll();
+
+      // Track velocity for momentum
+      const now = performance.now();
+      const dt = now - panState.lastTime;
+      if (dt > 0) {
+        const vx = (e.clientX - panState.lastX) / dt;
+        const vy = (e.clientY - panState.lastY) / dt;
+        // Smooth the velocity with previous value
+        panState.velocityX = panState.velocityX * 0.4 + vx * 0.6;
+        panState.velocityY = panState.velocityY * 0.4 + vy * 0.6;
+      }
+      panState.lastX = e.clientX;
+      panState.lastY = e.clientY;
+      panState.lastTime = now;
+      return;
+    }
 
     // Resize
     if (resizeState) {
@@ -843,20 +882,28 @@
     // Selection rectangle
     if (selectRect) { endSelectRect(e); return; }
 
+    // Grid panning - release and apply momentum
+    if (panState) {
+      $gridScroll.style.cursor = '';
+      const vx = panState.velocityX;
+      const vy = panState.velocityY;
+      panState = null;
+      if (Math.abs(vx) > 0.15 || Math.abs(vy) > 0.15) {
+        startMomentum(vx * 1000, vy * 1000);
+      }
+      return;
+    }
+
     // Resize end
     if (resizeState) {
       const b = blockById(resizeState.blockId);
       if (b && b.durationBeats !== resizeState.origDur) {
         // Compute repeat count based on natural duration
         let naturalDur = 1;
-        const tryLib = (lib) => {
-          if (lib && typeof lib.getSound === 'function') {
-            const s = lib.getSound(b.soundId);
-            if (s && s.duration) naturalDur = Math.max(getSnapValue(), snapBeat(s.duration * (bpm / 60)));
-          }
-        };
-        tryLib(window.soundLibrary);
-        tryLib(window.sounds);
+        const snd = lookupSound(b.soundId);
+        if (snd && snd.duration) {
+          naturalDur = Math.max(getSnapValue(), snapBeat(snd.duration * (bpm / 60)));
+        }
         b.repeatCount = naturalDur > 0 ? Math.max(1, Math.round(b.durationBeats / naturalDur)) : 1;
         pushUndo({
           type: 'resizeBlock',
@@ -972,17 +1019,11 @@
 
     // Determine natural duration
     let dur = 1;
-    const tryLib = (lib) => {
-      if (lib && typeof lib.getSound === 'function') {
-        const s = lib.getSound(soundId);
-        if (s && s.duration) {
-          const natural = s.duration * (bpm / 60);
-          dur = natural < 1 ? 1 : Math.max(1, snapBeat(natural));
-        }
-      }
-    };
-    tryLib(window.soundLibrary);
-    tryLib(window.sounds);
+    const snd = lookupSound(soundId);
+    if (snd && snd.duration) {
+      const natural = snd.duration * (bpm / 60);
+      dur = natural < 1 ? 1 : Math.max(1, snapBeat(natural));
+    }
 
     addBlock(row.id, soundId, Math.max(0, beat), dur);
   }
@@ -1031,6 +1072,34 @@
   }
 
   // ── Event: zoom via scroll wheel ──────────────────────
+  // ── Momentum scrolling (flick) ──────────────────────
+  function startMomentum(vx, vy) {
+    stopMomentum();
+    const friction = 0.92;
+    let velX = vx;
+    let velY = vy;
+    function tick() {
+      velX *= friction;
+      velY *= friction;
+      $gridScroll.scrollLeft -= velX * (1 / 60);
+      $gridScroll.scrollTop  -= velY * (1 / 60);
+      syncScroll();
+      if (Math.abs(velX) > 0.5 || Math.abs(velY) > 0.5) {
+        momentumId = requestAnimationFrame(tick);
+      } else {
+        momentumId = null;
+      }
+    }
+    momentumId = requestAnimationFrame(tick);
+  }
+
+  function stopMomentum() {
+    if (momentumId) {
+      cancelAnimationFrame(momentumId);
+      momentumId = null;
+    }
+  }
+
   function onWheel(e) {
     // Ctrl+scroll = zoom
     if (e.ctrlKey || e.metaKey) {
@@ -1051,7 +1120,14 @@
   // ── Event: loop handle dragging ───────────────────────
   function onRulerMouseDown(e) {
     const handle = e.target.closest('.loop-handle');
-    if (!handle) return;
+    if (!handle) {
+      // Click on ruler = seek playhead to that beat
+      e.preventDefault();
+      const beat = snapBeat(Math.max(0, beatFromRulerX(e.clientX)));
+      dispatch('sequencer:seek', { beat });
+      updatePlayhead(beat);
+      return;
+    }
     e.preventDefault();
     const edge = handle.dataset.edge;
     const onMove = me => {

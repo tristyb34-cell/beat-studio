@@ -362,6 +362,7 @@ html, body {
 #ruler {
   position: relative;
   height: 100%;
+  cursor: pointer;
 }
 
 .ruler-bar {
@@ -483,7 +484,10 @@ html, body {
   flex: 1;
   position: relative;
   min-width: 0;
+  cursor: grab;
 }
+
+.row-lane:active { cursor: grabbing; }
 
 /* Grid lines on lane: hard bar lines, soft beat lines */
 .row-lane::before {
