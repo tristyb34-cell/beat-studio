@@ -62,6 +62,48 @@ html, body {
   letter-spacing: 1px;
 }
 
+.top-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.project-divider {
+  color: var(--border);
+  font-size: 16px;
+  user-select: none;
+}
+
+.project-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  outline: none;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: text;
+}
+
+.project-name:hover { border-color: var(--border); }
+.project-name:focus { border-color: var(--accent); background: var(--surface); }
+
+.template-badge {
+  font-size: 10px;
+  color: var(--bg-dark);
+  background: var(--accent);
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
 .transport {
   display: flex;
   align-items: center;

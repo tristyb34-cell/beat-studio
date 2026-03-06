@@ -8,6 +8,28 @@
   const lib = window.soundLibrary;
   const editor = window.soundEditor;
 
+  // ── Project name & template badge ──
+  function getProjectName() {
+    const el = document.getElementById('project-name');
+    return el ? el.textContent.trim() : 'Untitled Project';
+  }
+
+  function setProjectName(name) {
+    const el = document.getElementById('project-name');
+    if (el) el.textContent = name || 'Untitled Project';
+  }
+
+  function setTemplateBadge(name) {
+    const el = document.getElementById('template-badge');
+    if (!el) return;
+    if (name) {
+      el.textContent = 'Template: ' + name;
+      el.style.display = '';
+    } else {
+      el.style.display = 'none';
+    }
+  }
+
   // ── Init ──
   function boot() {
     engine.init();
@@ -259,12 +281,14 @@
       const data = seq.serialize();
       data.bpm = engine.bpm;
       data.appVersion = '2.0';
+      data.projectName = getProjectName();
 
       const json = JSON.stringify(data, null, 2);
       const blob = new Blob([json], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'sqweeky-clean-project.json';
+      const safeName = data.projectName.replace(/[^a-z0-9]/gi, '-').toLowerCase() || 'untitled';
+      a.download = safeName + '.json';
       a.click();
       URL.revokeObjectURL(a.href);
     });
@@ -284,6 +308,8 @@
             document.getElementById('bpm').value = data.bpm;
           }
           seq.load(data);
+          if (data.projectName) setProjectName(data.projectName);
+          setTemplateBadge(null);
         } catch (err) {
           alert('Failed to load project: ' + err.message);
         }
@@ -439,6 +465,8 @@
                 engine.bpm = tmpl.data.bpm;
                 document.getElementById('bpm').value = tmpl.data.bpm;
               }
+              setProjectName(tmpl.name);
+              setTemplateBadge(tmpl.name);
               modal.remove();
               backdrop.remove();
             }
