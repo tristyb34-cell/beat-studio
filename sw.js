@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sqweeky-clean-v24';
+const CACHE_NAME = 'sqweeky-clean-v25';
 const ASSETS = [
   './',
   './index.html',

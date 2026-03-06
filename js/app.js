@@ -55,6 +55,7 @@
 
   // ── Init ──
   function boot() {
+    console.log('[Boot] Starting... templates available:', (window.templates || []).length);
     engine.init();
     lib.init(engine.ctx);
     seq.init();
@@ -971,6 +972,8 @@
     if (!btn) return;
 
     btn.addEventListener('click', () => {
+      console.log('[Templates] Button clicked, window.templates:', (window.templates || []).length);
+      try {
       // Build template modal
       let modal = document.getElementById('template-modal');
       if (modal) { modal.remove(); return; }
@@ -1038,6 +1041,8 @@
 
       document.body.appendChild(backdrop);
       document.body.appendChild(modal);
+      console.log('[Templates] Modal appended to body');
+      } catch(err) { console.error('[Templates] ERROR:', err); alert('Template error: ' + err.message); }
     });
   }
 
