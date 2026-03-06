@@ -1010,7 +1010,6 @@
           item.addEventListener('mouseenter', () => item.style.background = '#2a2a4a');
           item.addEventListener('mouseleave', () => item.style.background = 'transparent');
           item.addEventListener('click', () => {
-            if (confirm('Load template "' + tmpl.name + '"? This will replace your current work.')) {
               seq.load(tmpl.data);
               if (tmpl.data.bpm) {
                 engine.bpm = tmpl.data.bpm;
@@ -1021,7 +1020,6 @@
               checkRowCount();
               modal.remove();
               backdrop.remove();
-            }
           });
           modal.appendChild(item);
         }
