@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sqweeky Clean Productions - Tutorial</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #1a1a2e;
+      --bg-dark: #12121f;
+      --surface: #2a2a4a;
+      --border: #3a3a5c;
+      --text: #e0e0f0;
+      --text-dim: #8888aa;
+      --accent: #00d4aa;
+    }
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 0;
+    }
+    .hero {
+      background: var(--bg-dark);
+      border-bottom: 2px solid var(--accent);
+      padding: 60px 20px 40px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 36px;
+      color: var(--accent);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .hero p {
+      color: var(--text-dim);
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      border: 1px solid var(--accent);
+      padding: 6px 16px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .back-link:hover { background: rgba(0,212,170,0.1); }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+    .toc {
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 24px 32px;
+      margin-bottom: 40px;
+    }
+    .toc h2 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .toc ol {
+      list-style: decimal;
+      padding-left: 20px;
+    }
+    .toc li {
+      margin: 6px 0;
+    }
+    .toc a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .toc a:hover { color: var(--accent); }
+    section {
+      margin-bottom: 48px;
+    }
+    h2 {
+      font-size: 22px;
+      color: var(--accent);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    h3 {
+      font-size: 16px;
+      color: var(--text);
+      margin: 20px 0 8px;
+    }
+    p {
+      font-size: 14px;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .dim { color: var(--text-dim); }
+    ul, ol {
+      padding-left: 24px;
+      margin-bottom: 12px;
+    }
+    li {
+      font-size: 14px;
+      margin: 4px 0;
+    }
+    .kbd {
+      display: inline-block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--accent);
+    }
+    .tip {
+      background: rgba(0,212,170,0.08);
+      border-left: 3px solid var(--accent);
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+    .tip strong { color: var(--accent); }
+    .warning {
+      background: rgba(255,68,102,0.08);
+      border-left: 3px solid #ff4466;
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+    .warning strong { color: #ff4466; }
+    .shortcut-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+    }
+    .shortcut-table th {
+      text-align: left;
+      padding: 8px 12px;
+      background: var(--surface);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+    }
+    .shortcut-table td {
+      padding: 6px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .color-swatch {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Sqweeky Clean Productions</h1>
+  <p>Your browser-based music production studio. Make beats, build tracks, export your work.</p>
+  <a href="index.html" class="back-link">Back to Studio</a>
+</div>
+
+<div class="container">
+
+  <div class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#interface">The Interface</a></li>
+      <li><a href="#sounds">Sound Library</a></li>
+      <li><a href="#placing">Placing Sounds</a></li>
+      <li><a href="#editing">Editing Sounds</a></li>
+      <li><a href="#selection">Selection and Copy/Paste</a></li>
+      <li><a href="#transport">Playback and Transport</a></li>
+      <li><a href="#zoom">Zoom and Navigation</a></li>
+      <li><a href="#templates">Templates</a></li>
+      <li><a href="#saving">Saving and Versions</a></li>
+      <li><a href="#export">Exporting</a></li>
+      <li><a href="#shortcuts">Keyboard Shortcuts</a></li>
+      <li><a href="#tips">Production Tips</a></li>
+    </ol>
+  </div>
+
+  <section id="overview">
+    <h2>1. Overview</h2>
+    <p>Sqweeky Clean Productions is a grid-based music production tool that runs entirely in your browser. No downloads, no plugins, no accounts. Just open it and start making music.</p>
+    <p>The concept is simple: you have a grid of rows and beats. You drag sounds from the library and drop them onto the grid. The playhead moves left to right and plays everything it hits. Layer sounds across rows, tweak them with the sound editor, and build full tracks.</p>
+    <p>All sounds are generated using Web Audio synthesis, so everything works offline. You can also import your own audio files.</p>
+  </section>
+
+  <section id="interface">
+    <h2>2. The Interface</h2>
+
+    <h3>Top Bar</h3>
+    <p>The header contains the transport controls (play, stop, loop), BPM setting, position display, snap setting, and action buttons (templates, export, save, load, versions, import sounds, tutorial).</p>
+
+    <h3>Sound Browser (Left Panel)</h3>
+    <p>The left sidebar shows all available sounds, organized by category. Click the category name to expand/collapse it. Use the search bar to filter sounds by name.</p>
+
+    <h3>The Grid (Center)</h3>
+    <p>The main workspace. Rows run vertically (numbered 1, 2, 3...) and beats run horizontally. Hard lines mark bar boundaries (every 4 beats), soft lines mark individual beats.</p>
+    <p>Each row has controls on the left: row number, mute (M) button, solo (S) button, and delete (X) button. These are sticky, so they stay visible as you scroll horizontally.</p>
+
+    <h3>Ruler (Top of Grid)</h3>
+    <p>Shows bar numbers along the top. Scrolls in sync with the grid. You can also set loop regions by dragging on the ruler.</p>
+
+    <h3>Sound Editor (Bottom Panel)</h3>
+    <p>Appears when you double-click a placed sound. Contains knobs and sliders for pitch, volume, pan, filter, distortion, and more.</p>
+  </section>
+
+  <section id="sounds">
+    <h2>3. Sound Library</h2>
+    <p>The library contains 500+ synthesized sounds across these categories:</p>
+    <ul>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#ef4444,#f87171)"></span><strong>Kicks</strong> (20) - 808, house, DnB, dubstep, techno, and more</li>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)"></span><strong>Snares</strong> (20) - tight, fat, breakbeat, electronic, trap</li>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#06b6d4,#22d3ee)"></span><strong>Hi-hats</strong> (20) - closed, open, ride, crash, glitch</li>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#f97316,#fb923c)"></span><strong>Claps</strong> (12) - house, trap, reverb, snap</li>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa)"></span><strong>Percussion</strong> (30) - toms, bongos, congas, cowbell, shakers</li>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#059669,#10b981)"></span><strong>Bass</strong> (50) - sub, wobble, reese, acid, neuro, slap</li>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)"></span><strong>Synths</strong> (50) - saw, supersaw, FM, acid, chip, retro</li>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#6366f1,#818cf8)"></span><strong>Pads</strong> (30) - warm, ambient, shimmer, evolving, space</li>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#ec4899,#f472b6)"></span><strong>Leads</strong> (30) - saw, acid, hoover, whistle, detuned</li>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#64748b,#94a3b8)"></span><strong>FX</strong> (40) - risers, impacts, sweeps, ambience, glitch</li>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#b45309,#d97706)"></span><strong>Guitar</strong> (40) - clean, acoustic, riffs, arpeggios, leads</li>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#475569,#94a3b8)"></span><strong>Piano</strong> (40) - grand, electric, rhodes, arpeggios, chords</li>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#9f1239,#e11d48)"></span><strong>Violin</strong> (40) - sustained, staccato, pizzicato, ensemble</li>
+      <li><span class="color-swatch" style="background:linear-gradient(135deg,#d946ef,#e879f9)"></span><strong>Vocals</strong> (40) - chops, formants, choir, processed</li>
+    </ul>
+
+    <h3>Previewing Sounds</h3>
+    <p>Click the small play button next to any sound in the browser to hear it. This lets you audition sounds before placing them on the grid.</p>
+
+    <h3>Importing Your Own Sounds</h3>
+    <p>Click the <strong>"+ Sounds"</strong> button in the top bar to import audio files from your computer. Supported formats: WAV, MP3, OGG, FLAC. Imported sounds appear in a "User" collection in the browser.</p>
+  </section>
+
+  <section id="placing">
+    <h2>4. Placing Sounds</h2>
+
+    <h3>Drag and Drop</h3>
+    <p>Click and drag a sound from the library panel on the left, then drop it onto any cell in the grid. The sound will snap to the nearest beat position based on your snap setting.</p>
+
+    <h3>Sound Sizing</h3>
+    <ul>
+      <li>Short sounds (kicks, snares, hats) fill 1 beat by default</li>
+      <li>Longer sounds (pads, bass, strings) fill their natural duration</li>
+      <li>You can resize any placed sound by dragging its right edge</li>
+    </ul>
+
+    <h3>Stretching and Repeating</h3>
+    <p>If you stretch a short sound (like a kick) across multiple beats, it will repeat to fill the space. For example, a kick stretched to 4 beats will play 4 times, once per beat. This is great for quickly laying down a steady pattern.</p>
+
+    <h3>Color Coding</h3>
+    <p>Each sound is color-coded by its category. Kicks are red, bass is green, synths are blue, and so on. This makes it easy to visually scan your arrangement and see what's where.</p>
+
+    <h3>One Sound Per Cell</h3>
+    <p>Each cell (1 beat x 1 row) can hold one sound. If you want multiple sounds playing at the same time, place them on different rows at the same beat position. That's what the rows are for: layering.</p>
+  </section>
+
+  <section id="editing">
+    <h2>5. Editing Sounds</h2>
+
+    <h3>Opening the Editor</h3>
+    <p><strong>Double-click</strong> any placed sound on the grid to open the sound editor panel at the bottom of the screen.</p>
+
+    <h3>Available Controls</h3>
+    <ul>
+      <li><strong>Pitch</strong> - Shift the pitch up or down by semitones (-24 to +24)</li>
+      <li><strong>Fine Tune</strong> - Micro-adjust pitch in cents (-50 to +50)</li>
+      <li><strong>Volume</strong> - Adjust loudness (0% to 150%)</li>
+      <li><strong>Pan</strong> - Position in the stereo field (L100 to R100)</li>
+      <li><strong>Attack</strong> - Fade-in time (0 to 500ms)</li>
+      <li><strong>Decay</strong> - Fade-out time (0 to 2000ms)</li>
+      <li><strong>Filter Type</strong> - None, Low Pass, High Pass, Band Pass</li>
+      <li><strong>Cutoff</strong> - Filter frequency (20Hz to 20kHz)</li>
+      <li><strong>Resonance</strong> - Filter emphasis (0 to 20)</li>
+      <li><strong>Distortion</strong> - Add grit and drive (0% to 100%)</li>
+      <li><strong>Reverse</strong> - Play the sound backwards</li>
+      <li><strong>Stretch</strong> - Speed up or slow down (0.25x to 4x)</li>
+    </ul>
+
+    <h3>Apply Scope</h3>
+    <p>When you change a setting, you can choose how widely it applies:</p>
+    <ul>
+      <li><strong>This beat</strong> - Only the sound you double-clicked (default)</li>
+      <li><strong>All of this sound</strong> - Every instance of this sound on the grid</li>
+      <li><strong>This bar</strong> - All sounds in the same 4-beat bar</li>
+      <li><strong>Selected beats</strong> - All sounds in your current multi-selection</li>
+    </ul>
+
+    <h3>Preview</h3>
+    <p>Click the play button in the editor header to hear the sound with your current modifications before closing the editor.</p>
+
+    <h3>Save as WAV</h3>
+    <p>Click "Save as WAV" in the editor to download the modified sound as a standalone audio file.</p>
+  </section>
+
+  <section id="selection">
+    <h2>6. Selection and Copy/Paste</h2>
+
+    <h3>Selecting Sounds</h3>
+    <ul>
+      <li><strong>Single click</strong> - Select one sound (highlights it with a white border)</li>
+      <li><strong>Click empty space</strong> - Deselect all</li>
+    </ul>
+
+    <h3>Multi-Select</h3>
+    <p>Click and drag on empty space to draw a selection rectangle (like selecting cells in a spreadsheet). All sounds within the rectangle will be selected. This works across multiple rows and beats.</p>
+
+    <h3>Copy, Cut, Paste</h3>
+    <ul>
+      <li><span class="kbd">Ctrl+C</span> - Copy the selected sounds</li>
+      <li><span class="kbd">Ctrl+X</span> - Cut (copy and delete the originals)</li>
+      <li>Click a target cell, then <span class="kbd">Ctrl+V</span> - Paste at that position</li>
+    </ul>
+    <p>Pasted sounds maintain their relative positions. If you selected sounds across rows 3-7 and beats 4-12, they'll paste with the same spacing.</p>
+
+    <h3>Duplicate with Ctrl+Click</h3>
+    <p>Select one or more sounds, then <span class="kbd">Ctrl+Click</span> on a selected sound to duplicate the entire selection. Copies are placed to the right of the originals.</p>
+
+    <h3>Moving Sounds</h3>
+    <p>Click a sound to select it, then drag it to move it to a different cell. You can move sounds horizontally (different beat) or vertically (different row).</p>
+
+    <h3>Deleting Sounds</h3>
+    <p>Select one or more sounds, then press <span class="kbd">Delete</span> or <span class="kbd">Backspace</span> to remove them. You can also right-click and choose "Delete" from the context menu.</p>
+  </section>
+
+  <section id="transport">
+    <h2>7. Playback and Transport</h2>
+
+    <h3>Play/Pause</h3>
+    <p>Click the play button or press <span class="kbd">Space</span>. The playhead (red line) moves across the grid, playing all sounds it passes through. Click again to pause.</p>
+
+    <h3>Stop</h3>
+    <p>Click the stop button to stop playback and reset the playhead to the beginning.</p>
+
+    <h3>Loop</h3>
+    <p>Click the loop button to toggle looping. When active, playback will loop from the start to the last placed sound (or your custom loop region).</p>
+
+    <h3>BPM</h3>
+    <p>Adjust the tempo using the BPM field. Common tempos: House 120-130, Dubstep 140-150, Drum and Bass 170-180.</p>
+
+    <h3>Snap</h3>
+    <p>The snap setting controls how sounds align to the grid when placing, moving, or resizing:</p>
+    <ul>
+      <li><strong>1 Beat</strong> - Snap to whole beats</li>
+      <li><strong>1/2 Beat</strong> - Snap to half beats</li>
+      <li><strong>1/4 Beat</strong> - Snap to quarter beats (default, good for detailed work)</li>
+      <li><strong>1/8 Beat</strong> - Snap to eighth beats (very fine)</li>
+      <li><strong>Off</strong> - Free placement (no snapping)</li>
+    </ul>
+
+    <h3>Mute and Solo</h3>
+    <p>Each row has M (mute) and S (solo) buttons:</p>
+    <ul>
+      <li><strong>Mute</strong> - Silences that row during playback. Useful for testing how a track sounds without certain elements.</li>
+      <li><strong>Solo</strong> - Only play this row (and other soloed rows). Everything else is muted. Great for isolating a bass line or drum pattern.</li>
+    </ul>
+  </section>
+
+  <section id="zoom">
+    <h2>8. Zoom and Navigation</h2>
+
+    <h3>Horizontal Zoom (Beat Width)</h3>
+    <p>Hold <span class="kbd">Ctrl</span> and scroll the mouse wheel to zoom in/out on the timeline. This makes beats wider or narrower, letting you see more or less of your arrangement.</p>
+
+    <h3>Vertical Zoom (Row Height)</h3>
+    <p>Hold <span class="kbd">Ctrl+Shift</span> and scroll the mouse wheel to change row height. Useful when you have many rows and want to see more at once.</p>
+
+    <h3>Scrolling</h3>
+    <p>Scroll normally to move through the grid. The ruler at the top stays in sync with horizontal scrolling. Row labels stick to the left as you scroll right.</p>
+  </section>
+
+  <section id="templates">
+    <h2>9. Templates</h2>
+    <p>Click the <strong>"Templates"</strong> button to browse 40 pre-built track arrangements across four genres:</p>
+    <ul>
+      <li><strong>Drum and Bass</strong> (10 templates) - Fast breaks, rolling bass, atmospheric builds</li>
+      <li><strong>House</strong> (10 templates) - 4-on-the-floor grooves, deep bass, warm pads</li>
+      <li><strong>Dubstep</strong> (10 templates) - Half-time beats, heavy bass drops, dramatic builds</li>
+      <li><strong>Electronic</strong> (10 templates) - Creative patterns, synth-driven, atmospheric</li>
+    </ul>
+    <p>Each template is a full arrangement (intro, build, drop, breakdown, second drop, outro). Loading a template replaces your current work, so save first if needed.</p>
+
+    <div class="tip">
+      <strong>Tip:</strong> Templates are a great starting point. Load one, then modify it by swapping sounds, changing patterns, adjusting the editor settings, and making it your own.
+    </div>
+  </section>
+
+  <section id="saving">
+    <h2>10. Saving and Versions</h2>
+
+    <h3>Manual Save</h3>
+    <p>Click <strong>"Save"</strong> (or <span class="kbd">Ctrl+S</span>) to download your project as a JSON file. This saves all your sounds, placements, and editor settings.</p>
+
+    <h3>Loading a Project</h3>
+    <p>Click <strong>"Load"</strong> to open a previously saved project file.</p>
+
+    <h3>Autosave</h3>
+    <p>Your work is automatically saved every 10 minutes. The system keeps the last 9 versions (covering the past 90 minutes of work).</p>
+
+    <h3>Version History</h3>
+    <p>Click <strong>"Versions"</strong> to see your autosaved versions. Each shows the timestamp and number of blocks. Click one to restore it.</p>
+
+    <div class="tip">
+      <strong>Tip:</strong> If you've been experimenting for 30 minutes and don't like the results, open Versions and restore the state from 30 minutes ago. Your experiments are gone but your earlier good work is preserved.
+    </div>
+
+    <h3>Undo/Redo</h3>
+    <p>Press <span class="kbd">Ctrl+Z</span> to undo the last action. Press <span class="kbd">Ctrl+Shift+Z</span> to redo. You can undo as many times as you want, all the way back to when you started.</p>
+  </section>
+
+  <section id="export">
+    <h2>11. Exporting</h2>
+
+    <h3>Export WAV</h3>
+    <p>Click <strong>"Export WAV"</strong> to render your entire arrangement as a WAV audio file. This processes all sounds with their editor settings, respects mute/solo, and outputs a stereo 44.1kHz 16-bit WAV file.</p>
+    <p>The export covers from beat 1 to the last placed sound. Muted rows are excluded, soloed rows are respected.</p>
+
+    <h3>Save Individual Sounds</h3>
+    <p>Open the sound editor (double-click a sound), tweak it, then click "Save as WAV" to export just that one modified sound.</p>
+  </section>
+
+  <section id="shortcuts">
+    <h2>12. Keyboard Shortcuts</h2>
+    <table class="shortcut-table">
+      <tr><th>Shortcut</th><th>Action</th></tr>
+      <tr><td><span class="kbd">Space</span></td><td>Play / Pause</td></tr>
+      <tr><td><span class="kbd">Delete</span> / <span class="kbd">Backspace</span></td><td>Delete selected sounds</td></tr>
+      <tr><td><span class="kbd">Ctrl+C</span></td><td>Copy selection</td></tr>
+      <tr><td><span class="kbd">Ctrl+X</span></td><td>Cut selection</td></tr>
+      <tr><td><span class="kbd">Ctrl+V</span></td><td>Paste at clicked position</td></tr>
+      <tr><td><span class="kbd">Ctrl+Click</span></td><td>Duplicate selected sounds</td></tr>
+      <tr><td><span class="kbd">Ctrl+Z</span></td><td>Undo</td></tr>
+      <tr><td><span class="kbd">Ctrl+Shift+Z</span></td><td>Redo</td></tr>
+      <tr><td><span class="kbd">Ctrl+S</span></td><td>Save project</td></tr>
+      <tr><td><span class="kbd">Ctrl+Scroll</span></td><td>Zoom horizontal (beat width)</td></tr>
+      <tr><td><span class="kbd">Ctrl+Shift+Scroll</span></td><td>Zoom vertical (row height)</td></tr>
+      <tr><td><span class="kbd">Escape</span></td><td>Close sound editor / deselect</td></tr>
+    </table>
+  </section>
+
+  <section id="tips">
+    <h2>13. Production Tips</h2>
+
+    <h3>Building a Track</h3>
+    <ol>
+      <li><strong>Start with the beat.</strong> Lay down a kick pattern on row 1, snare on row 2, hats on row 3. Get 4-8 bars of a basic groove.</li>
+      <li><strong>Add bass.</strong> Drop a bass sound on row 6-7, matching the rhythm of your kick or creating a complementary pattern.</li>
+      <li><strong>Layer up.</strong> Add synths, pads, or piano on rows 10+. Use the sound editor to adjust pitch and filter to make things sit together.</li>
+      <li><strong>Copy and paste.</strong> Select your 8-bar section, copy it, and paste it further along the timeline. Now you have 16 bars.</li>
+      <li><strong>Create variation.</strong> In the second 8 bars, add or remove elements. Maybe add a clap, change the hi-hat pattern, or bring in a new synth.</li>
+      <li><strong>Build the arrangement.</strong> Use the intro-build-drop-breakdown-drop-outro structure. Start sparse, add energy, peak, pull back, peak again, wind down.</li>
+    </ol>
+
+    <h3>Genre-Specific Tips</h3>
+    <ul>
+      <li><strong>House (120-130 BPM):</strong> Kick on every beat (4-on-the-floor). Clap/snare on beats 2 and 4. Offbeat hi-hats. Deep, rolling bass. Warm pads.</li>
+      <li><strong>Drum and Bass (170-180 BPM):</strong> Fast breakbeats. Kick and snare alternate rapidly. Rolling or neuro basslines. Atmospheric pads and FX. Use the DnB kick and snare sounds.</li>
+      <li><strong>Dubstep (140-150 BPM):</strong> Half-time feel (kick on 1, snare on 3). Heavy wobble or growl bass in the drop. Build tension with risers before the drop. Sparse intro, massive drops.</li>
+      <li><strong>Electronic (125-140 BPM):</strong> Flexible. Experiment with unconventional patterns. Layer synths. Use FX liberally. Automate filters for movement.</li>
+    </ul>
+
+    <h3>Sound Design Tips</h3>
+    <ul>
+      <li><strong>Pitch shifting</strong> a kick down 3-5 semitones makes it deeper and heavier</li>
+      <li><strong>Low-pass filter</strong> on a hi-hat at around 8kHz removes harshness</li>
+      <li><strong>Distortion</strong> on a bass at 20-40% adds warmth and presence</li>
+      <li><strong>Reverse</strong> a cymbal crash and place it before a drop for a classic build effect</li>
+      <li><strong>Stretch</strong> a pad to 0.5x to make it slower and more atmospheric</li>
+      <li><strong>Layer sounds</strong> on adjacent rows at the same beat position for thicker textures</li>
+    </ul>
+
+    <div class="warning">
+      <strong>Watch your levels:</strong> If you have many sounds playing at once, the mix can clip. Use the volume control in the editor to bring down individual sounds, especially bass and kick which carry the most energy.
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
