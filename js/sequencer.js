@@ -356,8 +356,10 @@
     $gridRows.innerHTML = '';
     const bw = beatW();
     const totalW = TOTAL_BEATS * bw;
-    const bgBeat = `linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px)`;
-    const bgBar  = `linear-gradient(to right, rgba(255,255,255,0.25) 2px, transparent 2px)`;
+    const bgBeat  = `linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px)`;
+    const bgBar   = `linear-gradient(to right, rgba(255,255,255,0.25) 2px, transparent 2px)`;
+    const bg16    = `linear-gradient(to right, rgba(68,136,255,0.45) 2px, transparent 2px)`;
+    const bw16    = bw * 16;
 
     rows.forEach(row => {
       const el = document.createElement('div');
@@ -381,8 +383,8 @@
       lane.className = 'row-lane';
       lane.dataset.rowId = row.id;
       lane.style.width = totalW + 'px';
-      lane.style.backgroundSize = `${bw}px 100%, ${bw * BEATS_PER_BAR}px 100%`;
-      lane.style.backgroundImage = bgBeat + ',' + bgBar;
+      lane.style.backgroundSize = `${bw}px 100%, ${bw * BEATS_PER_BAR}px 100%, ${bw16}px 100%`;
+      lane.style.backgroundImage = bgBeat + ',' + bgBar + ',' + bg16;
       el.appendChild(lane);
 
       $gridRows.appendChild(el);
@@ -428,7 +430,8 @@
       const isBar = (beat % BEATS_PER_BAR === 0);
       if (isBar) {
         const m = document.createElement('div');
-        m.className = 'ruler-bar';
+        const is16 = (beat % 16 === 0);
+        m.className = is16 ? 'ruler-bar ruler-16' : 'ruler-bar';
         m.style.left = (beat * bw) + 'px';
         m.textContent = (beat / BEATS_PER_BAR) + 1;
         $ruler.appendChild(m);
