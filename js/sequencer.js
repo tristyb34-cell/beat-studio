@@ -66,6 +66,7 @@
   let momentumId      = null;   // requestAnimationFrame id for momentum
   let rightClickState = null;   // right-click: drag-select vs context menu
   let ctxMenuEl       = null;
+  let pasteTarget     = null;   // { rowId, beat } for paste-at-click
 
   // DOM refs (resolved in init)
   let $area, $rulerScroll, $ruler, $gridScroll, $gridRows, $playhead, $addRowBtn;
@@ -849,6 +850,9 @@
       refreshSelectionClasses();
       dispatch('sequencer:select', { blocks: getSelectedBlocks() });
 
+      // Track as paste target
+      pasteTarget = { rowId: b.rowId, beat: b.startBeat };
+
       // Prepare for possible drag-move
       dragState = {
         blockId: b.id,
@@ -864,6 +868,13 @@
     // ---- Click empty space ----
     selectedIds.clear();
     refreshSelectionClasses();
+
+    // Track click position for paste target
+    const clickBeat = snapBeat(beatFromClientX(e.clientX));
+    const clickRow = rowFromClientY(e.clientY);
+    if (clickRow) {
+      pasteTarget = { rowId: clickRow.id, beat: clickBeat };
+    }
 
     // Shift+click = selection rectangle; plain click = pan/flick the grid
     if (e.shiftKey) {
@@ -1204,9 +1215,8 @@
     if (ctrl && e.key === 'x' && selectedIds.size) { e.preventDefault(); cutSelection(); return; }
     if (ctrl && e.key === 'v' && clipboard && clipboard.length) {
       e.preventDefault();
-      const sel = getSelectedBlocks();
-      if (sel.length) pasteAt(sel[0].rowId, sel[0].startBeat + sel[0].durationBeats);
-      else pasteAt(rows[0].id, 0);
+      if (pasteTarget) pasteAt(pasteTarget.rowId, pasteTarget.beat);
+      else if (rows.length) pasteAt(rows[0].id, 0);
       return;
     }
     if (ctrl && e.key === 'a') {
