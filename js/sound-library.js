@@ -11780,6 +11780,10 @@ const SoundLibrary = {
     return this.sounds.find(s => s.id === id);
   },
 
+  getSound(id) {
+    return this.sounds.find(s => s.id === id);
+  },
+
   searchSounds(query) {
     if (!query) return this.sounds;
     const q = query.toLowerCase();
