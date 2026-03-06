@@ -23,7 +23,9 @@
   const CATEGORY_KEYS = [
     'kicks','snares','hihats','claps','percussion',
     'bass','synths','pads','leads','fx',
-    'vocals','guitar','piano','violin','strings'
+    'vocals','guitar','piano','violin','strings',
+    'intro','buildup','drop','outro',
+    'vocals-male','vocals-female','saxophone'
   ];
 
   // Extra keywords that map to categories (for fallback ID matching)
@@ -37,8 +39,15 @@
     'synths': ['synth'],
     'pads': ['pad'],
     'leads': ['lead'],
-    'fx': ['fx','riser','impact','sweep'],
-    'vocals': ['vocal','vox'],
+    'fx': ['fx','riser','sweep'],
+    'vocals': ['vocal'],
+    'intro': ['intro'],
+    'buildup': ['buildup','build'],
+    'drop': ['drop','impact'],
+    'outro': ['outro','fade'],
+    'vocals-male': ['vox-male'],
+    'vocals-female': ['vox-female'],
+    'saxophone': ['sax'],
     'guitar': ['guitar','gtr'],
     'piano': ['piano','keys'],
     'violin': ['violin'],

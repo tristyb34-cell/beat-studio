@@ -609,13 +609,20 @@ html, body {
 .seq-block.cat-piano      { background: linear-gradient(135deg, #e2e8f0, #f8fafc); color: rgba(0,0,0,0.8); }
 .seq-block.cat-violin     { background: linear-gradient(135deg, #be123c, #fda4af); }
 .seq-block.cat-strings    { background: linear-gradient(135deg, #9a3412, #fdba74); }
+.seq-block.cat-intro      { background: linear-gradient(135deg, #1e40af, #93c5fd); }
+.seq-block.cat-buildup    { background: linear-gradient(135deg, #d97706, #fef08a); }
+.seq-block.cat-drop       { background: linear-gradient(135deg, #b91c1c, #fca5a5); }
+.seq-block.cat-outro      { background: linear-gradient(135deg, #4338ca, #a5b4fc); }
+.seq-block.cat-vocals-male   { background: linear-gradient(135deg, #7e22ce, #d8b4fe); }
+.seq-block.cat-vocals-female { background: linear-gradient(135deg, #db2777, #fbcfe8); }
+.seq-block.cat-saxophone  { background: linear-gradient(135deg, #b45309, #fde68a); }
 .seq-block.cat-default    { background: linear-gradient(135deg, #00d4aa, #6ee7b7); }
 
 /* ── Selection Rectangle ── */
 .select-rect {
   position: absolute;
-  border: 1px solid var(--accent);
-  background: rgba(0, 212, 170, 0.08);
+  border: 2px solid var(--accent);
+  background: rgba(0, 212, 170, 0.18);
   pointer-events: none;
   z-index: 20;
 }

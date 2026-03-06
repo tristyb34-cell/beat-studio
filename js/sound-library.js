@@ -62,7 +62,7 @@ function createFormantFilter(ctx, source, f1, f2, f3, bw) {
 }
 
 
-// ============ SOUND DEFINITIONS (502 sounds) ============
+// ============ SOUND DEFINITIONS (607 sounds) ============
 const SOUNDS = [
   {
     "id": "kick-808",
@@ -3577,7 +3577,112 @@ const SOUNDS = [
     "collection": "Synthesizers",
     "category": "synths",
     "duration": 1.5
-  }
+  },
+  {"id":"intro-filtered-pad","name":"Filtered Pad","collection":"Intro Elements","category":"intro","duration":6},
+  {"id":"intro-ambient-wash","name":"Ambient Wash","collection":"Intro Elements","category":"intro","duration":8},
+  {"id":"intro-soft-pluck","name":"Soft Pluck","collection":"Intro Elements","category":"intro","duration":2},
+  {"id":"intro-gentle-riser","name":"Gentle Riser","collection":"Intro Elements","category":"intro","duration":5},
+  {"id":"intro-shimmer","name":"Shimmer Pad","collection":"Intro Elements","category":"intro","duration":4},
+  {"id":"intro-warm-drone","name":"Warm Drone","collection":"Intro Elements","category":"intro","duration":7},
+  {"id":"intro-bell-chime","name":"Bell Chime","collection":"Intro Elements","category":"intro","duration":3},
+  {"id":"intro-airy-texture","name":"Airy Texture","collection":"Intro Elements","category":"intro","duration":5},
+  {"id":"intro-vinyl-crackle","name":"Vinyl Crackle","collection":"Intro Elements","category":"intro","duration":6},
+  {"id":"intro-wind-sweep","name":"Wind Sweep","collection":"Intro Elements","category":"intro","duration":4},
+  {"id":"intro-muted-chord","name":"Muted Chord","collection":"Intro Elements","category":"intro","duration":3.5},
+  {"id":"intro-crystal-tone","name":"Crystal Tone","collection":"Intro Elements","category":"intro","duration":3},
+  {"id":"intro-deep-hum","name":"Deep Hum","collection":"Intro Elements","category":"intro","duration":6},
+  {"id":"intro-ethereal-pad","name":"Ethereal Pad","collection":"Intro Elements","category":"intro","duration":8},
+  {"id":"intro-tape-hiss","name":"Tape Hiss","collection":"Intro Elements","category":"intro","duration":5},
+  {"id":"buildup-white-riser","name":"White Noise Riser","collection":"Build-Up FX","category":"buildup","duration":4},
+  {"id":"buildup-filter-sweep","name":"Filter Sweep Up","collection":"Build-Up FX","category":"buildup","duration":4},
+  {"id":"buildup-snare-roll","name":"Snare Roll","collection":"Build-Up FX","category":"buildup","duration":2},
+  {"id":"buildup-tension-rise","name":"Tension Riser","collection":"Build-Up FX","category":"buildup","duration":8},
+  {"id":"buildup-pitch-riser","name":"Pitch Riser","collection":"Build-Up FX","category":"buildup","duration":4},
+  {"id":"buildup-noise-swell","name":"Noise Swell","collection":"Build-Up FX","category":"buildup","duration":3},
+  {"id":"buildup-reverse-crash","name":"Reverse Crash","collection":"Build-Up FX","category":"buildup","duration":2},
+  {"id":"buildup-stutter-rise","name":"Stutter Rise","collection":"Build-Up FX","category":"buildup","duration":4},
+  {"id":"buildup-sub-drop-rev","name":"Reverse Sub Drop","collection":"Build-Up FX","category":"buildup","duration":3},
+  {"id":"buildup-laser-sweep","name":"Laser Sweep","collection":"Build-Up FX","category":"buildup","duration":2},
+  {"id":"buildup-granular-rise","name":"Granular Rise","collection":"Build-Up FX","category":"buildup","duration":6},
+  {"id":"buildup-wobble-rise","name":"Wobble Rise","collection":"Build-Up FX","category":"buildup","duration":4},
+  {"id":"buildup-tonal-riser","name":"Tonal Riser","collection":"Build-Up FX","category":"buildup","duration":4},
+  {"id":"buildup-speed-up","name":"Speed Up Roll","collection":"Build-Up FX","category":"buildup","duration":4},
+  {"id":"buildup-impact-rev","name":"Reverse Impact","collection":"Build-Up FX","category":"buildup","duration":1.5},
+  {"id":"drop-sub-boom","name":"Sub Boom","collection":"Drop Impacts","category":"drop","duration":2},
+  {"id":"drop-impact-hit","name":"Impact Hit","collection":"Drop Impacts","category":"drop","duration":1},
+  {"id":"drop-bass-stab","name":"Bass Stab","collection":"Drop Impacts","category":"drop","duration":0.5},
+  {"id":"drop-hard-kick","name":"Hard Drop Kick","collection":"Drop Impacts","category":"drop","duration":0.6},
+  {"id":"drop-metal-crash","name":"Metal Crash","collection":"Drop Impacts","category":"drop","duration":1.5},
+  {"id":"drop-distort-hit","name":"Distorted Hit","collection":"Drop Impacts","category":"drop","duration":0.8},
+  {"id":"drop-sub-drop","name":"Sub Drop","collection":"Drop Impacts","category":"drop","duration":3},
+  {"id":"drop-horn-blast","name":"Horn Blast","collection":"Drop Impacts","category":"drop","duration":0.8},
+  {"id":"drop-punch-hit","name":"Punch Hit","collection":"Drop Impacts","category":"drop","duration":0.3},
+  {"id":"drop-gun-shot","name":"Gun Shot FX","collection":"Drop Impacts","category":"drop","duration":0.5},
+  {"id":"drop-thunder-clap","name":"Thunder Clap","collection":"Drop Impacts","category":"drop","duration":2},
+  {"id":"drop-siren-hit","name":"Siren Hit","collection":"Drop Impacts","category":"drop","duration":1},
+  {"id":"drop-power-chord","name":"Power Chord","collection":"Drop Impacts","category":"drop","duration":1.5},
+  {"id":"drop-wobble-bass","name":"Wobble Bass Hit","collection":"Drop Impacts","category":"drop","duration":1},
+  {"id":"drop-massive-hit","name":"Massive Hit","collection":"Drop Impacts","category":"drop","duration":2},
+  {"id":"outro-fade-pad","name":"Fade Out Pad","collection":"Outro Elements","category":"outro","duration":8},
+  {"id":"outro-reverse-wash","name":"Reverse Wash","collection":"Outro Elements","category":"outro","duration":5},
+  {"id":"outro-gentle-decay","name":"Gentle Decay","collection":"Outro Elements","category":"outro","duration":6},
+  {"id":"outro-soft-bell","name":"Soft Bell Fade","collection":"Outro Elements","category":"outro","duration":4},
+  {"id":"outro-dissolve","name":"Dissolve Texture","collection":"Outro Elements","category":"outro","duration":7},
+  {"id":"outro-wind-down","name":"Wind Down","collection":"Outro Elements","category":"outro","duration":5},
+  {"id":"outro-tape-stop","name":"Tape Stop FX","collection":"Outro Elements","category":"outro","duration":3},
+  {"id":"outro-echo-fade","name":"Echo Fade Out","collection":"Outro Elements","category":"outro","duration":5},
+  {"id":"outro-warm-release","name":"Warm Release","collection":"Outro Elements","category":"outro","duration":6},
+  {"id":"outro-shimmer-out","name":"Shimmer Out","collection":"Outro Elements","category":"outro","duration":4},
+  {"id":"outro-deep-fade","name":"Deep Fade","collection":"Outro Elements","category":"outro","duration":8},
+  {"id":"outro-crystal-decay","name":"Crystal Decay","collection":"Outro Elements","category":"outro","duration":3},
+  {"id":"outro-breath-out","name":"Breath Out","collection":"Outro Elements","category":"outro","duration":2.5},
+  {"id":"outro-vinyl-end","name":"Vinyl Runout","collection":"Outro Elements","category":"outro","duration":5},
+  {"id":"outro-final-chord","name":"Final Chord","collection":"Outro Elements","category":"outro","duration":6},
+  {"id":"vox-male-oh","name":"Male 'Oh'","collection":"Vocals - Male","category":"vocals-male","duration":1.5},
+  {"id":"vox-male-ah","name":"Male 'Ah'","collection":"Vocals - Male","category":"vocals-male","duration":1.5},
+  {"id":"vox-male-hey","name":"Male 'Hey'","collection":"Vocals - Male","category":"vocals-male","duration":0.8},
+  {"id":"vox-male-yeah","name":"Male 'Yeah'","collection":"Vocals - Male","category":"vocals-male","duration":1},
+  {"id":"vox-male-hum","name":"Male Hum","collection":"Vocals - Male","category":"vocals-male","duration":2.5},
+  {"id":"vox-male-chant","name":"Male Chant","collection":"Vocals - Male","category":"vocals-male","duration":3},
+  {"id":"vox-male-ooh","name":"Male 'Ooh'","collection":"Vocals - Male","category":"vocals-male","duration":2},
+  {"id":"vox-male-grunt","name":"Male Grunt","collection":"Vocals - Male","category":"vocals-male","duration":0.5},
+  {"id":"vox-male-shout","name":"Male Shout","collection":"Vocals - Male","category":"vocals-male","duration":0.8},
+  {"id":"vox-male-whisper","name":"Male Whisper","collection":"Vocals - Male","category":"vocals-male","duration":1.5},
+  {"id":"vox-male-breath","name":"Male Breath","collection":"Vocals - Male","category":"vocals-male","duration":1},
+  {"id":"vox-male-aye","name":"Male 'Aye'","collection":"Vocals - Male","category":"vocals-male","duration":0.8},
+  {"id":"vox-male-deep-tone","name":"Male Deep Tone","collection":"Vocals - Male","category":"vocals-male","duration":2},
+  {"id":"vox-male-spoken-fx","name":"Male Spoken FX","collection":"Vocals - Male","category":"vocals-male","duration":1},
+  {"id":"vox-male-choir","name":"Male Choir","collection":"Vocals - Male","category":"vocals-male","duration":3},
+  {"id":"vox-female-ooh","name":"Female 'Ooh'","collection":"Vocals - Female","category":"vocals-female","duration":2},
+  {"id":"vox-female-ah","name":"Female 'Ah'","collection":"Vocals - Female","category":"vocals-female","duration":1.5},
+  {"id":"vox-female-hey","name":"Female 'Hey'","collection":"Vocals - Female","category":"vocals-female","duration":0.8},
+  {"id":"vox-female-yeah","name":"Female 'Yeah'","collection":"Vocals - Female","category":"vocals-female","duration":1},
+  {"id":"vox-female-breath","name":"Female Breath","collection":"Vocals - Female","category":"vocals-female","duration":1},
+  {"id":"vox-female-whisper","name":"Female Whisper","collection":"Vocals - Female","category":"vocals-female","duration":1.5},
+  {"id":"vox-female-hum","name":"Female Hum","collection":"Vocals - Female","category":"vocals-female","duration":2.5},
+  {"id":"vox-female-airy","name":"Female Airy Vocal","collection":"Vocals - Female","category":"vocals-female","duration":2},
+  {"id":"vox-female-chant","name":"Female Chant","collection":"Vocals - Female","category":"vocals-female","duration":3},
+  {"id":"vox-female-sigh","name":"Female Sigh","collection":"Vocals - Female","category":"vocals-female","duration":1},
+  {"id":"vox-female-choir","name":"Female Choir","collection":"Vocals - Female","category":"vocals-female","duration":3},
+  {"id":"vox-female-spoken-fx","name":"Female Spoken FX","collection":"Vocals - Female","category":"vocals-female","duration":1},
+  {"id":"vox-female-high-tone","name":"Female High Tone","collection":"Vocals - Female","category":"vocals-female","duration":1.5},
+  {"id":"vox-female-soft-oh","name":"Female Soft 'Oh'","collection":"Vocals - Female","category":"vocals-female","duration":1.5},
+  {"id":"vox-female-vibrato","name":"Female Vibrato","collection":"Vocals - Female","category":"vocals-female","duration":2},
+  {"id":"sax-tenor-long","name":"Tenor Sax Long Note","collection":"Saxophone & Riffs","category":"saxophone","duration":4},
+  {"id":"sax-alto-stab","name":"Alto Sax Stab","collection":"Saxophone & Riffs","category":"saxophone","duration":0.5},
+  {"id":"sax-soprano-riff","name":"Soprano Sax Riff","collection":"Saxophone & Riffs","category":"saxophone","duration":2},
+  {"id":"sax-baritone-low","name":"Baritone Sax Low","collection":"Saxophone & Riffs","category":"saxophone","duration":3},
+  {"id":"sax-smooth-jazz","name":"Smooth Jazz Sax","collection":"Saxophone & Riffs","category":"saxophone","duration":3.5},
+  {"id":"sax-breathy-note","name":"Breathy Sax Note","collection":"Saxophone & Riffs","category":"saxophone","duration":2},
+  {"id":"sax-sharp-stab","name":"Sharp Sax Stab","collection":"Saxophone & Riffs","category":"saxophone","duration":0.5},
+  {"id":"sax-wail","name":"Sax Wail","collection":"Saxophone & Riffs","category":"saxophone","duration":2.5},
+  {"id":"sax-trill","name":"Sax Trill","collection":"Saxophone & Riffs","category":"saxophone","duration":1.5},
+  {"id":"sax-growl","name":"Sax Growl","collection":"Saxophone & Riffs","category":"saxophone","duration":1},
+  {"id":"sax-soft-melody","name":"Soft Sax Melody","collection":"Saxophone & Riffs","category":"saxophone","duration":3},
+  {"id":"sax-honk","name":"Sax Honk","collection":"Saxophone & Riffs","category":"saxophone","duration":0.5},
+  {"id":"sax-flutter","name":"Sax Flutter","collection":"Saxophone & Riffs","category":"saxophone","duration":1.5},
+  {"id":"sax-riff-short","name":"Sax Riff Short","collection":"Saxophone & Riffs","category":"saxophone","duration":1},
+  {"id":"sax-riff-long","name":"Sax Riff Long","collection":"Saxophone & Riffs","category":"saxophone","duration":4}
 ];
 
 // ============ SYNTHESIS RECIPES ============
@@ -11750,6 +11855,830 @@ const RECIPES = {
     osc.connect(filt); filt.connect(g); g.connect(ctx.destination);
     osc.start(0); osc.stop(1.5);
 },
+
+// ── Intro Elements ──
+'intro-filtered-pad': async function(ctx) {
+  const d = 6.0;
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 220;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 221.5;
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.value = 400; filt.Q.value = 2;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.3, 2); g.gain.linearRampToValueAtTime(0.3, 4); g.gain.linearRampToValueAtTime(0, d);
+  osc1.connect(filt); osc2.connect(filt); filt.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc1.stop(d); osc2.start(0); osc2.stop(d);
+},
+'intro-ambient-wash': async function(ctx) {
+  const d = 8.0;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 800; filt.Q.value = 0.5;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.15, 3); g.gain.linearRampToValueAtTime(0.15, 5); g.gain.linearRampToValueAtTime(0, d);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'intro-soft-pluck': async function(ctx) {
+  const d = 2.0; const src = karplusStrong(ctx, 330, d, 0.003, 1500, 0.5);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.5, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  src.connect(g); g.connect(ctx.destination); src.start(0); src.stop(d);
+},
+'intro-gentle-riser': async function(ctx) {
+  const d = 5.0;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(100, 0); osc.frequency.linearRampToValueAtTime(600, d);
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.setValueAtTime(200, 0); filt.frequency.linearRampToValueAtTime(2000, d);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.3, d * 0.8); g.gain.linearRampToValueAtTime(0, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'intro-shimmer': async function(ctx) {
+  const d = 4.0;
+  [880, 1320, 1760].forEach(f => {
+    const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = f;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.12, 1.5); g.gain.linearRampToValueAtTime(0, d);
+    osc.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+'intro-warm-drone': async function(ctx) {
+  const d = 7.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 80;
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.value = 300; filt.Q.value = 3;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.25, 2); g.gain.setValueAtTime(0.25, 5); g.gain.linearRampToValueAtTime(0, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'intro-bell-chime': async function(ctx) {
+  const d = 3.0;
+  [523, 659, 784].forEach((f, i) => {
+    const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = f;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.2, 0.01); g.gain.exponentialRampToValueAtTime(0.001, d);
+    osc.connect(g); g.connect(ctx.destination); osc.start(i * 0.15); osc.stop(d);
+  });
+},
+'intro-airy-texture': async function(ctx) {
+  const d = 5.0;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'highpass'; filt.frequency.value = 3000; filt.Q.value = 0.3;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.08, 2); g.gain.setValueAtTime(0.08, 3.5); g.gain.linearRampToValueAtTime(0, d);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'intro-vinyl-crackle': async function(ctx) {
+  const d = 6.0;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 2000; filt.Q.value = 3;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.06, 0.5); g.gain.setValueAtTime(0.06, 5); g.gain.linearRampToValueAtTime(0, d);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'intro-wind-sweep': async function(ctx) {
+  const d = 4.0;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.setValueAtTime(200, 0); filt.frequency.linearRampToValueAtTime(3000, d); filt.Q.value = 1;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.12, 1); g.gain.linearRampToValueAtTime(0.12, 3); g.gain.linearRampToValueAtTime(0, d);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'intro-muted-chord': async function(ctx) {
+  const d = 3.5;
+  [261, 329, 392].forEach(f => {
+    const osc = ctx.createOscillator(); osc.type = 'triangle'; osc.frequency.value = f;
+    const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.value = 600;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.15, 0.05); g.gain.exponentialRampToValueAtTime(0.001, d);
+    osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+'intro-crystal-tone': async function(ctx) {
+  const d = 3.0;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = 1047;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sine'; osc2.frequency.value = 1568;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.3, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  osc.connect(g); osc2.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d); osc2.start(0); osc2.stop(d);
+},
+'intro-deep-hum': async function(ctx) {
+  const d = 6.0;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = 60;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.35, 1.5); g.gain.setValueAtTime(0.35, 4.5); g.gain.linearRampToValueAtTime(0, d);
+  osc.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'intro-ethereal-pad': async function(ctx) {
+  const d = 8.0;
+  [220, 277, 330, 440].forEach(f => {
+    const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = f;
+    const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.setValueAtTime(300, 0); filt.frequency.linearRampToValueAtTime(1200, 4); filt.frequency.linearRampToValueAtTime(300, d);
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.08, 2); g.gain.setValueAtTime(0.08, 6); g.gain.linearRampToValueAtTime(0, d);
+    osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+'intro-tape-hiss': async function(ctx) {
+  const d = 5.0;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'highpass'; filt.frequency.value = 5000;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.04, 0.3); g.gain.setValueAtTime(0.04, 4); g.gain.linearRampToValueAtTime(0, d);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+
+// ── Build-Up FX ──
+'buildup-white-riser': async function(ctx) {
+  const d = 4.0;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'highpass'; filt.frequency.setValueAtTime(100, 0); filt.frequency.exponentialRampToValueAtTime(10000, d);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.01, 0); g.gain.linearRampToValueAtTime(0.4, d);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'buildup-filter-sweep': async function(ctx) {
+  const d = 4.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 110;
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.setValueAtTime(100, 0); filt.frequency.exponentialRampToValueAtTime(8000, d); filt.Q.value = 8;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.05, 0); g.gain.linearRampToValueAtTime(0.35, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'buildup-snare-roll': async function(ctx) {
+  const d = 2.0; const steps = 16;
+  for (let i = 0; i < steps; i++) {
+    const t = (i / steps) * d; const len = Math.max(0.03, (d / steps) * (1 - i / steps));
+    const noise = createNoise(ctx, len); const filt = ctx.createBiquadFilter(); filt.type = 'highpass'; filt.frequency.value = 2000;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.1 + (i / steps) * 0.3, t); g.gain.linearRampToValueAtTime(0, t + len);
+    noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(t); noise.stop(t + len);
+  }
+},
+'buildup-tension-rise': async function(ctx) {
+  const d = 8.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(55, 0); osc.frequency.exponentialRampToValueAtTime(880, d);
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.setValueAtTime(200, 0); filt.frequency.exponentialRampToValueAtTime(6000, d); filt.Q.value = 5;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.35, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'buildup-pitch-riser': async function(ctx) {
+  const d = 4.0;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(200, 0); osc.frequency.exponentialRampToValueAtTime(4000, d);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.1, 0); g.gain.linearRampToValueAtTime(0.4, d * 0.9); g.gain.linearRampToValueAtTime(0, d);
+  osc.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'buildup-noise-swell': async function(ctx) {
+  const d = 3.0;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.setValueAtTime(500, 0); filt.frequency.linearRampToValueAtTime(4000, d); filt.Q.value = 2;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.35, d);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'buildup-reverse-crash': async function(ctx) {
+  const d = 2.0;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'highpass'; filt.frequency.value = 4000;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.exponentialRampToValueAtTime(0.5, d - 0.01);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'buildup-stutter-rise': async function(ctx) {
+  const d = 4.0; const steps = 32;
+  for (let i = 0; i < steps; i++) {
+    const t = (i / steps) * d; const gap = (d / steps) * 0.7;
+    const osc = ctx.createOscillator(); osc.type = 'square'; osc.frequency.value = 200 + (i / steps) * 800;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.05 + (i / steps) * 0.25, t); g.gain.linearRampToValueAtTime(0, t + gap);
+    osc.connect(g); g.connect(ctx.destination); osc.start(t); osc.stop(t + gap);
+  }
+},
+'buildup-sub-drop-rev': async function(ctx) {
+  const d = 3.0;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(20, 0); osc.frequency.exponentialRampToValueAtTime(200, d);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.6, d);
+  osc.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'buildup-laser-sweep': async function(ctx) {
+  const d = 2.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(100, 0); osc.frequency.exponentialRampToValueAtTime(8000, d);
+  const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.setValueAtTime(200, 0); filt.frequency.exponentialRampToValueAtTime(8000, d); filt.Q.value = 12;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.1, 0); g.gain.linearRampToValueAtTime(0.3, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'buildup-granular-rise': async function(ctx) {
+  const d = 6.0; const grains = 60;
+  for (let i = 0; i < grains; i++) {
+    const t = (i / grains) * d; const len = 0.08;
+    const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = 300 + (i / grains) * 2000 + Math.random() * 200;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.02 + (i / grains) * 0.1, t + 0.01); g.gain.linearRampToValueAtTime(0, t + len);
+    osc.connect(g); g.connect(ctx.destination); osc.start(t); osc.stop(t + len);
+  }
+},
+'buildup-wobble-rise': async function(ctx) {
+  const d = 4.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 80;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.setValueAtTime(2, 0); lfo.frequency.linearRampToValueAtTime(20, d);
+  const lfoG = ctx.createGain(); lfoG.gain.setValueAtTime(200, 0); lfoG.gain.linearRampToValueAtTime(2000, d);
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.value = 500; filt.Q.value = 10;
+  lfo.connect(lfoG); lfoG.connect(filt.frequency);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.05, 0); g.gain.linearRampToValueAtTime(0.35, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d); lfo.start(0); lfo.stop(d);
+},
+'buildup-tonal-riser': async function(ctx) {
+  const d = 4.0;
+  [1, 1.5, 2].forEach(mult => {
+    const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(220 * mult, 0); osc.frequency.exponentialRampToValueAtTime(880 * mult, d);
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.15, d * 0.9); g.gain.linearRampToValueAtTime(0, d);
+    osc.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+'buildup-speed-up': async function(ctx) {
+  const d = 4.0; let t = 0; let gap = 0.3; let i = 0;
+  while (t < d) {
+    const noise = createNoise(ctx, 0.04); const filt = ctx.createBiquadFilter(); filt.type = 'highpass'; filt.frequency.value = 3000;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.15 + (t / d) * 0.25, t); g.gain.linearRampToValueAtTime(0, t + 0.04);
+    noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(t); noise.stop(t + 0.04);
+    t += gap; gap *= 0.88; i++;
+  }
+},
+'buildup-impact-rev': async function(ctx) {
+  const d = 1.5;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(30, 0); osc.frequency.exponentialRampToValueAtTime(100, d);
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.setValueAtTime(200, 0); filt.frequency.exponentialRampToValueAtTime(6000, d);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.5, d);
+  const g2 = ctx.createGain(); g2.gain.setValueAtTime(0, 0); g2.gain.linearRampToValueAtTime(0.2, d);
+  osc.connect(g); g.connect(ctx.destination); noise.connect(filt); filt.connect(g2); g2.connect(ctx.destination);
+  osc.start(0); osc.stop(d); noise.start(0); noise.stop(d);
+},
+
+// ── Drop Impacts ──
+'drop-sub-boom': async function(ctx) {
+  const d = 2.0;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(80, 0); osc.frequency.exponentialRampToValueAtTime(25, d);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.8, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  osc.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'drop-impact-hit': async function(ctx) {
+  const d = 1.0;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(300, 0); osc.frequency.exponentialRampToValueAtTime(30, 0.1);
+  const noise = createNoise(ctx, 0.1); const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.value = 5000;
+  const g1 = ctx.createGain(); g1.gain.setValueAtTime(0.8, 0); g1.gain.exponentialRampToValueAtTime(0.001, d);
+  const g2 = ctx.createGain(); g2.gain.setValueAtTime(0.5, 0); g2.gain.exponentialRampToValueAtTime(0.001, 0.1);
+  osc.connect(g1); g1.connect(ctx.destination); noise.connect(filt); filt.connect(g2); g2.connect(ctx.destination);
+  osc.start(0); osc.stop(d); noise.start(0); noise.stop(0.1);
+},
+'drop-bass-stab': async function(ctx) {
+  const d = 0.5;
+  const osc = ctx.createOscillator(); osc.type = 'square'; osc.frequency.value = 55;
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.value = 800; filt.Q.value = 5;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.6, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'drop-hard-kick': async function(ctx) {
+  const d = 0.6;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(500, 0); osc.frequency.exponentialRampToValueAtTime(40, 0.05);
+  const dist = ctx.createWaveShaper(); const curve = new Float32Array(256); for (let i = 0; i < 256; i++) { const x = (i / 128) - 1; curve[i] = (Math.PI + 20) * x / (Math.PI + 20 * Math.abs(x)); } dist.curve = curve;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.9, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  osc.connect(dist); dist.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'drop-metal-crash': async function(ctx) {
+  const d = 1.5;
+  const noise = createNoise(ctx, d); const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 3000;
+  const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 6000; bp.Q.value = 2;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.5, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  noise.connect(hp); hp.connect(bp); bp.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'drop-distort-hit': async function(ctx) {
+  const d = 0.8;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(200, 0); osc.frequency.exponentialRampToValueAtTime(50, 0.1);
+  const dist = ctx.createWaveShaper(); const curve = new Float32Array(256); for (let i = 0; i < 256; i++) { const x = (i / 128) - 1; curve[i] = Math.tanh(x * 8); } dist.curve = curve;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.7, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  osc.connect(dist); dist.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'drop-sub-drop': async function(ctx) {
+  const d = 3.0;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(200, 0); osc.frequency.exponentialRampToValueAtTime(20, 0.5); osc.frequency.setValueAtTime(20, d);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.7, 0); g.gain.setValueAtTime(0.6, 0.5); g.gain.exponentialRampToValueAtTime(0.001, d);
+  osc.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'drop-horn-blast': async function(ctx) {
+  const d = 0.8;
+  [220, 440, 660].forEach(f => {
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.2, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+    osc.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+'drop-punch-hit': async function(ctx) {
+  const d = 0.3;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(800, 0); osc.frequency.exponentialRampToValueAtTime(60, 0.02);
+  const noise = createNoise(ctx, 0.03);
+  const g1 = ctx.createGain(); g1.gain.setValueAtTime(0.9, 0); g1.gain.exponentialRampToValueAtTime(0.001, d);
+  const g2 = ctx.createGain(); g2.gain.setValueAtTime(0.4, 0); g2.gain.exponentialRampToValueAtTime(0.001, 0.03);
+  osc.connect(g1); g1.connect(ctx.destination); noise.connect(g2); g2.connect(ctx.destination);
+  osc.start(0); osc.stop(d); noise.start(0); noise.stop(0.03);
+},
+'drop-gun-shot': async function(ctx) {
+  const d = 0.5;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.setValueAtTime(15000, 0); filt.frequency.exponentialRampToValueAtTime(200, d);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.8, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'drop-thunder-clap': async function(ctx) {
+  const d = 2.0;
+  const noise = createNoise(ctx, d); const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1000;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.7, 0); g.gain.exponentialRampToValueAtTime(0.3, 0.1); g.gain.exponentialRampToValueAtTime(0.001, d);
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(80, 0); osc.frequency.exponentialRampToValueAtTime(30, d);
+  const g2 = ctx.createGain(); g2.gain.setValueAtTime(0.5, 0); g2.gain.exponentialRampToValueAtTime(0.001, d);
+  noise.connect(lp); lp.connect(g); g.connect(ctx.destination); osc.connect(g2); g2.connect(ctx.destination);
+  noise.start(0); noise.stop(d); osc.start(0); osc.stop(d);
+},
+'drop-siren-hit': async function(ctx) {
+  const d = 1.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(1200, 0); osc.frequency.exponentialRampToValueAtTime(200, d);
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.value = 3000; filt.Q.value = 3;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.4, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'drop-power-chord': async function(ctx) {
+  const d = 1.5;
+  [82.4, 123.5, 165].forEach(f => {
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f;
+    const dist = ctx.createWaveShaper(); const curve = new Float32Array(256); for (let i = 0; i < 256; i++) { const x = (i / 128) - 1; curve[i] = Math.tanh(x * 5); } dist.curve = curve;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.2, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+    osc.connect(dist); dist.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+'drop-wobble-bass': async function(ctx) {
+  const d = 1.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 55;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 8;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 500;
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.value = 800; filt.Q.value = 12;
+  lfo.connect(lfoG); lfoG.connect(filt.frequency);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.5, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d); lfo.start(0); lfo.stop(d);
+},
+'drop-massive-hit': async function(ctx) {
+  const d = 2.0;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(400, 0); osc.frequency.exponentialRampToValueAtTime(30, 0.15);
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.setValueAtTime(200, 0); osc2.frequency.exponentialRampToValueAtTime(40, 0.2);
+  const noise = createNoise(ctx, 0.3);
+  const g1 = ctx.createGain(); g1.gain.setValueAtTime(0.7, 0); g1.gain.exponentialRampToValueAtTime(0.001, d);
+  const g2 = ctx.createGain(); g2.gain.setValueAtTime(0.3, 0); g2.gain.exponentialRampToValueAtTime(0.001, d);
+  const g3 = ctx.createGain(); g3.gain.setValueAtTime(0.4, 0); g3.gain.exponentialRampToValueAtTime(0.001, 0.3);
+  osc.connect(g1); g1.connect(ctx.destination); osc2.connect(g2); g2.connect(ctx.destination); noise.connect(g3); g3.connect(ctx.destination);
+  osc.start(0); osc.stop(d); osc2.start(0); osc2.stop(d); noise.start(0); noise.stop(0.3);
+},
+
+// ── Outro Elements ──
+'outro-fade-pad': async function(ctx) {
+  const d = 8.0;
+  const osc = ctx.createOscillator(); osc.type = 'triangle'; osc.frequency.value = 220;
+  const osc2 = ctx.createOscillator(); osc2.type = 'triangle'; osc2.frequency.value = 330;
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.setValueAtTime(1500, 0); filt.frequency.linearRampToValueAtTime(200, d);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.3, 0); g.gain.linearRampToValueAtTime(0, d);
+  osc.connect(filt); osc2.connect(filt); filt.connect(g); g.connect(ctx.destination);
+  osc.start(0); osc.stop(d); osc2.start(0); osc2.stop(d);
+},
+'outro-reverse-wash': async function(ctx) {
+  const d = 5.0;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.setValueAtTime(3000, 0); filt.frequency.linearRampToValueAtTime(200, d); filt.Q.value = 1;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.2, 0); g.gain.linearRampToValueAtTime(0, d);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'outro-gentle-decay': async function(ctx) {
+  const d = 6.0;
+  [261, 392, 523].forEach(f => {
+    const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = f;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.15, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+    osc.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+'outro-soft-bell': async function(ctx) {
+  const d = 4.0;
+  [523, 784, 1047].forEach((f, i) => {
+    const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = f;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.15, 0); g.gain.exponentialRampToValueAtTime(0.001, d - i * 0.3);
+    osc.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+'outro-dissolve': async function(ctx) {
+  const d = 7.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 165;
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.setValueAtTime(2000, 0); filt.frequency.exponentialRampToValueAtTime(50, d); filt.Q.value = 2;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.2, 0); g.gain.linearRampToValueAtTime(0, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'outro-wind-down': async function(ctx) {
+  const d = 5.0;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.setValueAtTime(4000, 0); filt.frequency.exponentialRampToValueAtTime(100, d); filt.Q.value = 0.8;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.12, 0); g.gain.linearRampToValueAtTime(0, d);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'outro-tape-stop': async function(ctx) {
+  const d = 3.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(440, 0); osc.frequency.exponentialRampToValueAtTime(20, d);
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.setValueAtTime(4000, 0); filt.frequency.exponentialRampToValueAtTime(100, d);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.3, 0); g.gain.linearRampToValueAtTime(0, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'outro-echo-fade': async function(ctx) {
+  const d = 5.0;
+  for (let i = 0; i < 8; i++) {
+    const t = i * 0.5; const vol = 0.3 * Math.pow(0.6, i);
+    const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = 440;
+    const g = ctx.createGain(); g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+    osc.connect(g); g.connect(ctx.destination); osc.start(t); osc.stop(t + 0.4);
+  }
+},
+'outro-warm-release': async function(ctx) {
+  const d = 6.0;
+  const osc = ctx.createOscillator(); osc.type = 'triangle'; osc.frequency.value = 110;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sine'; osc2.frequency.value = 165;
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.setValueAtTime(800, 0); filt.frequency.linearRampToValueAtTime(150, d);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.25, 0); g.gain.linearRampToValueAtTime(0, d);
+  osc.connect(filt); osc2.connect(filt); filt.connect(g); g.connect(ctx.destination);
+  osc.start(0); osc.stop(d); osc2.start(0); osc2.stop(d);
+},
+'outro-shimmer-out': async function(ctx) {
+  const d = 4.0;
+  [1047, 1319, 1568].forEach(f => {
+    const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = f;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.1, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+    osc.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+'outro-deep-fade': async function(ctx) {
+  const d = 8.0;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = 55;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.4, 0); g.gain.linearRampToValueAtTime(0, d);
+  osc.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'outro-crystal-decay': async function(ctx) {
+  const d = 3.0;
+  [2093, 2637, 3136].forEach((f, i) => {
+    const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = f;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.08, i * 0.1); g.gain.exponentialRampToValueAtTime(0.001, d);
+    osc.connect(g); g.connect(ctx.destination); osc.start(i * 0.1); osc.stop(d);
+  });
+},
+'outro-breath-out': async function(ctx) {
+  const d = 2.5;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.setValueAtTime(1500, 0); filt.frequency.linearRampToValueAtTime(500, d); filt.Q.value = 2;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.15, 0); g.gain.linearRampToValueAtTime(0, d);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'outro-vinyl-end': async function(ctx) {
+  const d = 5.0;
+  const noise = createNoise(ctx, d); const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1500; bp.Q.value = 4;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.05, 0); g.gain.setValueAtTime(0.05, 3); g.gain.linearRampToValueAtTime(0, d);
+  noise.connect(bp); bp.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'outro-final-chord': async function(ctx) {
+  const d = 6.0;
+  [130.8, 164.8, 196, 261.6].forEach(f => {
+    const osc = ctx.createOscillator(); osc.type = 'triangle'; osc.frequency.value = f;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.12, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+    osc.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+
+// ── Vocals - Male ──
+'vox-male-oh': async function(ctx) {
+  const d = 1.5;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 120;
+  const fm = createFormantFilter(ctx, osc, 500, 1000, 2800, 80);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.05, 0.2, 0.7, 0.3, d, 0.5);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-male-ah': async function(ctx) {
+  const d = 1.5;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 130;
+  const fm = createFormantFilter(ctx, osc, 730, 1090, 2440, 90);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.03, 0.15, 0.8, 0.3, d, 0.5);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-male-hey': async function(ctx) {
+  const d = 0.8;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 150;
+  const fm = createFormantFilter(ctx, osc, 400, 1700, 2600, 100);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.01, 0.1, 0.6, 0.15, d, 0.6);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-male-yeah': async function(ctx) {
+  const d = 1.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 140;
+  const fm = createFormantFilter(ctx, osc, 300, 1600, 2700, 90);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.02, 0.15, 0.6, 0.2, d, 0.55);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-male-hum': async function(ctx) {
+  const d = 2.5;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = 110;
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.value = 400;
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.2, 0.3, 0.8, 0.5, d, 0.4);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-male-chant': async function(ctx) {
+  const d = 3.0;
+  [110, 165, 220].forEach(f => {
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f;
+    const fm = createFormantFilter(ctx, osc, 600, 1000, 2600, 100);
+    const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.3, 0.3, 0.7, 0.5, d, 0.15);
+    fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+'vox-male-ooh': async function(ctx) {
+  const d = 2.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 125;
+  const fm = createFormantFilter(ctx, osc, 300, 870, 2250, 70);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.1, 0.2, 0.7, 0.4, d, 0.5);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-male-grunt': async function(ctx) {
+  const d = 0.5;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(100, 0); osc.frequency.exponentialRampToValueAtTime(60, d);
+  const fm = createFormantFilter(ctx, osc, 600, 1000, 2400, 120);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.6, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-male-shout': async function(ctx) {
+  const d = 0.8;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 180;
+  const fm = createFormantFilter(ctx, osc, 700, 1200, 2800, 100);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.7, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-male-whisper': async function(ctx) {
+  const d = 1.5;
+  const noise = createNoise(ctx, d); const fm = createFormantFilter(ctx, noise, 500, 1500, 2500, 150);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.1, 0.2, 0.6, 0.3, d, 0.12);
+  fm.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'vox-male-breath': async function(ctx) {
+  const d = 1.0;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 1200; filt.Q.value = 1;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.15, 0.2); g.gain.linearRampToValueAtTime(0, d);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'vox-male-aye': async function(ctx) {
+  const d = 0.8;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 145;
+  const fm = createFormantFilter(ctx, osc, 660, 1700, 2400, 90);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.02, 0.1, 0.5, 0.15, d, 0.55);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-male-deep-tone': async function(ctx) {
+  const d = 2.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 85;
+  const fm = createFormantFilter(ctx, osc, 400, 800, 2400, 80);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.15, 0.3, 0.7, 0.4, d, 0.45);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-male-spoken-fx': async function(ctx) {
+  const d = 1.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(160, 0); osc.frequency.linearRampToValueAtTime(100, d);
+  const fm = createFormantFilter(ctx, osc, 500, 1400, 2600, 100);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.5, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-male-choir': async function(ctx) {
+  const d = 3.0;
+  [87, 110, 131, 165].forEach(f => {
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f + Math.random() * 2;
+    const fm = createFormantFilter(ctx, osc, 500, 1000, 2800, 80);
+    const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.4, 0.3, 0.7, 0.6, d, 0.1);
+    fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+
+// ── Vocals - Female ──
+'vox-female-ooh': async function(ctx) {
+  const d = 2.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 260;
+  const fm = createFormantFilter(ctx, osc, 350, 950, 2700, 70);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.08, 0.2, 0.7, 0.4, d, 0.4);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-female-ah': async function(ctx) {
+  const d = 1.5;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 280;
+  const fm = createFormantFilter(ctx, osc, 850, 1200, 2800, 80);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.03, 0.15, 0.8, 0.3, d, 0.4);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-female-hey': async function(ctx) {
+  const d = 0.8;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 300;
+  const fm = createFormantFilter(ctx, osc, 500, 1900, 2800, 90);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.01, 0.1, 0.5, 0.15, d, 0.5);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-female-yeah': async function(ctx) {
+  const d = 1.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 270;
+  const fm = createFormantFilter(ctx, osc, 400, 1800, 2900, 85);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.02, 0.12, 0.6, 0.2, d, 0.45);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-female-breath': async function(ctx) {
+  const d = 1.0;
+  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 2000; filt.Q.value = 1;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.12, 0.15); g.gain.linearRampToValueAtTime(0, d);
+  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'vox-female-whisper': async function(ctx) {
+  const d = 1.5;
+  const noise = createNoise(ctx, d); const fm = createFormantFilter(ctx, noise, 600, 1800, 2900, 120);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.08, 0.2, 0.6, 0.3, d, 0.1);
+  fm.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+},
+'vox-female-hum': async function(ctx) {
+  const d = 2.5;
+  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = 250;
+  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.value = 500;
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.2, 0.3, 0.8, 0.5, d, 0.35);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-female-airy': async function(ctx) {
+  const d = 2.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 320;
+  const noise = createNoise(ctx, d);
+  const fm = createFormantFilter(ctx, osc, 400, 1100, 2800, 80);
+  const gn = ctx.createGain(); gn.gain.value = 0.03;
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.1, 0.2, 0.6, 0.4, d, 0.35);
+  fm.connect(g); noise.connect(gn); gn.connect(g); g.connect(ctx.destination);
+  osc.start(0); osc.stop(d); noise.start(0); noise.stop(d);
+},
+'vox-female-chant': async function(ctx) {
+  const d = 3.0;
+  [262, 330, 392].forEach(f => {
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f + Math.random() * 2;
+    const fm = createFormantFilter(ctx, osc, 500, 1100, 2800, 80);
+    const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.3, 0.3, 0.7, 0.5, d, 0.12);
+    fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+'vox-female-sigh': async function(ctx) {
+  const d = 1.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(350, 0); osc.frequency.linearRampToValueAtTime(220, d);
+  const fm = createFormantFilter(ctx, osc, 600, 1200, 2800, 90);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.35, 0); g.gain.linearRampToValueAtTime(0, d);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-female-choir': async function(ctx) {
+  const d = 3.0;
+  [262, 330, 392, 523].forEach(f => {
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f + Math.random() * 3;
+    const fm = createFormantFilter(ctx, osc, 450, 1100, 2800, 75);
+    const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.4, 0.3, 0.7, 0.6, d, 0.08);
+    fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  });
+},
+'vox-female-spoken-fx': async function(ctx) {
+  const d = 1.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(320, 0); osc.frequency.linearRampToValueAtTime(200, d);
+  const fm = createFormantFilter(ctx, osc, 600, 1700, 2900, 90);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.4, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-female-high-tone': async function(ctx) {
+  const d = 1.5;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 440;
+  const fm = createFormantFilter(ctx, osc, 400, 1000, 2800, 70);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.05, 0.15, 0.7, 0.3, d, 0.35);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-female-soft-oh': async function(ctx) {
+  const d = 1.5;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 250;
+  const fm = createFormantFilter(ctx, osc, 450, 950, 2700, 75);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.08, 0.2, 0.6, 0.4, d, 0.3);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'vox-female-vibrato': async function(ctx) {
+  const d = 2.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 300;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 5.5;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 12;
+  lfo.connect(lfoG); lfoG.connect(osc.frequency);
+  const fm = createFormantFilter(ctx, osc, 450, 1100, 2800, 80);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.1, 0.2, 0.7, 0.4, d, 0.35);
+  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d); lfo.start(0); lfo.stop(d);
+},
+
+// ── Saxophone & Riffs ──
+'sax-tenor-long': async function(ctx) {
+  const d = 4.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 233;
+  const noise = createNoise(ctx, d); const ng = ctx.createGain(); ng.gain.value = 0.015;
+  const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 1200; filt.Q.value = 3;
+  const filt2 = ctx.createBiquadFilter(); filt2.type = 'bandpass'; filt2.frequency.value = 2800; filt2.Q.value = 2;
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.08, 0.2, 0.8, 0.5, d, 0.45);
+  osc.connect(filt); osc.connect(filt2); noise.connect(ng); ng.connect(mix); filt.connect(mix); filt2.connect(mix); mix.connect(g); g.connect(ctx.destination);
+  osc.start(0); osc.stop(d); noise.start(0); noise.stop(d);
+},
+'sax-alto-stab': async function(ctx) {
+  const d = 0.5;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 370;
+  const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 1800; filt.Q.value = 4;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.5, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'sax-soprano-riff': async function(ctx) {
+  const d = 2.0; const notes = [523, 587, 659, 587, 523, 466]; const noteLen = d / notes.length;
+  notes.forEach((f, i) => {
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f;
+    const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 2200; filt.Q.value = 3;
+    const g = ctx.createGain(); const t = i * noteLen; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.35, t + 0.02); g.gain.setValueAtTime(0.35, t + noteLen - 0.02); g.gain.linearRampToValueAtTime(0, t + noteLen);
+    osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(t); osc.stop(t + noteLen);
+  });
+},
+'sax-baritone-low': async function(ctx) {
+  const d = 3.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 131;
+  const noise = createNoise(ctx, d); const ng = ctx.createGain(); ng.gain.value = 0.02;
+  const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 800; filt.Q.value = 2;
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.1, 0.3, 0.7, 0.5, d, 0.5);
+  osc.connect(filt); noise.connect(ng); ng.connect(mix); filt.connect(mix); mix.connect(g); g.connect(ctx.destination);
+  osc.start(0); osc.stop(d); noise.start(0); noise.stop(d);
+},
+'sax-smooth-jazz': async function(ctx) {
+  const d = 3.5;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 293;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 5; const lfoG = ctx.createGain(); lfoG.gain.value = 6;
+  lfo.connect(lfoG); lfoG.connect(osc.frequency);
+  const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 1400; filt.Q.value = 2.5;
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.1, 0.2, 0.8, 0.5, d, 0.4);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d); lfo.start(0); lfo.stop(d);
+},
+'sax-breathy-note': async function(ctx) {
+  const d = 2.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 262;
+  const noise = createNoise(ctx, d); const ng = ctx.createGain(); ng.gain.value = 0.04;
+  const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 1500; filt.Q.value = 2;
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.06, 0.15, 0.7, 0.4, d, 0.4);
+  osc.connect(filt); noise.connect(ng); ng.connect(mix); filt.connect(mix); mix.connect(g); g.connect(ctx.destination);
+  osc.start(0); osc.stop(d); noise.start(0); noise.stop(d);
+},
+'sax-sharp-stab': async function(ctx) {
+  const d = 0.5;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 440;
+  const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 2000; filt.Q.value = 5;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.55, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'sax-wail': async function(ctx) {
+  const d = 2.5;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(233, 0); osc.frequency.linearRampToValueAtTime(466, 1); osc.frequency.linearRampToValueAtTime(350, d);
+  const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 1600; filt.Q.value = 3;
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.05, 0.2, 0.8, 0.4, d, 0.45);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'sax-trill': async function(ctx) {
+  const d = 1.5; const steps = 12;
+  for (let i = 0; i < steps; i++) {
+    const t = (i / steps) * d; const len = d / steps;
+    const f = i % 2 === 0 ? 392 : 440;
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f;
+    const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 1800; filt.Q.value = 3;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.35, t); g.gain.setValueAtTime(0.35, t + len * 0.8); g.gain.linearRampToValueAtTime(0, t + len);
+    osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(t); osc.stop(t + len);
+  }
+},
+'sax-growl': async function(ctx) {
+  const d = 1.0;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 196;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 30;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 40;
+  lfo.connect(lfoG); lfoG.connect(osc.frequency);
+  const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 1200; filt.Q.value = 4;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.5, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d); lfo.start(0); lfo.stop(d);
+},
+'sax-soft-melody': async function(ctx) {
+  const d = 3.0; const notes = [262, 294, 330, 349, 392, 349, 330, 294]; const noteLen = d / notes.length;
+  notes.forEach((f, i) => {
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f;
+    const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 1400; filt.Q.value = 2;
+    const t = i * noteLen;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.3, t + 0.03); g.gain.setValueAtTime(0.3, t + noteLen - 0.03); g.gain.linearRampToValueAtTime(0, t + noteLen);
+    osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(t); osc.stop(t + noteLen);
+  });
+},
+'sax-honk': async function(ctx) {
+  const d = 0.5;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(300, 0); osc.frequency.exponentialRampToValueAtTime(180, d);
+  const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 900; filt.Q.value = 6;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.6, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+},
+'sax-flutter': async function(ctx) {
+  const d = 1.5;
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 349;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 12;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 20;
+  lfo.connect(lfoG); lfoG.connect(osc.frequency);
+  const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 1600; filt.Q.value = 3;
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.03, 0.15, 0.7, 0.3, d, 0.4);
+  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d); lfo.start(0); lfo.stop(d);
+},
+'sax-riff-short': async function(ctx) {
+  const d = 1.0; const notes = [330, 392, 440, 392]; const noteLen = d / notes.length;
+  notes.forEach((f, i) => {
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f;
+    const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 1500; filt.Q.value = 3;
+    const t = i * noteLen;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.4, t + 0.015); g.gain.setValueAtTime(0.4, t + noteLen - 0.015); g.gain.linearRampToValueAtTime(0, t + noteLen);
+    osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(t); osc.stop(t + noteLen);
+  });
+},
+'sax-riff-long': async function(ctx) {
+  const d = 4.0; const notes = [196, 220, 262, 294, 330, 294, 262, 220, 196, 220, 262, 330]; const noteLen = d / notes.length;
+  notes.forEach((f, i) => {
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f;
+    const noise = createNoise(ctx, noteLen); const ng = ctx.createGain(); ng.gain.value = 0.01;
+    const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 1300; filt.Q.value = 2.5;
+    const mix = ctx.createGain(); mix.gain.value = 0.5;
+    const t = i * noteLen;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.35, t + 0.025); g.gain.setValueAtTime(0.35, t + noteLen - 0.025); g.gain.linearRampToValueAtTime(0, t + noteLen);
+    osc.connect(filt); noise.connect(ng); ng.connect(mix); filt.connect(mix); mix.connect(g); g.connect(ctx.destination);
+    osc.start(t); osc.stop(t + noteLen); noise.start(t); noise.stop(t + noteLen);
+  });
+},
+
 };
 
 // ============ SOUND LIBRARY API ============
