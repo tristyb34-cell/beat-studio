@@ -537,7 +537,7 @@
   // ── Coordinate helpers ────────────────────────────────
   function beatFromClientX(clientX) {
     const rect = $gridScroll.getBoundingClientRect();
-    return (clientX - rect.left + $gridScroll.scrollLeft) / beatW();
+    return (clientX - rect.left - labelW() + $gridScroll.scrollLeft) / beatW();
   }
 
   function rowFromClientY(clientY) {
