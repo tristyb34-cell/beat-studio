@@ -301,6 +301,41 @@
         e.preventDefault();
         document.getElementById('btn-save').click();
       }
+
+      // R = restart playback from beat 0
+      if (e.code === 'KeyR' && !e.ctrlKey) {
+        e.preventDefault();
+        const wasPlaying = engine.playing;
+        engine.stop();
+        engine.pauseOffset = 0;
+        seq.updatePlayhead(0);
+        if (wasPlaying) {
+          playArrangement();
+          document.getElementById('btn-play').classList.add('active');
+          document.getElementById('btn-play').innerHTML = '&#10074;&#10074;';
+        }
+      }
+
+      // Left/Right arrow = jump to nearest 16-beat boundary
+      if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') {
+        e.preventDefault();
+        const currentBeat = engine.playing
+          ? (engine.ctx.currentTime - engine.startTime) / engine.secondsPerBeat
+          : engine.pauseOffset / engine.secondsPerBeat;
+        let targetBeat;
+        if (e.code === 'ArrowLeft') {
+          targetBeat = Math.floor((currentBeat - 0.01) / 16) * 16;
+          if (targetBeat < 0) targetBeat = 0;
+        } else {
+          targetBeat = Math.ceil((currentBeat + 0.01) / 16) * 16;
+        }
+        const wasPlaying = engine.playing;
+        if (wasPlaying) engine.pause();
+        engine.pauseOffset = targetBeat * engine.secondsPerBeat;
+        seq.updatePlayhead(targetBeat);
+        seq.centerOnBeat(targetBeat);
+        if (wasPlaying) playArrangement();
+      }
     });
   }
 
