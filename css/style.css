@@ -20,7 +20,7 @@
   --yellow: #ffcc44;
   --pink: #ff66aa;
   --cyan: #44ccff;
-  --row-h: 40px;
+  --row-h: 120px;
   --label-w: 200px;
   --beat-w: 48px;
   --bar-w: calc(var(--beat-w) * 4);
@@ -326,20 +326,27 @@ html, body {
   position: absolute;
   top: 0;
   height: 100%;
-  border-left: 1px solid rgba(255,255,255,0.12);
+  border-left: 2px solid rgba(255,255,255,0.35);
   padding: 0 0 0 5px;
-  font-size: 9px;
-  color: var(--text-dim);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text);
   display: flex;
   align-items: flex-end;
   padding-bottom: 3px;
 }
 
-.ruler-beat {
+.ruler-tick {
   position: absolute;
-  top: 60%;
-  height: 40%;
-  border-left: 1px solid rgba(255,255,255,0.04);
+  top: 50%;
+  height: 50%;
+  border-left: 1px solid rgba(255,255,255,0.06);
+  padding: 0 0 0 3px;
+  font-size: 8px;
+  color: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 2px;
 }
 
 /* ── Grid ── */
@@ -355,15 +362,15 @@ html, body {
 }
 
 /* ── Sound Row ── */
-.sound-row {
+.seq-row {
   display: flex;
   height: var(--row-h);
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
   position: relative;
 }
 
-.sound-row:nth-child(odd) { background: rgba(255,255,255,0.01); }
-.sound-row:hover { background: rgba(0,212,170,0.02); }
+.seq-row:nth-child(odd) { background: rgba(255,255,255,0.01); }
+.seq-row:hover { background: rgba(0,212,170,0.02); }
 
 .row-label {
   width: var(--label-w);
@@ -436,7 +443,7 @@ html, body {
   min-width: 0;
 }
 
-/* Grid lines on lane */
+/* Grid lines on lane: hard bar lines, soft beat lines */
 .row-lane::before {
   content: '';
   position: absolute;
@@ -444,15 +451,15 @@ html, body {
   background:
     repeating-linear-gradient(
       to right,
-      rgba(255,255,255,0.06) 0px,
-      rgba(255,255,255,0.06) 1px,
-      transparent 1px,
+      rgba(255,255,255,0.25) 0px,
+      rgba(255,255,255,0.25) 2px,
+      transparent 2px,
       transparent var(--bar-w)
     ),
     repeating-linear-gradient(
       to right,
-      rgba(255,255,255,0.025) 0px,
-      rgba(255,255,255,0.025) 1px,
+      rgba(255,255,255,0.06) 0px,
+      rgba(255,255,255,0.06) 1px,
       transparent 1px,
       transparent var(--beat-w)
     );
@@ -463,7 +470,7 @@ html, body {
 .row-lane.drag-over { background: var(--accent-glow); }
 
 /* ── Audio Blocks in Grid ── */
-.grid-block {
+.seq-block {
   position: absolute;
   top: 3px;
   height: calc(var(--row-h) - 6px);
@@ -483,16 +490,16 @@ html, body {
   min-width: 8px;
 }
 
-.grid-block:hover { box-shadow: 0 0 8px rgba(255,255,255,0.1); }
-.grid-block.selected { box-shadow: 0 0 0 2px #fff, 0 0 12px rgba(255,255,255,0.2); z-index: 3; }
+.seq-block:hover { box-shadow: 0 0 8px rgba(255,255,255,0.1); }
+.seq-block.selected { box-shadow: 0 0 0 2px #fff, 0 0 12px rgba(255,255,255,0.2); z-index: 3; }
 
-.grid-block .block-label {
+.seq-block .block-label {
   overflow: hidden;
   text-overflow: ellipsis;
   pointer-events: none;
 }
 
-.grid-block .resize-r {
+.seq-block .resize-r {
   position: absolute;
   right: 0; top: 0;
   width: 5px; height: 100%;
@@ -500,29 +507,29 @@ html, body {
   z-index: 4;
 }
 
-.grid-block .resize-r:hover { background: rgba(0,0,0,0.2); }
+.seq-block .resize-r:hover { background: rgba(0,0,0,0.2); }
 
 /* Block colors by category */
-.grid-block.cat-kicks { background: linear-gradient(135deg, #ef4444, #f87171); }
-.grid-block.cat-snares { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
-.grid-block.cat-hihats { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
-.grid-block.cat-claps { background: linear-gradient(135deg, #f97316, #fb923c); }
-.grid-block.cat-percussion { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
-.grid-block.cat-bass { background: linear-gradient(135deg, #059669, #10b981); }
-.grid-block.cat-synths { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
-.grid-block.cat-pads { background: linear-gradient(135deg, #6366f1, #818cf8); }
-.grid-block.cat-leads { background: linear-gradient(135deg, #ec4899, #f472b6); }
-.grid-block.cat-fx { background: linear-gradient(135deg, #64748b, #94a3b8); }
-.grid-block.cat-loops { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
-.grid-block.cat-vocals { background: linear-gradient(135deg, #d946ef, #e879f9); }
-.grid-block.cat-guitar { background: linear-gradient(135deg, #b45309, #d97706); }
-.grid-block.cat-piano { background: linear-gradient(135deg, #475569, #94a3b8); }
-.grid-block.cat-violin { background: linear-gradient(135deg, #9f1239, #e11d48); }
-.grid-block.cat-strings { background: linear-gradient(135deg, #7c2d12, #c2410c); }
-.grid-block.cat-default { background: linear-gradient(135deg, var(--accent-dim), var(--accent)); }
+.seq-block.cat-kicks { background: linear-gradient(135deg, #ef4444, #f87171); }
+.seq-block.cat-snares { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.seq-block.cat-hihats { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
+.seq-block.cat-claps { background: linear-gradient(135deg, #f97316, #fb923c); }
+.seq-block.cat-percussion { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+.seq-block.cat-bass { background: linear-gradient(135deg, #059669, #10b981); }
+.seq-block.cat-synths { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+.seq-block.cat-pads { background: linear-gradient(135deg, #6366f1, #818cf8); }
+.seq-block.cat-leads { background: linear-gradient(135deg, #ec4899, #f472b6); }
+.seq-block.cat-fx { background: linear-gradient(135deg, #64748b, #94a3b8); }
+.seq-block.cat-loops { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
+.seq-block.cat-vocals { background: linear-gradient(135deg, #d946ef, #e879f9); }
+.seq-block.cat-guitar { background: linear-gradient(135deg, #b45309, #d97706); }
+.seq-block.cat-piano { background: linear-gradient(135deg, #475569, #94a3b8); }
+.seq-block.cat-violin { background: linear-gradient(135deg, #9f1239, #e11d48); }
+.seq-block.cat-strings { background: linear-gradient(135deg, #7c2d12, #c2410c); }
+.seq-block.cat-default { background: linear-gradient(135deg, var(--accent-dim), var(--accent)); }
 
 /* ── Selection Rectangle ── */
-.selection-rect {
+.select-rect {
   position: absolute;
   border: 1px solid var(--accent);
   background: rgba(0, 212, 170, 0.08);

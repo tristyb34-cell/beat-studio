@@ -36,7 +36,7 @@
       const collections = lib.getCollections();
 
       for (const col of collections) {
-        let sounds = lib.getSounds(col.id);
+        let sounds = lib.sounds.filter(s => s.collection === col.name);
         if (filter) {
           const q = filter.toLowerCase();
           sounds = sounds.filter(s => s.name.toLowerCase().includes(q));

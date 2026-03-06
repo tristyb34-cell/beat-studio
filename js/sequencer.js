@@ -17,8 +17,8 @@
   const AUTOSAVE_SLOTS  = 9;
   const ZOOM_H_MIN = 12;
   const ZOOM_H_MAX = 120;
-  const ZOOM_V_MIN = 24;
-  const ZOOM_V_MAX = 80;
+  const ZOOM_V_MIN = 60;
+  const ZOOM_V_MAX = 200;
 
   const CATEGORY_KEYS = [
     'kicks','snares','hihats','claps','percussion',
@@ -334,8 +334,8 @@
     $gridRows.innerHTML = '';
     const bw = beatW();
     const totalW = TOTAL_BEATS * bw;
-    const bgBeat = `linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px)`;
-    const bgBar  = `linear-gradient(to right, rgba(255,255,255,0.12) 1px, transparent 1px)`;
+    const bgBeat = `linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px)`;
+    const bgBar  = `linear-gradient(to right, rgba(255,255,255,0.25) 2px, transparent 2px)`;
 
     rows.forEach(row => {
       const el = document.createElement('div');
@@ -410,6 +410,8 @@
         const t = document.createElement('div');
         t.className = 'ruler-tick';
         t.style.left = (beat * bw) + 'px';
+        const beatInBar = (beat % BEATS_PER_BAR) + 1;
+        t.textContent = '.' + beatInBar;
         $ruler.appendChild(t);
       }
     }
@@ -606,7 +608,7 @@
   function showCtx(x, y, items) {
     closeCtx();
     const menu = document.createElement('div');
-    menu.className = 'seq-context-menu';
+    menu.className = 'context-menu';
     menu.style.left = x + 'px';
     menu.style.top  = y + 'px';
     items.forEach(item => {
@@ -672,6 +674,10 @@
       ...blocks.map(b => parseInt(b.id.replace(/\D/g, '')) || 0)
     );
     _id = maxNum;
+    // Pad to INITIAL_ROWS if template has fewer
+    while (rows.length < INITIAL_ROWS) {
+      rows.push(makeRow(rows.length + 1));
+    }
     render();
   }
 
@@ -1087,6 +1093,7 @@
     duplicateBlock,
     moveBlock,
     resizeBlock,
+    getRows:           () => rows.slice(),
     getBlocks:         () => blocks.slice(),
     getBlocksForRow,
     getSelectedBlocks,
