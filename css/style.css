@@ -509,24 +509,25 @@ html, body {
 
 .seq-block .resize-r:hover { background: rgba(0,0,0,0.2); }
 
-/* Block colors by category */
-.seq-block.cat-kicks { background: linear-gradient(135deg, #ef4444, #f87171); }
-.seq-block.cat-snares { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
-.seq-block.cat-hihats { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
-.seq-block.cat-claps { background: linear-gradient(135deg, #f97316, #fb923c); }
-.seq-block.cat-percussion { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
-.seq-block.cat-bass { background: linear-gradient(135deg, #059669, #10b981); }
-.seq-block.cat-synths { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
-.seq-block.cat-pads { background: linear-gradient(135deg, #6366f1, #818cf8); }
-.seq-block.cat-leads { background: linear-gradient(135deg, #ec4899, #f472b6); }
-.seq-block.cat-fx { background: linear-gradient(135deg, #64748b, #94a3b8); }
-.seq-block.cat-loops { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
-.seq-block.cat-vocals { background: linear-gradient(135deg, #d946ef, #e879f9); }
-.seq-block.cat-guitar { background: linear-gradient(135deg, #b45309, #d97706); }
-.seq-block.cat-piano { background: linear-gradient(135deg, #475569, #94a3b8); }
-.seq-block.cat-violin { background: linear-gradient(135deg, #9f1239, #e11d48); }
-.seq-block.cat-strings { background: linear-gradient(135deg, #7c2d12, #c2410c); }
-.seq-block.cat-default { background: linear-gradient(135deg, var(--accent-dim), var(--accent)); }
+/* Block colors by category - high contrast, distinct hues, visible borders */
+.seq-block                { border: 1px solid rgba(255,255,255,0.35); box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+.seq-block.cat-kicks      { background: linear-gradient(135deg, #dc2626, #f87171); }
+.seq-block.cat-snares     { background: linear-gradient(135deg, #f59e0b, #fcd34d); }
+.seq-block.cat-hihats     { background: linear-gradient(135deg, #fbbf24, #fef08a); color: rgba(0,0,0,0.8); }
+.seq-block.cat-claps      { background: linear-gradient(135deg, #ea580c, #fb923c); }
+.seq-block.cat-percussion { background: linear-gradient(135deg, #7c3aed, #c084fc); }
+.seq-block.cat-bass       { background: linear-gradient(135deg, #16a34a, #4ade80); }
+.seq-block.cat-synths     { background: linear-gradient(135deg, #2563eb, #93c5fd); }
+.seq-block.cat-pads       { background: linear-gradient(135deg, #7c3aed, #e9d5ff); }
+.seq-block.cat-leads      { background: linear-gradient(135deg, #ec4899, #fbcfe8); }
+.seq-block.cat-fx         { background: linear-gradient(135deg, #0891b2, #67e8f9); }
+.seq-block.cat-loops      { background: linear-gradient(135deg, #059669, #6ee7b7); }
+.seq-block.cat-vocals     { background: linear-gradient(135deg, #c026d3, #f0abfc); }
+.seq-block.cat-guitar     { background: linear-gradient(135deg, #b45309, #fbbf24); }
+.seq-block.cat-piano      { background: linear-gradient(135deg, #e2e8f0, #f8fafc); color: rgba(0,0,0,0.8); }
+.seq-block.cat-violin     { background: linear-gradient(135deg, #be123c, #fda4af); }
+.seq-block.cat-strings    { background: linear-gradient(135deg, #9a3412, #fdba74); }
+.seq-block.cat-default    { background: linear-gradient(135deg, #00d4aa, #6ee7b7); }
 
 /* ── Selection Rectangle ── */
 .select-rect {
