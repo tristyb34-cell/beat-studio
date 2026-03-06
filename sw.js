@@ -2,14 +2,15 @@ const CACHE_NAME = 'sqweeky-clean-v24';
 const ASSETS = [
   './',
   './index.html',
-  './css/style.css?v=22',
-  './js/audio-engine.js?v=22',
-  './js/sound-library.js?v=22',
-  './js/sequencer.js?v=22',
-  './js/sound-editor.js?v=22',
-  './js/templates.js?v=22',
-  './js/app.js?v=22',
-  './favicon.svg'
+  './css/style.css?v=24',
+  './js/audio-engine.js?v=24',
+  './js/sound-library.js?v=24',
+  './js/sequencer.js?v=24',
+  './js/sound-editor.js?v=24',
+  './js/templates.js?v=24',
+  './js/app.js?v=24',
+  './favicon.svg',
+  './manifest.json'
 ];
 
 // Install: pre-cache all assets
@@ -30,9 +31,13 @@ self.addEventListener('activate', (e) => {
   self.clients.claim();
 });
 
-// Fetch: serve from cache first, fall back to network
+// Fetch: network first, fall back to cache
 self.addEventListener('fetch', (e) => {
   e.respondWith(
-    caches.match(e.request).then((cached) => cached || fetch(e.request))
+    fetch(e.request).then((response) => {
+      const clone = response.clone();
+      caches.open(CACHE_NAME).then((cache) => cache.put(e.request, clone));
+      return response;
+    }).catch(() => caches.match(e.request))
   );
 });
