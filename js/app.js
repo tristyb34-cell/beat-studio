@@ -152,6 +152,7 @@
         btnPlay.classList.remove('active');
         btnPlay.innerHTML = '&#9654;';
       } else {
+        seq.centerOnBeat(engine.pauseOffset / engine.secondsPerBeat);
         playArrangement();
         btnPlay.classList.add('active');
         btnPlay.innerHTML = '&#10074;&#10074;';
@@ -178,6 +179,7 @@
     // Playhead tick
     engine.onTick = (beat) => {
       seq.updatePlayhead(beat);
+      seq.followPlayhead(beat);
 
       // Position display
       const bar = Math.floor(beat / 4) + 1;

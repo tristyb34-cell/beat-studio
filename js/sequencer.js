@@ -482,6 +482,31 @@
     $playhead.style.left = px + 'px';
   }
 
+  function centerOnBeat(beat) {
+    if (!$gridScroll) return;
+    const bw = beatW();
+    const viewW = $gridScroll.clientWidth;
+    $gridScroll.scrollLeft = (beat * bw) - (viewW / 2);
+    syncScroll();
+  }
+
+  function followPlayhead(beat) {
+    if (!$gridScroll) return;
+    const bw = beatW();
+    const playheadX = beat * bw;
+    const scrollLeft = $gridScroll.scrollLeft;
+    const viewW = $gridScroll.clientWidth;
+    // Keep playhead in the middle third of the view
+    const margin = viewW * 0.33;
+    if (playheadX < scrollLeft + margin) {
+      $gridScroll.scrollLeft = playheadX - margin;
+      syncScroll();
+    } else if (playheadX > scrollLeft + viewW - margin) {
+      $gridScroll.scrollLeft = playheadX - margin;
+      syncScroll();
+    }
+  }
+
   // ── Coordinate helpers ────────────────────────────────
   function beatFromClientX(clientX) {
     const rect = $gridScroll.getBoundingClientRect();
@@ -1287,6 +1312,8 @@
     getLastBeat,
     snapBeat,
     updatePlayhead,
+    followPlayhead,
+    centerOnBeat,
     serialize,
     load,
     undo,
