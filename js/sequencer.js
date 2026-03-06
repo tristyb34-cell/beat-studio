@@ -482,12 +482,13 @@
     $playhead.style.left = px + 'px';
   }
 
+  let _followTarget = null;
+
   function centerOnBeat(beat) {
     if (!$gridScroll) return;
     const bw = beatW();
     const viewW = $gridScroll.clientWidth;
-    $gridScroll.scrollLeft = (beat * bw) - (viewW / 2);
-    syncScroll();
+    _followTarget = (beat * bw) - (viewW / 2);
   }
 
   function followPlayhead(beat) {
@@ -496,13 +497,25 @@
     const playheadX = beat * bw;
     const scrollLeft = $gridScroll.scrollLeft;
     const viewW = $gridScroll.clientWidth;
-    // Keep playhead in the middle third of the view
-    const margin = viewW * 0.33;
-    if (playheadX < scrollLeft + margin) {
-      $gridScroll.scrollLeft = playheadX - margin;
-      syncScroll();
-    } else if (playheadX > scrollLeft + viewW - margin) {
-      $gridScroll.scrollLeft = playheadX - margin;
+
+    // If playhead is about to leave the right 25% of the view, set a target
+    if (playheadX > scrollLeft + viewW * 0.75) {
+      _followTarget = playheadX - viewW * 0.35;
+    }
+    // If playhead is behind the left 15%, catch up
+    else if (playheadX < scrollLeft + viewW * 0.15) {
+      _followTarget = playheadX - viewW * 0.35;
+    }
+
+    // Smoothly ease toward target
+    if (_followTarget != null) {
+      const diff = _followTarget - scrollLeft;
+      if (Math.abs(diff) < 1) {
+        $gridScroll.scrollLeft = _followTarget;
+        _followTarget = null;
+      } else {
+        $gridScroll.scrollLeft += diff * 0.08;
+      }
       syncScroll();
     }
   }
