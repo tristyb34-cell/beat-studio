@@ -241,7 +241,7 @@
 
       // Check if already cached on load
       if ('caches' in window) {
-        caches.has('sqweeky-clean-v28').then(function(has) {
+        caches.has('sqweeky-clean-v29').then(function(has) {
           if (has) {
             btn.textContent = 'Saved Offline';
             btn.style.background = '#059669';
@@ -263,7 +263,7 @@
           return reg.update();
         }).then(function() {
           // Also manually cache all assets to be safe
-          return caches.open('sqweeky-clean-v28');
+          return caches.open('sqweeky-clean-v29');
         }).then(function(cache) {
           return cache.addAll([
             './',

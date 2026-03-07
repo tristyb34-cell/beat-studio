@@ -47,8 +47,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
-  height: 44px;
+  padding: 4px 16px;
+  min-height: 44px;
   background: var(--bg-dark);
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
@@ -175,7 +175,7 @@ html, body {
   text-align: center;
 }
 
-.top-right { display: flex; gap: 6px; }
+.top-right { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 
 .action-btn {
   padding: 5px 12px;
