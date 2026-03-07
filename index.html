@@ -2,6 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>
+    // One-time v30 cache buster - removes old SWs and caches
+    if ('serviceWorker' in navigator && !sessionStorage.getItem('v30_cleared')) {
+      sessionStorage.setItem('v30_cleared', '1');
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        return Promise.all(regs.map(function(r) { return r.unregister(); }));
+      }).then(function() {
+        return caches.keys();
+      }).then(function(keys) {
+        return Promise.all(keys.map(function(k) { return caches.delete(k); }));
+      }).then(function() {
+        location.reload(true);
+      });
+    }
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sqweeky Clean Productions</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
