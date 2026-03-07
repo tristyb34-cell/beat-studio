@@ -1,14 +1,14 @@
-const CACHE_NAME = 'sqweeky-clean-v28';
+const CACHE_NAME = 'sqweeky-clean-v29';
 const ASSETS = [
   './',
   './index.html',
-  './css/style.css?v=27',
-  './js/audio-engine.js?v=27',
-  './js/sound-library.js?v=27',
-  './js/sequencer.js?v=27',
-  './js/sound-editor.js?v=27',
-  './js/templates.js?v=27',
-  './js/app.js?v=27',
+  './css/style.css?v=29',
+  './js/audio-engine.js?v=29',
+  './js/sound-library.js?v=29',
+  './js/sequencer.js?v=29',
+  './js/sound-editor.js?v=29',
+  './js/templates.js?v=29',
+  './js/app.js?v=29',
   './favicon.svg',
   './manifest.json'
 ];

@@ -7,7 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#00d4aa">
-  <link rel="stylesheet" href="css/style.css?v=28">
+  <link rel="stylesheet" href="css/style.css?v=29">
 </head>
 <body>
   <div id="app">
@@ -51,6 +51,7 @@
         <button id="btn-versions" class="action-btn">Versions</button>
         <button id="btn-import-sounds" class="action-btn accent">+ Sounds</button>
         <button id="btn-tutorial" class="action-btn">?</button>
+        <button id="btn-offline" class="action-btn accent" title="Save for offline use">For Dad, Click Here</button>
         <input type="file" id="file-input" multiple accept="audio/*" style="display:none">
       </div>
     </header>
@@ -216,30 +217,103 @@
       console.error('[GLOBAL ERROR]', msg, src, line, col, err);
     };
   </script>
-  <script src="js/audio-engine.js?v=28"></script>
-  <script src="js/sound-library.js?v=28"></script>
-  <script src="js/sequencer.js?v=28"></script>
-  <script src="js/sound-editor.js?v=28"></script>
-  <script src="js/templates.js?v=28"></script>
-  <script src="js/app.js?v=28"></script>
+  <script src="js/audio-engine.js?v=29"></script>
+  <script src="js/sound-library.js?v=29"></script>
+  <script src="js/sequencer.js?v=29"></script>
+  <script src="js/sound-editor.js?v=29"></script>
+  <script src="js/templates.js?v=29"></script>
+  <script src="js/app.js?v=29"></script>
   <script>
+    // Register service worker normally (no more nuking on every load)
     if ('serviceWorker' in navigator) {
-      // Force update: unregister old SW, clear old caches, then register fresh
-      navigator.serviceWorker.getRegistrations().then(function(regs) {
-        var p = regs.map(function(r) { return r.unregister(); });
-        return Promise.all(p);
-      }).then(function() {
-        return caches.keys();
-      }).then(function(keys) {
-        return Promise.all(keys.map(function(k) { return caches.delete(k); }));
-      }).then(function() {
-        return navigator.serviceWorker.register('./sw.js');
-      }).then(function() {
-        console.log('[SW] Fresh install complete');
+      navigator.serviceWorker.register('./sw.js').then(function(reg) {
+        console.log('[SW] Registered');
+        reg.update();
       }).catch(function(err) {
-        console.warn('[SW] Error:', err);
+        console.warn('[SW] Registration failed:', err);
       });
     }
+
+    // "For Dad" offline button
+    (function() {
+      var btn = document.getElementById('btn-offline');
+      if (!btn) return;
+
+      // Check if already cached on load
+      if ('caches' in window) {
+        caches.has('sqweeky-clean-v28').then(function(has) {
+          if (has) {
+            btn.textContent = 'Saved Offline';
+            btn.style.background = '#059669';
+          }
+        });
+      }
+
+      btn.addEventListener('click', function() {
+        if (!('serviceWorker' in navigator) || !('caches' in window)) {
+          alert('Your browser does not support offline mode. Try Chrome or Edge.');
+          return;
+        }
+
+        btn.textContent = 'Saving...';
+        btn.disabled = true;
+
+        // Force SW to install and cache everything
+        navigator.serviceWorker.register('./sw.js').then(function(reg) {
+          return reg.update();
+        }).then(function() {
+          // Also manually cache all assets to be safe
+          return caches.open('sqweeky-clean-v28');
+        }).then(function(cache) {
+          return cache.addAll([
+            './',
+            './index.html',
+            './css/style.css?v=29',
+            './js/audio-engine.js?v=29',
+            './js/sound-library.js?v=29',
+            './js/sequencer.js?v=29',
+            './js/sound-editor.js?v=29',
+            './js/templates.js?v=29',
+            './js/app.js?v=29',
+            './favicon.svg',
+            './manifest.json'
+          ]);
+        }).then(function() {
+          btn.textContent = 'Saved Offline';
+          btn.style.background = '#059669';
+          btn.disabled = false;
+
+          // Show success modal
+          var bd = document.createElement('div');
+          bd.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:499;';
+          var m = document.createElement('div');
+          m.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1a1a2e;border:1px solid #3a3a5c;border-radius:12px;padding:32px;z-index:500;width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.6);text-align:center;';
+          m.innerHTML = '<h2 style="color:#00d4aa;margin:0 0 16px;font-size:18px;">All Saved for Offline!</h2>'
+            + '<p style="color:#e0e0f0;font-size:14px;line-height:1.6;margin:0 0 12px;">Hey Dad! The beat studio is now saved on this device. You can:</p>'
+            + '<ul style="color:#c0c0d0;font-size:13px;text-align:left;line-height:1.8;margin:0 0 16px;padding-left:20px;">'
+            + '<li>Close the browser and come back later</li>'
+            + '<li>Use it without internet</li>'
+            + '<li>Bookmark this page for easy access</li>'
+            + '<li>On Chrome/Edge: click the install icon in the address bar to add it to your desktop like a real app</li>'
+            + '</ul>'
+            + '<p style="color:#a0a0b0;font-size:12px;margin:0 0 20px;">Your projects save automatically to this browser. Just don\'t clear your browser data.</p>';
+          var cb = document.createElement('button');
+          cb.textContent = 'Got it!';
+          cb.className = 'action-btn accent';
+          cb.style.cssText = 'font-size:14px;padding:10px 32px;';
+          cb.onclick = function() { m.remove(); bd.remove(); };
+          m.appendChild(cb);
+          bd.onclick = function() { m.remove(); bd.remove(); };
+          document.body.appendChild(bd);
+          document.body.appendChild(m);
+        }).catch(function(err) {
+          console.error('[OFFLINE] Error:', err);
+          btn.textContent = 'For Dad, Click Here';
+          btn.disabled = false;
+          alert('Could not save for offline. Make sure you are connected to the internet for the first save.');
+        });
+      });
+    })();
   </script>
 </body>
 </html>
