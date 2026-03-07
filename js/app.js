@@ -55,7 +55,6 @@
 
   // ── Init ──
   function boot() {
-    console.log('[Boot] Starting... templates available:', (window.templates || []).length);
     engine.init();
     lib.init(engine.ctx);
     seq.init();
@@ -972,11 +971,15 @@
     if (!btn) return;
 
     btn.addEventListener('click', () => {
-      console.log('[Templates] Button clicked, window.templates:', (window.templates || []).length);
-      try {
-      // Build template modal
       let modal = document.getElementById('template-modal');
-      if (modal) { modal.remove(); return; }
+      if (modal) { modal.remove(); document.getElementById('template-backdrop')?.remove(); return; }
+
+      const templates = window.templates || [];
+      if (templates.length === 0) { alert('No templates loaded. templates.js may still be loading (11MB file).'); return; }
+
+      const backdrop = document.createElement('div');
+      backdrop.id = 'template-backdrop';
+      backdrop.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:499;';
 
       modal = document.createElement('div');
       modal.id = 'template-modal';
@@ -992,11 +995,10 @@
       title.style.cssText = 'color:#00d4aa;margin-bottom:16px;font-size:16px;';
       modal.appendChild(title);
 
-      const templates = window.templates || [];
       const categories = ['Drum and Bass', 'House', 'Dubstep', 'Electronic'];
 
       for (const cat of categories) {
-        const catTemplates = templates.filter(t => t.category === cat);
+        const catTemplates = templates.filter(t => t && t.category === cat);
         if (catTemplates.length === 0) continue;
 
         const catTitle = document.createElement('h3');
@@ -1005,24 +1007,24 @@
         modal.appendChild(catTitle);
 
         for (const tmpl of catTemplates) {
+          if (!tmpl || !tmpl.data) continue;
           const item = document.createElement('div');
           item.style.cssText = 'padding:8px 12px;cursor:pointer;border-radius:6px;margin:2px 0;font-size:12px;color:#e0e0f0;transition:background 0.1s;';
-          const usedIds = new Set(tmpl.data.blocks.map(b => b.rowId));
-          const usedRows = usedIds.size;
+          const usedRows = tmpl.data.blocks ? new Set(tmpl.data.blocks.map(b => b.rowId)).size : 0;
           item.textContent = tmpl.name + (usedRows > 15 ? '  (' + usedRows + ' rows)' : '');
           item.addEventListener('mouseenter', () => item.style.background = '#2a2a4a');
           item.addEventListener('mouseleave', () => item.style.background = 'transparent');
           item.addEventListener('click', () => {
-              seq.load(tmpl.data);
-              if (tmpl.data.bpm) {
-                engine.bpm = tmpl.data.bpm;
-                document.getElementById('bpm').value = tmpl.data.bpm;
-              }
-              setProjectName(tmpl.name);
-              setTemplateBadge(tmpl.name);
-              checkRowCount();
-              modal.remove();
-              backdrop.remove();
+            seq.load(tmpl.data);
+            if (tmpl.data.bpm) {
+              engine.bpm = tmpl.data.bpm;
+              document.getElementById('bpm').value = tmpl.data.bpm;
+            }
+            setProjectName(tmpl.name);
+            setTemplateBadge(tmpl.name);
+            checkRowCount();
+            modal.remove();
+            backdrop.remove();
           });
           modal.appendChild(item);
         }
@@ -1035,14 +1037,9 @@
       closeBtn.addEventListener('click', () => { modal.remove(); backdrop.remove(); });
       modal.appendChild(closeBtn);
 
-      const backdrop = document.createElement('div');
-      backdrop.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:499;';
       backdrop.addEventListener('click', () => { modal.remove(); backdrop.remove(); });
-
       document.body.appendChild(backdrop);
       document.body.appendChild(modal);
-      console.log('[Templates] Modal appended to body');
-      } catch(err) { console.error('[Templates] ERROR:', err); alert('Template error: ' + err.message); }
     });
   }
 
