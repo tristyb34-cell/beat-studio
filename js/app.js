@@ -55,22 +55,35 @@
 
   // ── Init ──
   function boot() {
-    engine.init();
-    lib.init(engine.ctx);
-    seq.init();
-    if (editor && editor.init) editor.init();
-    buildSoundBrowser();
-    bindTransport();
-    bindSaveLoad();
-    bindExport();
-    bindImportSounds();
-    bindTemplates();
-    bindVersionHistory();
-    bindTutorial();
-    bindKeyboard();
-    bindSeek();
-    bindBrowserCollapse();
-    bindPatternRule();
+    const steps = [
+      ['engine.init', () => engine.init()],
+      ['lib.init', () => lib.init(engine.ctx)],
+      ['seq.init', () => seq.init()],
+      ['editor.init', () => { if (editor && editor.init) editor.init(); }],
+      ['buildSoundBrowser', () => buildSoundBrowser()],
+      ['bindTransport', () => bindTransport()],
+      ['bindSaveLoad', () => bindSaveLoad()],
+      ['bindExport', () => bindExport()],
+      ['bindImportSounds', () => bindImportSounds()],
+      ['bindTemplates', () => bindTemplates()],
+      ['bindVersionHistory', () => bindVersionHistory()],
+      ['bindTutorial', () => bindTutorial()],
+      ['bindKeyboard', () => bindKeyboard()],
+      ['bindSeek', () => bindSeek()],
+      ['bindBrowserCollapse', () => bindBrowserCollapse()],
+      ['bindPatternRule', () => bindPatternRule()]
+    ];
+    for (const [name, fn] of steps) {
+      try {
+        fn();
+      } catch (e) {
+        console.error('[BOOT CRASH] ' + name + ':', e);
+        document.title = 'BOOT CRASH: ' + name;
+        showBanner('Boot error in ' + name + ': ' + e.message, 30000);
+        return;
+      }
+    }
+    console.log('[BOOT] All steps completed successfully');
   }
 
   // ── Sound Browser (left panel) ──
