@@ -85,7 +85,7 @@
       ['bindSaveLoad', () => bindSaveLoad()],
       ['bindExport', () => bindExport()],
       ['bindImportSounds', () => bindImportSounds()],
-      ['bindTemplates', () => bindTemplates()],
+      // bindTemplates removed - templates.js handles its own UI now
       ['bindVersionHistory', () => bindVersionHistory()],
       ['bindTutorial', () => bindTutorial()],
       ['bindKeyboard', () => bindKeyboard()],
@@ -995,84 +995,6 @@
       }
       buildSoundBrowser();
       fileInput.value = '';
-    });
-  }
-
-  // ── Templates ──
-  function bindTemplates() {
-    const btn = document.getElementById('btn-templates');
-    if (!btn) return;
-
-    btn.addEventListener('click', () => {
-      let modal = document.getElementById('template-modal');
-      if (modal) { modal.remove(); document.getElementById('template-backdrop')?.remove(); return; }
-
-      const templates = window.templates || [];
-      if (templates.length === 0) { alert('No templates loaded. templates.js may still be loading (11MB file).'); return; }
-
-      const backdrop = document.createElement('div');
-      backdrop.id = 'template-backdrop';
-      backdrop.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:499;';
-
-      modal = document.createElement('div');
-      modal.id = 'template-modal';
-      Object.assign(modal.style, {
-        position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
-        background: '#1a1a2e', border: '1px solid #3a3a5c', borderRadius: '12px',
-        padding: '24px', zIndex: '500', maxHeight: '70vh', overflowY: 'auto',
-        width: '500px', boxShadow: '0 20px 60px rgba(0,0,0,0.6)'
-      });
-
-      const title = document.createElement('h2');
-      title.textContent = 'Templates';
-      title.style.cssText = 'color:#00d4aa;margin-bottom:16px;font-size:16px;';
-      modal.appendChild(title);
-
-      const categories = ['Drum and Bass', 'House', 'Dubstep', 'Electronic'];
-
-      for (const cat of categories) {
-        const catTemplates = templates.filter(t => t && t.category === cat);
-        if (catTemplates.length === 0) continue;
-
-        const catTitle = document.createElement('h3');
-        catTitle.textContent = cat;
-        catTitle.style.cssText = 'color:#e0e0f0;font-size:13px;margin:12px 0 6px;';
-        modal.appendChild(catTitle);
-
-        for (const tmpl of catTemplates) {
-          if (!tmpl || !tmpl.data) continue;
-          const item = document.createElement('div');
-          item.style.cssText = 'padding:8px 12px;cursor:pointer;border-radius:6px;margin:2px 0;font-size:12px;color:#e0e0f0;transition:background 0.1s;';
-          const usedRows = tmpl.data.blocks ? new Set(tmpl.data.blocks.map(b => b.rowId)).size : 0;
-          item.textContent = tmpl.name + (usedRows > 15 ? '  (' + usedRows + ' rows)' : '');
-          item.addEventListener('mouseenter', () => item.style.background = '#2a2a4a');
-          item.addEventListener('mouseleave', () => item.style.background = 'transparent');
-          item.addEventListener('click', () => {
-            seq.load(tmpl.data);
-            if (tmpl.data.bpm) {
-              engine.bpm = tmpl.data.bpm;
-              document.getElementById('bpm').value = tmpl.data.bpm;
-            }
-            setProjectName(tmpl.name);
-            setTemplateBadge(tmpl.name);
-            checkRowCount();
-            modal.remove();
-            backdrop.remove();
-          });
-          modal.appendChild(item);
-        }
-      }
-
-      const closeBtn = document.createElement('button');
-      closeBtn.textContent = 'Close';
-      closeBtn.className = 'action-btn';
-      closeBtn.style.marginTop = '16px';
-      closeBtn.addEventListener('click', () => { modal.remove(); backdrop.remove(); });
-      modal.appendChild(closeBtn);
-
-      backdrop.addEventListener('click', () => { modal.remove(); backdrop.remove(); });
-      document.body.appendChild(backdrop);
-      document.body.appendChild(modal);
     });
   }
 
