@@ -7,19 +7,40 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#00d4aa">
-  <link rel="stylesheet" href="css/style.css?v=29">
+  <link rel="stylesheet" href="css/style.css?v=30">
 </head>
 <body>
   <div id="app">
 
-    <!-- Top Bar -->
-    <header id="top-bar">
-      <div class="top-left">
+    <!-- Utility Bar -->
+    <div id="utility-bar">
+      <div class="util-left">
         <span class="logo">Sqweeky Clean</span>
         <span class="project-divider">|</span>
         <span id="project-name" class="project-name" contenteditable="true" spellcheck="false" title="Click to rename project">Untitled Project</span>
         <span id="template-badge" class="template-badge" style="display:none"></span>
       </div>
+      <div class="util-right">
+        <label class="theme-label">Theme</label>
+        <select id="theme-select">
+          <option value="default">Midnight Teal</option>
+          <option value="sunset">Sunset Orange</option>
+          <option value="purple-haze">Purple Haze</option>
+          <option value="ocean">Ocean Blue</option>
+          <option value="rose">Rose Gold</option>
+          <option value="forest">Forest Green</option>
+          <option value="cyberpunk">Cyberpunk</option>
+          <option value="monochrome">Monochrome</option>
+          <option value="fire">Fire Red</option>
+          <option value="arctic">Arctic Ice</option>
+        </select>
+        <button id="btn-offline" class="action-btn accent">For Dad, Click Here</button>
+      </div>
+    </div>
+
+    <!-- Top Bar -->
+    <header id="top-bar">
+      <div class="top-left"></div>
       <div class="transport">
         <button id="btn-play" class="transport-btn" title="Play (Space)">&#9654;</button>
         <button id="btn-stop" class="transport-btn" title="Stop">&#9632;</button>
@@ -204,9 +225,6 @@
       </div>
     </div>
 
-    <!-- Floating offline button -->
-    <button id="btn-offline" style="position:fixed;bottom:20px;right:20px;z-index:400;background:linear-gradient(135deg,#00d4aa,#00a088);color:#fff;border:none;border-radius:12px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(0,212,170,0.4);transition:all 0.2s;">For Dad, Click Here</button>
-
   </div>
 
   <script>
@@ -219,12 +237,12 @@
       console.error('[GLOBAL ERROR]', msg, src, line, col, err);
     };
   </script>
-  <script src="js/audio-engine.js?v=29"></script>
-  <script src="js/sound-library.js?v=29"></script>
-  <script src="js/sequencer.js?v=29"></script>
-  <script src="js/sound-editor.js?v=29"></script>
-  <script src="js/templates.js?v=29"></script>
-  <script src="js/app.js?v=29"></script>
+  <script src="js/audio-engine.js?v=30"></script>
+  <script src="js/sound-library.js?v=30"></script>
+  <script src="js/sequencer.js?v=30"></script>
+  <script src="js/sound-editor.js?v=30"></script>
+  <script src="js/templates.js?v=30"></script>
+  <script src="js/app.js?v=30"></script>
   <script>
     // Register service worker normally (no more nuking on every load)
     if ('serviceWorker' in navigator) {
@@ -243,7 +261,7 @@
 
       // Check if already cached on load
       if ('caches' in window) {
-        caches.has('sqweeky-clean-v29').then(function(has) {
+        caches.has('sqweeky-clean-v30').then(function(has) {
           if (has) {
             btn.textContent = 'Saved Offline';
             btn.style.background = '#059669';
@@ -265,18 +283,18 @@
           return reg.update();
         }).then(function() {
           // Also manually cache all assets to be safe
-          return caches.open('sqweeky-clean-v29');
+          return caches.open('sqweeky-clean-v30');
         }).then(function(cache) {
           return cache.addAll([
             './',
             './index.html',
-            './css/style.css?v=29',
-            './js/audio-engine.js?v=29',
-            './js/sound-library.js?v=29',
-            './js/sequencer.js?v=29',
-            './js/sound-editor.js?v=29',
-            './js/templates.js?v=29',
-            './js/app.js?v=29',
+            './css/style.css?v=30',
+            './js/audio-engine.js?v=30',
+            './js/sound-library.js?v=30',
+            './js/sequencer.js?v=30',
+            './js/sound-editor.js?v=30',
+            './js/templates.js?v=30',
+            './js/app.js?v=30',
             './favicon.svg',
             './manifest.json'
           ]);
@@ -314,6 +332,26 @@
           btn.disabled = false;
           alert('Could not save for offline. Make sure you are connected to the internet for the first save.');
         });
+      });
+    })();
+
+    // Theme switcher
+    (function() {
+      var sel = document.getElementById('theme-select');
+      if (!sel) return;
+      var saved = localStorage.getItem('sqweeky_theme') || 'default';
+      if (saved !== 'default') {
+        document.documentElement.setAttribute('data-theme', saved);
+        sel.value = saved;
+      }
+      sel.addEventListener('change', function() {
+        var theme = sel.value;
+        if (theme === 'default') {
+          document.documentElement.removeAttribute('data-theme');
+        } else {
+          document.documentElement.setAttribute('data-theme', theme);
+        }
+        localStorage.setItem('sqweeky_theme', theme);
       });
     })();
   </script>
