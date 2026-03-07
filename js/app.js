@@ -3,10 +3,29 @@
  * Sqweeky Clean Productions
  */
 (function () {
+  // Defensive: log which modules are available
+  console.log('[APP] Modules:', {
+    audioEngine: !!window.audioEngine,
+    sequencer: !!window.sequencer,
+    soundLibrary: !!window.soundLibrary,
+    soundEditor: !!window.soundEditor,
+    templates: !!(window.templates && window.templates.length)
+  });
+
   const engine = window.audioEngine;
   const seq = window.sequencer;
   const lib = window.soundLibrary;
   const editor = window.soundEditor;
+
+  if (!engine || !seq || !lib) {
+    const missing = [];
+    if (!engine) missing.push('audioEngine');
+    if (!seq) missing.push('sequencer');
+    if (!lib) missing.push('soundLibrary');
+    document.title = 'MISSING: ' + missing.join(', ');
+    console.error('[APP] Missing modules:', missing);
+    // Still try to continue - some features may work
+  }
 
   // ── Project name & template badge ──
   function getProjectName() {
@@ -44,6 +63,7 @@
   }
 
   function checkRowCount() {
+    if (!seq) return;
     const rows = seq.getRows ? seq.getRows() : [];
     const blocks = seq.getBlocks ? seq.getBlocks() : [];
     const usedRowIds = new Set(blocks.map(b => b.rowId));
@@ -56,9 +76,9 @@
   // ── Init ──
   function boot() {
     const steps = [
-      ['engine.init', () => engine.init()],
-      ['lib.init', () => lib.init(engine.ctx)],
-      ['seq.init', () => seq.init()],
+      ['engine.init', () => { if (engine && engine.init) engine.init(); else console.warn('audioEngine missing'); }],
+      ['lib.init', () => { if (lib && lib.init && engine) lib.init(engine.ctx); else console.warn('soundLibrary or engine missing'); }],
+      ['seq.init', () => { if (seq && seq.init) seq.init(); else console.warn('sequencer missing'); }],
       ['editor.init', () => { if (editor && editor.init) editor.init(); }],
       ['buildSoundBrowser', () => buildSoundBrowser()],
       ['bindTransport', () => bindTransport()],
