@@ -259,14 +259,16 @@
       var btn = document.getElementById('btn-offline');
       if (!btn) return;
 
-      // Check if already cached on load
+      // Check if current version is fully cached
       if ('caches' in window) {
-        caches.has('sqweeky-clean-v30').then(function(has) {
-          if (has) {
+        caches.open('sqweeky-clean-v30').then(function(cache) {
+          return cache.match('./js/app.js?v=30');
+        }).then(function(resp) {
+          if (resp) {
             btn.textContent = 'Saved Offline';
             btn.style.background = '#059669';
           }
-        });
+        }).catch(function() {});
       }
 
       btn.addEventListener('click', function() {
