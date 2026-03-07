@@ -51,7 +51,6 @@
         <button id="btn-versions" class="action-btn">Versions</button>
         <button id="btn-import-sounds" class="action-btn accent">+ Sounds</button>
         <button id="btn-tutorial" class="action-btn">?</button>
-        <button id="btn-offline" class="action-btn accent" title="Save for offline use">For Dad, Click Here</button>
         <input type="file" id="file-input" multiple accept="audio/*" style="display:none">
       </div>
     </header>
@@ -204,6 +203,9 @@
         </div>
       </div>
     </div>
+
+    <!-- Floating offline button -->
+    <button id="btn-offline" style="position:fixed;bottom:20px;right:20px;z-index:400;background:linear-gradient(135deg,#00d4aa,#00a088);color:#fff;border:none;border-radius:12px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(0,212,170,0.4);transition:all 0.2s;">For Dad, Click Here</button>
 
   </div>
 
