@@ -436,6 +436,16 @@ html, body {
   white-space: nowrap;
 }
 
+.sound-item .sound-dur {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--text-dim);
+  background: var(--surface);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ── Sequencer Area ── */
 #sequencer-area {
   flex: 1;

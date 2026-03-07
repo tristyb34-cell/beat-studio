@@ -161,8 +161,15 @@
           name.className = 'name';
           name.textContent = sound.name;
 
+          const dur = document.createElement('span');
+          dur.className = 'sound-dur';
+          const beats = sound.duration / (60 / engine.bpm);
+          dur.textContent = beats.toFixed(1) + 'b';
+          dur.dataset.durationSec = sound.duration;
+
           item.appendChild(previewBtn);
           item.appendChild(name);
+          item.appendChild(dur);
 
           // Drag start
           item.addEventListener('dragstart', (e) => {
@@ -249,6 +256,13 @@
     });
   }
 
+  function updateBeatLabels() {
+    document.querySelectorAll('.sound-dur').forEach(el => {
+      const sec = parseFloat(el.dataset.durationSec);
+      if (!isNaN(sec)) el.textContent = (sec / (60 / engine.bpm)).toFixed(1) + 'b';
+    });
+  }
+
   // ── Transport ──
   function bindTransport() {
     const btnPlay = document.getElementById('btn-play');
@@ -289,6 +303,7 @@
     bpmInput.addEventListener('change', () => {
       engine.bpm = parseInt(bpmInput.value) || 128;
       bpmInput.value = engine.bpm;
+      updateBeatLabels();
     });
 
     // Playhead tick

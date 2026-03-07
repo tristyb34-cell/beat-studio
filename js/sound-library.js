@@ -12313,227 +12313,556 @@ const RECIPES = {
 },
 
 // ── Vocals - Male ──
+// Technique: multiple detuned oscillators + noise blend + vibrato for realistic voice
 'vox-male-oh': async function(ctx) {
   const d = 1.5;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 120;
-  const fm = createFormantFilter(ctx, osc, 500, 1000, 2800, 80);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.05, 0.2, 0.7, 0.3, d, 0.5);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  // Two detuned oscillators for thickness
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 120;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 121.5;
+  // Vibrato
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 4.8;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 6;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency); lfoG.connect(osc2.frequency);
+  // Breath noise layer
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.06;
+  // Mix oscillators
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  osc1.connect(mix); osc2.connect(mix);
+  // Formant filter (male "oh": F1=500, F2=1000, F3=2800)
+  const fm = createFormantFilter(ctx, mix, 500, 1000, 2800, 100);
+  const nFm = createFormantFilter(ctx, noise, 500, 1000, 2800, 150);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.06, 0.25, 0.65, 0.35, d, 0.35);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); lfo.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); lfo.stop(d); noise.stop(d);
 },
 'vox-male-ah': async function(ctx) {
   const d = 1.5;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 130;
-  const fm = createFormantFilter(ctx, osc, 730, 1090, 2440, 90);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.03, 0.15, 0.8, 0.3, d, 0.5);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 130;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 131.8;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 5.2;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 5;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency); lfoG.connect(osc2.frequency);
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.07;
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 730, 1090, 2440, 110);
+  const nFm = createFormantFilter(ctx, noise, 730, 1090, 2440, 160);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.04, 0.2, 0.7, 0.3, d, 0.35);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); lfo.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); lfo.stop(d); noise.stop(d);
 },
 'vox-male-hey': async function(ctx) {
   const d = 0.8;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 150;
-  const fm = createFormantFilter(ctx, osc, 400, 1700, 2600, 100);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.01, 0.1, 0.6, 0.15, d, 0.6);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  // "hey" starts with noise burst (h) then voiced vowel
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 150;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 151.2;
+  osc1.frequency.setValueAtTime(180, 0); osc1.frequency.linearRampToValueAtTime(140, 0.3);
+  osc2.frequency.setValueAtTime(181.2, 0); osc2.frequency.linearRampToValueAtTime(141.2, 0.3);
+  const noise = createNoise(ctx, d);
+  const nFilt = ctx.createBiquadFilter(); nFilt.type = 'bandpass'; nFilt.frequency.value = 3000; nFilt.Q.value = 1;
+  const nGain = ctx.createGain(); nGain.gain.setValueAtTime(0.2, 0); nGain.gain.linearRampToValueAtTime(0.03, 0.12);
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 400, 1700, 2600, 120);
+  noise.connect(nFilt); nFilt.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.01, 0.12, 0.5, 0.15, d, 0.45);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); noise.stop(d);
 },
 'vox-male-yeah': async function(ctx) {
   const d = 1.0;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 140;
-  const fm = createFormantFilter(ctx, osc, 300, 1600, 2700, 90);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.02, 0.15, 0.6, 0.2, d, 0.55);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 140;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 141.4;
+  // Pitch sweep for "yeah" (starts higher)
+  osc1.frequency.setValueAtTime(170, 0); osc1.frequency.linearRampToValueAtTime(130, 0.25);
+  osc2.frequency.setValueAtTime(171.4, 0); osc2.frequency.linearRampToValueAtTime(131.4, 0.25);
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 5;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 4;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency); lfoG.connect(osc2.frequency);
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.05;
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  osc1.connect(mix); osc2.connect(mix);
+  // Formant sweep from "y" to "ah"
+  const fm = createFormantFilter(ctx, mix, 300, 1600, 2700, 110);
+  const nFm = createFormantFilter(ctx, noise, 300, 1600, 2700, 170);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.02, 0.15, 0.55, 0.2, d, 0.4);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); lfo.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); lfo.stop(d); noise.stop(d);
 },
 'vox-male-hum': async function(ctx) {
   const d = 2.5;
-  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = 110;
-  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.value = 400;
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.2, 0.3, 0.8, 0.5, d, 0.4);
-  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  // Hum: sine + slight overtone, nasal formant
+  const osc1 = ctx.createOscillator(); osc1.type = 'sine'; osc1.frequency.value = 110;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sine'; osc2.frequency.value = 220;
+  const osc2g = ctx.createGain(); osc2g.gain.value = 0.15;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 4;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 3;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency);
+  const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 300; filt.Q.value = 3;
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.2, 0.35, 0.75, 0.5, d, 0.3);
+  osc1.connect(filt); osc2.connect(osc2g); osc2g.connect(filt); filt.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); lfo.start(0);
+  osc1.stop(d); osc2.stop(d); lfo.stop(d);
 },
 'vox-male-chant': async function(ctx) {
   const d = 3.0;
+  // Choir-like chant with 3 voices + noise
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.03;
+  const nFm = createFormantFilter(ctx, noise, 600, 1000, 2600, 150);
+  nFm.connect(nGain);
   [110, 165, 220].forEach(f => {
-    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f;
-    const fm = createFormantFilter(ctx, osc, 600, 1000, 2600, 100);
-    const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.3, 0.3, 0.7, 0.5, d, 0.15);
-    fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f + Math.random() * 3;
+    const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 4 + Math.random() * 2;
+    const lfoG = ctx.createGain(); lfoG.gain.value = 4;
+    lfo.connect(lfoG); lfoG.connect(osc.frequency);
+    const fm = createFormantFilter(ctx, osc, 600, 1000, 2600, 120);
+    const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.35, 0.35, 0.65, 0.5, d, 0.1);
+    fm.connect(g); g.connect(ctx.destination);
+    osc.start(0); osc.stop(d); lfo.start(0); lfo.stop(d);
   });
+  const gn = ctx.createGain(); applyEnvelope(ctx, gn.gain, 0.35, 0.35, 0.65, 0.5, d, 0.05);
+  nGain.connect(gn); gn.connect(ctx.destination); noise.start(0); noise.stop(d);
 },
 'vox-male-ooh': async function(ctx) {
   const d = 2.0;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 125;
-  const fm = createFormantFilter(ctx, osc, 300, 870, 2250, 70);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.1, 0.2, 0.7, 0.4, d, 0.5);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 125;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 126.2;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 4.5;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 5;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency); lfoG.connect(osc2.frequency);
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.04;
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 300, 870, 2250, 90);
+  const nFm = createFormantFilter(ctx, noise, 300, 870, 2250, 140);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.1, 0.25, 0.65, 0.4, d, 0.35);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); lfo.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); lfo.stop(d); noise.stop(d);
 },
 'vox-male-grunt': async function(ctx) {
   const d = 0.5;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(100, 0); osc.frequency.exponentialRampToValueAtTime(60, d);
-  const fm = createFormantFilter(ctx, osc, 600, 1000, 2400, 120);
-  const g = ctx.createGain(); g.gain.setValueAtTime(0.6, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  // Grunt: low pitch drop + heavy noise
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(110, 0); osc.frequency.exponentialRampToValueAtTime(55, d);
+  const noise = createNoise(ctx, d);
+  const nFilt = ctx.createBiquadFilter(); nFilt.type = 'lowpass'; nFilt.frequency.value = 800;
+  const nGain = ctx.createGain(); nGain.gain.value = 0.15;
+  const fm = createFormantFilter(ctx, osc, 600, 1000, 2400, 140);
+  noise.connect(nFilt); nFilt.connect(nGain);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.55, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc.start(0); osc.stop(d); noise.start(0); noise.stop(d);
 },
 'vox-male-shout': async function(ctx) {
   const d = 0.8;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 180;
-  const fm = createFormantFilter(ctx, osc, 700, 1200, 2800, 100);
-  const g = ctx.createGain(); g.gain.setValueAtTime(0.7, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  // Shout: loud, distorted, breathy
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 180;
+  const osc2 = ctx.createOscillator(); osc2.type = 'square'; osc2.frequency.value = 182;
+  const osc2g = ctx.createGain(); osc2g.gain.value = 0.3;
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.12;
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  osc1.connect(mix); osc2.connect(osc2g); osc2g.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 700, 1200, 2800, 130);
+  const nFm = createFormantFilter(ctx, noise, 700, 1200, 2800, 180);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.6, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); noise.stop(d);
 },
 'vox-male-whisper': async function(ctx) {
   const d = 1.5;
-  const noise = createNoise(ctx, d); const fm = createFormantFilter(ctx, noise, 500, 1500, 2500, 150);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.1, 0.2, 0.6, 0.3, d, 0.12);
-  fm.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+  // Whisper: mostly noise through formants, tiny bit of voicing
+  const noise = createNoise(ctx, d);
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 110;
+  const oscG = ctx.createGain(); oscG.gain.value = 0.03;
+  osc.connect(oscG);
+  const mix = ctx.createGain(); mix.gain.value = 1;
+  noise.connect(mix); oscG.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 500, 1500, 2500, 180);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.08, 0.2, 0.55, 0.3, d, 0.1);
+  fm.connect(g); g.connect(ctx.destination);
+  noise.start(0); noise.stop(d); osc.start(0); osc.stop(d);
 },
 'vox-male-breath': async function(ctx) {
   const d = 1.0;
-  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 1200; filt.Q.value = 1;
-  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.15, 0.2); g.gain.linearRampToValueAtTime(0, d);
-  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+  // Breath: shaped noise with resonances
+  const noise = createNoise(ctx, d);
+  const bp1 = ctx.createBiquadFilter(); bp1.type = 'bandpass'; bp1.frequency.value = 800; bp1.Q.value = 1.5;
+  const bp2 = ctx.createBiquadFilter(); bp2.type = 'bandpass'; bp2.frequency.value = 2200; bp2.Q.value = 1;
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  noise.connect(bp1); noise.connect(bp2); bp1.connect(mix); bp2.connect(mix);
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.15, 0.15);
+  g.gain.linearRampToValueAtTime(0.12, 0.5); g.gain.linearRampToValueAtTime(0, d);
+  mix.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
 },
 'vox-male-aye': async function(ctx) {
   const d = 0.8;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 145;
-  const fm = createFormantFilter(ctx, osc, 660, 1700, 2400, 90);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.02, 0.1, 0.5, 0.15, d, 0.55);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 145;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 146.5;
+  // "aye" diphthong: formants shift
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.05;
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 660, 1700, 2400, 110);
+  const nFm = createFormantFilter(ctx, noise, 660, 1700, 2400, 160);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.02, 0.12, 0.45, 0.15, d, 0.4);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); noise.stop(d);
 },
 'vox-male-deep-tone': async function(ctx) {
   const d = 2.0;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 85;
-  const fm = createFormantFilter(ctx, osc, 400, 800, 2400, 80);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.15, 0.3, 0.7, 0.4, d, 0.45);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  // Deep baritone with sub-harmonics
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 85;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 86;
+  const osc3 = ctx.createOscillator(); osc3.type = 'sine'; osc3.frequency.value = 42.5;
+  const osc3g = ctx.createGain(); osc3g.gain.value = 0.2;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 4;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 3;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency); lfoG.connect(osc2.frequency);
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.04;
+  const mix = ctx.createGain(); mix.gain.value = 0.45;
+  osc1.connect(mix); osc2.connect(mix); osc3.connect(osc3g); osc3g.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 400, 800, 2400, 100);
+  const nFm = createFormantFilter(ctx, noise, 400, 800, 2400, 150);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.15, 0.3, 0.65, 0.4, d, 0.3);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); osc3.start(0); lfo.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); osc3.stop(d); lfo.stop(d); noise.stop(d);
 },
 'vox-male-spoken-fx': async function(ctx) {
   const d = 1.0;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(160, 0); osc.frequency.linearRampToValueAtTime(100, d);
-  const fm = createFormantFilter(ctx, osc, 500, 1400, 2600, 100);
-  const g = ctx.createGain(); g.gain.setValueAtTime(0.5, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  // Spoken effect: pitch drops with noise bursts
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth';
+  osc1.frequency.setValueAtTime(170, 0); osc1.frequency.linearRampToValueAtTime(90, d);
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth';
+  osc2.frequency.setValueAtTime(172, 0); osc2.frequency.linearRampToValueAtTime(91, d);
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain();
+  nGain.gain.setValueAtTime(0.15, 0); nGain.gain.linearRampToValueAtTime(0.03, 0.2);
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 500, 1400, 2600, 120);
+  const nFm = createFormantFilter(ctx, noise, 500, 1400, 2600, 170);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.45, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); noise.stop(d);
 },
 'vox-male-choir': async function(ctx) {
   const d = 3.0;
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.025;
+  const nFm = createFormantFilter(ctx, noise, 500, 1000, 2800, 150);
+  nFm.connect(nGain);
   [87, 110, 131, 165].forEach(f => {
-    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f + Math.random() * 2;
-    const fm = createFormantFilter(ctx, osc, 500, 1000, 2800, 80);
-    const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.4, 0.3, 0.7, 0.6, d, 0.1);
-    fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f + Math.random() * 3;
+    const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 3.5 + Math.random() * 2;
+    const lfoG = ctx.createGain(); lfoG.gain.value = 4;
+    lfo.connect(lfoG); lfoG.connect(osc.frequency);
+    const fm = createFormantFilter(ctx, osc, 500, 1000, 2800, 100);
+    const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.45, 0.35, 0.65, 0.6, d, 0.07);
+    fm.connect(g); g.connect(ctx.destination);
+    osc.start(0); osc.stop(d); lfo.start(0); lfo.stop(d);
   });
+  const gn = ctx.createGain(); applyEnvelope(ctx, gn.gain, 0.45, 0.35, 0.65, 0.6, d, 0.04);
+  nGain.connect(gn); gn.connect(ctx.destination); noise.start(0); noise.stop(d);
 },
 
 // ── Vocals - Female ──
+// Female voices: higher fundamental, breathier, wider vibrato
 'vox-female-ooh': async function(ctx) {
   const d = 2.0;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 260;
-  const fm = createFormantFilter(ctx, osc, 350, 950, 2700, 70);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.08, 0.2, 0.7, 0.4, d, 0.4);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 260;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 262;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 5.5;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 8;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency); lfoG.connect(osc2.frequency);
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.05;
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 350, 950, 2700, 90);
+  const nFm = createFormantFilter(ctx, noise, 350, 950, 2700, 140);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.08, 0.2, 0.65, 0.4, d, 0.3);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); lfo.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); lfo.stop(d); noise.stop(d);
 },
 'vox-female-ah': async function(ctx) {
   const d = 1.5;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 280;
-  const fm = createFormantFilter(ctx, osc, 850, 1200, 2800, 80);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.03, 0.15, 0.8, 0.3, d, 0.4);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 280;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 282;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 5.8;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 7;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency); lfoG.connect(osc2.frequency);
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.06;
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 850, 1200, 2800, 100);
+  const nFm = createFormantFilter(ctx, noise, 850, 1200, 2800, 150);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.04, 0.18, 0.7, 0.3, d, 0.3);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); lfo.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); lfo.stop(d); noise.stop(d);
 },
 'vox-female-hey': async function(ctx) {
   const d = 0.8;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 300;
-  const fm = createFormantFilter(ctx, osc, 500, 1900, 2800, 90);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.01, 0.1, 0.5, 0.15, d, 0.5);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 300;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 302;
+  osc1.frequency.setValueAtTime(340, 0); osc1.frequency.linearRampToValueAtTime(280, 0.25);
+  osc2.frequency.setValueAtTime(342, 0); osc2.frequency.linearRampToValueAtTime(282, 0.25);
+  const noise = createNoise(ctx, d);
+  const nFilt = ctx.createBiquadFilter(); nFilt.type = 'bandpass'; nFilt.frequency.value = 3500; nFilt.Q.value = 1;
+  const nGain = ctx.createGain(); nGain.gain.setValueAtTime(0.18, 0); nGain.gain.linearRampToValueAtTime(0.03, 0.1);
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 500, 1900, 2800, 110);
+  noise.connect(nFilt); nFilt.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.01, 0.1, 0.45, 0.15, d, 0.38);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); noise.stop(d);
 },
 'vox-female-yeah': async function(ctx) {
   const d = 1.0;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 270;
-  const fm = createFormantFilter(ctx, osc, 400, 1800, 2900, 85);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.02, 0.12, 0.6, 0.2, d, 0.45);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 270;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 272;
+  osc1.frequency.setValueAtTime(310, 0); osc1.frequency.linearRampToValueAtTime(260, 0.2);
+  osc2.frequency.setValueAtTime(312, 0); osc2.frequency.linearRampToValueAtTime(262, 0.2);
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 5.5;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 6;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency); lfoG.connect(osc2.frequency);
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.05;
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 400, 1800, 2900, 110);
+  const nFm = createFormantFilter(ctx, noise, 400, 1800, 2900, 160);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.02, 0.12, 0.5, 0.2, d, 0.35);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); lfo.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); lfo.stop(d); noise.stop(d);
 },
 'vox-female-breath': async function(ctx) {
   const d = 1.0;
-  const noise = createNoise(ctx, d); const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 2000; filt.Q.value = 1;
-  const g = ctx.createGain(); g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.12, 0.15); g.gain.linearRampToValueAtTime(0, d);
-  noise.connect(filt); filt.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+  // Breathy female: mostly noise with high resonances
+  const noise = createNoise(ctx, d);
+  const bp1 = ctx.createBiquadFilter(); bp1.type = 'bandpass'; bp1.frequency.value = 1500; bp1.Q.value = 1.5;
+  const bp2 = ctx.createBiquadFilter(); bp2.type = 'bandpass'; bp2.frequency.value = 3000; bp2.Q.value = 1;
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  noise.connect(bp1); noise.connect(bp2); bp1.connect(mix); bp2.connect(mix);
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(0.14, 0.12);
+  g.gain.linearRampToValueAtTime(0.1, 0.5); g.gain.linearRampToValueAtTime(0, d);
+  mix.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
 },
 'vox-female-whisper': async function(ctx) {
   const d = 1.5;
-  const noise = createNoise(ctx, d); const fm = createFormantFilter(ctx, noise, 600, 1800, 2900, 120);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.08, 0.2, 0.6, 0.3, d, 0.1);
-  fm.connect(g); g.connect(ctx.destination); noise.start(0); noise.stop(d);
+  const noise = createNoise(ctx, d);
+  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 240;
+  const oscG = ctx.createGain(); oscG.gain.value = 0.025;
+  osc.connect(oscG);
+  const mix = ctx.createGain(); mix.gain.value = 1;
+  noise.connect(mix); oscG.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 600, 1800, 2900, 170);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.06, 0.2, 0.5, 0.3, d, 0.09);
+  fm.connect(g); g.connect(ctx.destination);
+  noise.start(0); noise.stop(d); osc.start(0); osc.stop(d);
 },
 'vox-female-hum': async function(ctx) {
   const d = 2.5;
-  const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = 250;
-  const filt = ctx.createBiquadFilter(); filt.type = 'lowpass'; filt.frequency.value = 500;
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.2, 0.3, 0.8, 0.5, d, 0.35);
-  osc.connect(filt); filt.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  const osc1 = ctx.createOscillator(); osc1.type = 'sine'; osc1.frequency.value = 250;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sine'; osc2.frequency.value = 500;
+  const osc2g = ctx.createGain(); osc2g.gain.value = 0.12;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 5;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 5;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency);
+  const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 400; filt.Q.value = 3;
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.2, 0.3, 0.75, 0.5, d, 0.28);
+  osc1.connect(filt); osc2.connect(osc2g); osc2g.connect(filt); filt.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); lfo.start(0);
+  osc1.stop(d); osc2.stop(d); lfo.stop(d);
 },
 'vox-female-airy': async function(ctx) {
   const d = 2.0;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 320;
+  // Airy: heavy noise blend with soft voicing
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 320;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 322;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 5.5;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 8;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency); lfoG.connect(osc2.frequency);
   const noise = createNoise(ctx, d);
-  const fm = createFormantFilter(ctx, osc, 400, 1100, 2800, 80);
-  const gn = ctx.createGain(); gn.gain.value = 0.03;
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.1, 0.2, 0.6, 0.4, d, 0.35);
-  fm.connect(g); noise.connect(gn); gn.connect(g); g.connect(ctx.destination);
-  osc.start(0); osc.stop(d); noise.start(0); noise.stop(d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.1;
+  const mix = ctx.createGain(); mix.gain.value = 0.4;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 400, 1100, 2800, 100);
+  const nFm = createFormantFilter(ctx, noise, 400, 1100, 2800, 150);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.12, 0.25, 0.55, 0.4, d, 0.25);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); lfo.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); lfo.stop(d); noise.stop(d);
 },
 'vox-female-chant': async function(ctx) {
   const d = 3.0;
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.025;
+  const nFm = createFormantFilter(ctx, noise, 500, 1100, 2800, 150);
+  nFm.connect(nGain);
   [262, 330, 392].forEach(f => {
-    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f + Math.random() * 2;
-    const fm = createFormantFilter(ctx, osc, 500, 1100, 2800, 80);
-    const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.3, 0.3, 0.7, 0.5, d, 0.12);
-    fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f + Math.random() * 3;
+    const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 4.5 + Math.random() * 2;
+    const lfoG = ctx.createGain(); lfoG.gain.value = 6;
+    lfo.connect(lfoG); lfoG.connect(osc.frequency);
+    const fm = createFormantFilter(ctx, osc, 500, 1100, 2800, 100);
+    const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.35, 0.3, 0.65, 0.5, d, 0.09);
+    fm.connect(g); g.connect(ctx.destination);
+    osc.start(0); osc.stop(d); lfo.start(0); lfo.stop(d);
   });
+  const gn = ctx.createGain(); applyEnvelope(ctx, gn.gain, 0.35, 0.3, 0.65, 0.5, d, 0.04);
+  nGain.connect(gn); gn.connect(ctx.destination); noise.start(0); noise.stop(d);
 },
 'vox-female-sigh': async function(ctx) {
   const d = 1.0;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(350, 0); osc.frequency.linearRampToValueAtTime(220, d);
-  const fm = createFormantFilter(ctx, osc, 600, 1200, 2800, 90);
-  const g = ctx.createGain(); g.gain.setValueAtTime(0.35, 0); g.gain.linearRampToValueAtTime(0, d);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  // Sigh: pitch falls, breathy
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth';
+  osc1.frequency.setValueAtTime(360, 0); osc1.frequency.linearRampToValueAtTime(200, d);
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth';
+  osc2.frequency.setValueAtTime(362, 0); osc2.frequency.linearRampToValueAtTime(202, d);
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.08;
+  const mix = ctx.createGain(); mix.gain.value = 0.45;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 600, 1200, 2800, 110);
+  const nFm = createFormantFilter(ctx, noise, 600, 1200, 2800, 160);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.3, 0); g.gain.linearRampToValueAtTime(0, d);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); noise.stop(d);
 },
 'vox-female-choir': async function(ctx) {
   const d = 3.0;
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.02;
+  const nFm = createFormantFilter(ctx, noise, 450, 1100, 2800, 140);
+  nFm.connect(nGain);
   [262, 330, 392, 523].forEach(f => {
-    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f + Math.random() * 3;
-    const fm = createFormantFilter(ctx, osc, 450, 1100, 2800, 75);
-    const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.4, 0.3, 0.7, 0.6, d, 0.08);
-    fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+    const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = f + Math.random() * 4;
+    const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 4 + Math.random() * 2.5;
+    const lfoG = ctx.createGain(); lfoG.gain.value = 6;
+    lfo.connect(lfoG); lfoG.connect(osc.frequency);
+    const fm = createFormantFilter(ctx, osc, 450, 1100, 2800, 95);
+    const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.45, 0.35, 0.65, 0.6, d, 0.06);
+    fm.connect(g); g.connect(ctx.destination);
+    osc.start(0); osc.stop(d); lfo.start(0); lfo.stop(d);
   });
+  const gn = ctx.createGain(); applyEnvelope(ctx, gn.gain, 0.45, 0.35, 0.65, 0.6, d, 0.04);
+  nGain.connect(gn); gn.connect(ctx.destination); noise.start(0); noise.stop(d);
 },
 'vox-female-spoken-fx': async function(ctx) {
   const d = 1.0;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(320, 0); osc.frequency.linearRampToValueAtTime(200, d);
-  const fm = createFormantFilter(ctx, osc, 600, 1700, 2900, 90);
-  const g = ctx.createGain(); g.gain.setValueAtTime(0.4, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth';
+  osc1.frequency.setValueAtTime(330, 0); osc1.frequency.linearRampToValueAtTime(200, d);
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth';
+  osc2.frequency.setValueAtTime(332, 0); osc2.frequency.linearRampToValueAtTime(202, d);
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain();
+  nGain.gain.setValueAtTime(0.12, 0); nGain.gain.linearRampToValueAtTime(0.03, 0.15);
+  const mix = ctx.createGain(); mix.gain.value = 0.5;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 600, 1700, 2900, 110);
+  const nFm = createFormantFilter(ctx, noise, 600, 1700, 2900, 160);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.38, 0); g.gain.exponentialRampToValueAtTime(0.001, d);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); noise.stop(d);
 },
 'vox-female-high-tone': async function(ctx) {
   const d = 1.5;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 440;
-  const fm = createFormantFilter(ctx, osc, 400, 1000, 2800, 70);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.05, 0.15, 0.7, 0.3, d, 0.35);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 440;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 443;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 6;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 10;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency); lfoG.connect(osc2.frequency);
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.04;
+  const mix = ctx.createGain(); mix.gain.value = 0.45;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 400, 1000, 2800, 90);
+  const nFm = createFormantFilter(ctx, noise, 400, 1000, 2800, 140);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.05, 0.18, 0.65, 0.3, d, 0.28);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); lfo.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); lfo.stop(d); noise.stop(d);
 },
 'vox-female-soft-oh': async function(ctx) {
   const d = 1.5;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 250;
-  const fm = createFormantFilter(ctx, osc, 450, 950, 2700, 75);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.08, 0.2, 0.6, 0.4, d, 0.3);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d);
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 250;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 252;
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 5;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 7;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency); lfoG.connect(osc2.frequency);
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.06;
+  const mix = ctx.createGain(); mix.gain.value = 0.4;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 450, 950, 2700, 95);
+  const nFm = createFormantFilter(ctx, noise, 450, 950, 2700, 145);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.1, 0.22, 0.55, 0.4, d, 0.22);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); lfo.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); lfo.stop(d); noise.stop(d);
 },
 'vox-female-vibrato': async function(ctx) {
   const d = 2.0;
-  const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = 300;
-  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 5.5;
-  const lfoG = ctx.createGain(); lfoG.gain.value = 12;
-  lfo.connect(lfoG); lfoG.connect(osc.frequency);
-  const fm = createFormantFilter(ctx, osc, 450, 1100, 2800, 80);
-  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.1, 0.2, 0.7, 0.4, d, 0.35);
-  fm.connect(g); g.connect(ctx.destination); osc.start(0); osc.stop(d); lfo.start(0); lfo.stop(d);
+  const osc1 = ctx.createOscillator(); osc1.type = 'sawtooth'; osc1.frequency.value = 300;
+  const osc2 = ctx.createOscillator(); osc2.type = 'sawtooth'; osc2.frequency.value = 302;
+  // Wide vibrato
+  const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 5.8;
+  const lfoG = ctx.createGain(); lfoG.gain.value = 14;
+  lfo.connect(lfoG); lfoG.connect(osc1.frequency); lfoG.connect(osc2.frequency);
+  const noise = createNoise(ctx, d);
+  const nGain = ctx.createGain(); nGain.gain.value = 0.05;
+  const mix = ctx.createGain(); mix.gain.value = 0.45;
+  osc1.connect(mix); osc2.connect(mix);
+  const fm = createFormantFilter(ctx, mix, 450, 1100, 2800, 100);
+  const nFm = createFormantFilter(ctx, noise, 450, 1100, 2800, 150);
+  nFm.connect(nGain);
+  const g = ctx.createGain(); applyEnvelope(ctx, g.gain, 0.1, 0.2, 0.65, 0.4, d, 0.28);
+  fm.connect(g); nGain.connect(g); g.connect(ctx.destination);
+  osc1.start(0); osc2.start(0); lfo.start(0); noise.start(0);
+  osc1.stop(d); osc2.stop(d); lfo.stop(d); noise.stop(d);
 },
 
 // ── Saxophone & Riffs ──

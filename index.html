@@ -3,26 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <script>
-    // One-time v30 cache buster - removes old SWs and caches
-    if ('serviceWorker' in navigator && !sessionStorage.getItem('v30_cleared')) {
-      sessionStorage.setItem('v30_cleared', '1');
-      navigator.serviceWorker.getRegistrations().then(function(regs) {
-        return Promise.all(regs.map(function(r) { return r.unregister(); }));
-      }).then(function() {
-        return caches.keys();
-      }).then(function(keys) {
-        return Promise.all(keys.map(function(k) { return caches.delete(k); }));
-      }).then(function() {
-        location.reload(true);
-      });
-    }
+    // Version-aware cache buster: clears old caches when version changes
+    (function() {
+      var CURRENT = 'v31';
+      var cleared = localStorage.getItem('sqweeky_version');
+      if (cleared === CURRENT) return; // already on latest
+      localStorage.setItem('sqweeky_version', CURRENT);
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(regs) {
+          return Promise.all(regs.map(function(r) { return r.unregister(); }));
+        }).then(function() {
+          if ('caches' in window) return caches.keys();
+          return [];
+        }).then(function(keys) {
+          return Promise.all(keys.map(function(k) { return caches.delete(k); }));
+        }).then(function() {
+          location.reload(true);
+        });
+      }
+    })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sqweeky Clean Productions</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#00d4aa">
-  <link rel="stylesheet" href="css/style.css?v=30">
+  <link rel="stylesheet" href="css/style.css?v=31">
 </head>
 <body>
   <div id="app">
@@ -252,12 +258,12 @@
       console.error('[GLOBAL ERROR]', msg, src, line, col, err);
     };
   </script>
-  <script src="js/audio-engine.js?v=30"></script>
-  <script src="js/sound-library.js?v=30"></script>
-  <script src="js/sequencer.js?v=30"></script>
-  <script src="js/sound-editor.js?v=30"></script>
-  <script src="js/templates.js?v=30"></script>
-  <script src="js/app.js?v=30"></script>
+  <script src="js/audio-engine.js?v=31"></script>
+  <script src="js/sound-library.js?v=31"></script>
+  <script src="js/sequencer.js?v=31"></script>
+  <script src="js/sound-editor.js?v=31"></script>
+  <script src="js/templates.js?v=31"></script>
+  <script src="js/app.js?v=31"></script>
   <script>
     // Register service worker normally (no more nuking on every load)
     if ('serviceWorker' in navigator) {
@@ -276,8 +282,8 @@
 
       // Check if current version is fully cached
       if ('caches' in window) {
-        caches.open('sqweeky-clean-v30').then(function(cache) {
-          return cache.match('./js/app.js?v=30');
+        caches.open('sqweeky-clean-v31').then(function(cache) {
+          return cache.match('./js/app.js?v=31');
         }).then(function(resp) {
           if (resp) {
             btn.textContent = 'Saved Offline';
@@ -300,18 +306,18 @@
           return reg.update();
         }).then(function() {
           // Also manually cache all assets to be safe
-          return caches.open('sqweeky-clean-v30');
+          return caches.open('sqweeky-clean-v31');
         }).then(function(cache) {
           return cache.addAll([
             './',
             './index.html',
-            './css/style.css?v=30',
-            './js/audio-engine.js?v=30',
-            './js/sound-library.js?v=30',
-            './js/sequencer.js?v=30',
-            './js/sound-editor.js?v=30',
-            './js/templates.js?v=30',
-            './js/app.js?v=30',
+            './css/style.css?v=31',
+            './js/audio-engine.js?v=31',
+            './js/sound-library.js?v=31',
+            './js/sequencer.js?v=31',
+            './js/sound-editor.js?v=31',
+            './js/templates.js?v=31',
+            './js/app.js?v=31',
             './favicon.svg',
             './manifest.json'
           ]);
